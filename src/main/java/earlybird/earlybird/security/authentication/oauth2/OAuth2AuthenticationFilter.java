@@ -9,6 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -38,7 +39,7 @@ public class OAuth2AuthenticationFilter extends AbstractAuthenticationProcessing
         String oauth2AccessToken = request.getHeader("OAuth2-Access");
 
         if (oauth2ProviderName == null || oauth2AccessToken == null) {
-            throw new IllegalArgumentException("provider-name 또는 oauth2-access 값이 제공되지 않았습니다.");
+            throw new AuthenticationServiceException("provider-name 또는 oauth2-access 값이 제공되지 않았습니다.");
         }
 
         OAuth2AuthenticationToken token = new OAuth2AuthenticationToken(oauth2ProviderName, oauth2AccessToken);
@@ -57,11 +58,5 @@ public class OAuth2AuthenticationFilter extends AbstractAuthenticationProcessing
 
         response.setHeader("access", access);
         response.addCookie(refreshTokenToCookieService.createCookie(refresh, refreshTokenExpiredMs));
-    }
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        // TODO: 실패 로직 구현
-        System.out.println("인증 실패!");
     }
 }

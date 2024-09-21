@@ -6,6 +6,7 @@ import earlybird.earlybird.security.authentication.oauth2.proxy.OAuth2UserInfoPr
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserJoinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +30,7 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
         String oauth2AccessToken = (String) authentication.getCredentials();
 
         if (!oauth2UserInfoProxyList.containsKey(oauth2ProviderName)) {
-            throw new IllegalArgumentException("지원하지 않는 OAuth2 provider입니다.");
+            throw new AuthenticationServiceException("지원하지 않는 OAuth2 provider입니다.");
         }
 
         OAuth2UserInfoProxy oAuth2UserInfoProxy = oauth2UserInfoProxyList.get(oauth2ProviderName);
