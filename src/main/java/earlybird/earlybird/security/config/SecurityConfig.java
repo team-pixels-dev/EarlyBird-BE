@@ -3,14 +3,17 @@ package earlybird.earlybird.security.config;
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationFilter;
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationProvider;
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserJoinService;
-import earlybird.earlybird.security.jwt.refresh.RefreshRepository;
+import earlybird.earlybird.security.jwt.access.CreateAccessTokenService;
+import earlybird.earlybird.security.jwt.refresh.CreateRefreshTokenService;
+import earlybird.earlybird.security.jwt.refresh.RefreshTokenRepository;
+import earlybird.earlybird.security.jwt.refresh.RefreshTokenToCookieService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,15 +22,22 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final RefreshRepository refreshRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final UserDetailsService userDetailsService;
     private final OAuth2UserJoinService oAuth2UserJoinService;
+    private final CreateAccessTokenService createAccessTokenService;
+    private final CreateRefreshTokenService createRefreshTokenService;
+    private final RefreshTokenToCookieService refreshTokenToCookieService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -44,14 +54,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 );
 
-        OAuth2AuthenticationFilter oAuth2AuthenticationFilter = new OAuth2AuthenticationFilter();
+        OAuth2AuthenticationFilter oAuth2AuthenticationFilter
+                = new OAuth2AuthenticationFilter(createAccessTokenService, createRefreshTokenService, refreshTokenToCookieService);
         oAuth2AuthenticationFilter.setAuthenticationManager(authenticationManager);
 
         http
                 .addFilterAt(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-//        http
-//                .authenticationProvider(new OAuth2AuthenticationProvider(userDetailsService, oAuth2UserJoinService));
 
 
         http
@@ -69,7 +78,7 @@ public class SecurityConfig {
                             for (Cookie cookie : cookies) {
                                 if (cookie.getName().equals("refresh")) {
                                     String refresh = cookie.getValue();
-                                    refreshRepository.deleteByRefresh(refresh);
+                                    refreshTokenRepository.deleteByRefreshToken(refresh);
                                 }
                             }
                         }))
@@ -83,6 +92,27 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable);
+
+        http
+                .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                        CorsConfiguration configuration = new CorsConfiguration();
+
+                        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+                        configuration.setAllowedMethods(Collections.singletonList("*"));
+                        configuration.setAllowCredentials(true);
+                        configuration.setAllowedHeaders(Collections.singletonList("*"));
+                        configuration.setMaxAge(3600L);
+
+                        configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+
+                        return configuration;
+                    }
+                }));
 
 
 

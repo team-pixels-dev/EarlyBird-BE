@@ -1,9 +1,9 @@
 package earlybird.earlybird.user.entity;
 
 import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
+import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Entity
@@ -23,10 +23,20 @@ public class User {
     private String email;
     private String role;
 
-    public void fromOAuth2ServerResponse(OAuth2ServerResponse userInfo) {
+    public void setFromOAuth2ServerResponse(OAuth2ServerResponse userInfo) {
         this.accountId = userInfo.getProviderName() + " " + userInfo.getProviderId();
         this.name = userInfo.getName();
         this.email = userInfo.getEmail();
         this.role = "USER";
+    }
+
+    public UserAccountInfoDTO toUserAccountInfoDTO() {
+        return UserAccountInfoDTO.builder()
+                .id(id)
+                .accountId(accountId)
+                .name(name)
+                .email(email)
+                .role(role)
+                .build();
     }
 }

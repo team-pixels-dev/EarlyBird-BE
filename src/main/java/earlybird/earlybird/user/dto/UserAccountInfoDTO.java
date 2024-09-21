@@ -1,11 +1,12 @@
 package earlybird.earlybird.user.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
-public class UserDTO {
+@Builder
+public class UserAccountInfoDTO {
     private Long id;
     private String accountId;
     private String name;

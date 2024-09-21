@@ -1,7 +1,5 @@
 package earlybird.earlybird.security.authentication.oauth2.user;
 
-import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
-import earlybird.earlybird.user.dto.UserDTO;
 import earlybird.earlybird.user.entity.User;
 import earlybird.earlybird.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +27,6 @@ public class OAuth2UserDetailsService implements UserDetailsService {
         }
         User user = optionalUser.get();
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
-        return new OAuth2UserDetails(user.getAccountId(), authorities);
+        return new OAuth2UserDetails(user.toUserAccountInfoDTO(), authorities);
     }
 }

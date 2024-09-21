@@ -1,7 +1,11 @@
 package earlybird.earlybird.security.authentication.oauth2.dto;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
 @NoArgsConstructor
 public class GoogleServerResponse implements OAuth2ServerResponse {
     private String id;

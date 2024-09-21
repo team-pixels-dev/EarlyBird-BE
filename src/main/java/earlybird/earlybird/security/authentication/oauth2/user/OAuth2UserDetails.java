@@ -1,5 +1,6 @@
 package earlybird.earlybird.security.authentication.oauth2.user;
 
+import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,8 +11,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OAuth2UserDetails implements UserDetails {
 
-    private final String accountId;
+    private final UserAccountInfoDTO userAccountInfoDTO;
     private final List<GrantedAuthority> roles;
+
+    public UserAccountInfoDTO getUserAccountInfoDTO() {
+        return userAccountInfoDTO;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -20,12 +25,12 @@ public class OAuth2UserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return accountId;
+        return userAccountInfoDTO.getAccountId();
     }
 
     @Override
     public String getUsername() {
-        return accountId;
+        return userAccountInfoDTO.getAccountId();
     }
 
     @Override

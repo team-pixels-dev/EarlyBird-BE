@@ -25,8 +25,8 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String oauth2ProviderName = (String) authentication.getPrincipal();
-        String oauth2AccessToken = ((String) authentication.getCredentials()).toLowerCase();
+        String oauth2ProviderName = ((String) authentication.getPrincipal()).toLowerCase();
+        String oauth2AccessToken = (String) authentication.getCredentials();
 
         if (!oauth2UserInfoProxyList.containsKey(oauth2ProviderName)) {
             throw new IllegalArgumentException("지원하지 않는 OAuth2 provider입니다.");

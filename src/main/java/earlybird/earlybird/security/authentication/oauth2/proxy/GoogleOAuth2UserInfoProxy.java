@@ -2,7 +2,7 @@ package earlybird.earlybird.security.authentication.oauth2.proxy;
 
 import earlybird.earlybird.security.authentication.oauth2.dto.GoogleServerResponse;
 import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -23,7 +23,7 @@ public class GoogleOAuth2UserInfoProxy implements OAuth2UserInfoProxy {
                 .header("Authorization", authorization)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new AuthenticationException(String.format("%s Error from google: %s", clientResponse.statusCode(), clientResponse.bodyToMono(String.class)))))
-                .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new AuthenticationException(String.format("%s Error from google", clientResponse.statusCode()))))
+                .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new AuthenticationException(String.format("%s Error from google: %s", clientResponse.statusCode(), clientResponse.bodyToMono(String.class)))))
                 .bodyToMono(GoogleServerResponse.class);
 
         return responseMono.block();

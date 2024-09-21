@@ -12,7 +12,17 @@ public class RefreshToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
-    private String refresh;
+    private String accountId;
+    private String refreshToken;
     private String expiration;
+
+    public RefreshToken() {
+
+    }
+
+    public RefreshToken(String accountId, String refreshToken, String expiration) {
+        this.accountId = accountId;
+        this.refreshToken = refreshToken;
+        this.expiration = expiration;
+    }
 }

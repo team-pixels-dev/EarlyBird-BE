@@ -4,7 +4,6 @@ import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerRespon
 import earlybird.earlybird.user.entity.User;
 import earlybird.earlybird.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class OAuth2UserJoinService {
 
     private User createUserEntity(OAuth2ServerResponse userInfo) {
         User user = new User();
-        user.fromOAuth2ServerResponse(userInfo);
+        user.setFromOAuth2ServerResponse(userInfo);
         return user;
     }
 }
