@@ -1,6 +1,8 @@
 package earlybird.earlybird.security.config;
 
 import earlybird.earlybird.security.authentication.jwt.JWTAuthenticationFilter;
+import earlybird.earlybird.security.authentication.jwt.reissue.JWTReissueAuthenticationFilter;
+import earlybird.earlybird.security.authentication.jwt.reissue.JWTReissueAuthenticationProvider;
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationFilter;
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationProvider;
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserJoinService;
@@ -9,6 +11,7 @@ import earlybird.earlybird.security.jwt.access.CreateAccessTokenService;
 import earlybird.earlybird.security.jwt.refresh.CreateRefreshTokenService;
 import earlybird.earlybird.security.jwt.refresh.RefreshTokenRepository;
 import earlybird.earlybird.security.jwt.refresh.RefreshTokenToCookieService;
+import earlybird.earlybird.security.jwt.refresh.SaveRefreshTokenService;
 import earlybird.earlybird.user.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -44,6 +48,7 @@ public class SecurityConfig {
     private final RefreshTokenToCookieService refreshTokenToCookieService;
     private final JWTUtil jwtUtil;
     private final UserRepository userRepository;
+    private final SaveRefreshTokenService saveRefreshTokenService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -66,6 +71,13 @@ public class SecurityConfig {
 
         http
                 .addFilterAt(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        JWTReissueAuthenticationFilter jwtReissueAuthenticationFilter
+                = new JWTReissueAuthenticationFilter(createAccessTokenService, createRefreshTokenService, refreshTokenRepository, saveRefreshTokenService, refreshTokenToCookieService);
+        ProviderManager jwtReissueAuthFilterProviderManager = new ProviderManager(new JWTReissueAuthenticationProvider(jwtUtil, userRepository));
+        jwtReissueAuthenticationFilter.setAuthenticationManager(jwtReissueAuthFilterProviderManager);
+
+        http.addFilterBefore(jwtReissueAuthenticationFilter, OAuth2AuthenticationFilter.class);
 
         JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(jwtUtil, userRepository);
 
