@@ -1,12 +1,15 @@
 package earlybird.earlybird.security.config;
 
+import earlybird.earlybird.security.authentication.jwt.JWTAuthenticationFilter;
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationFilter;
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationProvider;
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserJoinService;
+import earlybird.earlybird.security.jwt.JWTUtil;
 import earlybird.earlybird.security.jwt.access.CreateAccessTokenService;
 import earlybird.earlybird.security.jwt.refresh.CreateRefreshTokenService;
 import earlybird.earlybird.security.jwt.refresh.RefreshTokenRepository;
 import earlybird.earlybird.security.jwt.refresh.RefreshTokenToCookieService;
+import earlybird.earlybird.user.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +42,8 @@ public class SecurityConfig {
     private final CreateAccessTokenService createAccessTokenService;
     private final CreateRefreshTokenService createRefreshTokenService;
     private final RefreshTokenToCookieService refreshTokenToCookieService;
+    private final JWTUtil jwtUtil;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -62,7 +67,10 @@ public class SecurityConfig {
         http
                 .addFilterAt(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
+        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(jwtUtil, userRepository);
 
+        http
+                .addFilterAfter(jwtAuthenticationFilter, OAuth2AuthenticationFilter.class);
 
         http
                 .logout(logout -> logout
