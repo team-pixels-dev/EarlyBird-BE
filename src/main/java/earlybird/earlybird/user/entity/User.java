@@ -30,6 +30,10 @@ public class User {
         this.role = "USER";
     }
 
+    public User() {
+
+    }
+
     public UserAccountInfoDTO toUserAccountInfoDTO() {
         return UserAccountInfoDTO.builder()
                 .id(id)
