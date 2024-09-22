@@ -23,7 +23,7 @@ public class User {
     private String email;
     private String role;
 
-    public void setFromOAuth2ServerResponse(OAuth2ServerResponse userInfo) {
+    public User(OAuth2ServerResponse userInfo) {
         this.accountId = userInfo.getProviderName() + " " + userInfo.getProviderId();
         this.name = userInfo.getName();
         this.email = userInfo.getEmail();

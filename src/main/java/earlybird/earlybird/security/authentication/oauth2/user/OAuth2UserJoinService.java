@@ -13,13 +13,7 @@ public class OAuth2UserJoinService {
     private final UserRepository userRepository;
 
     public void join(OAuth2ServerResponse userInfo) {
-        User user = createUserEntity(userInfo);
+        User user = new User(userInfo);
         userRepository.save(user);
-    }
-
-    private User createUserEntity(OAuth2ServerResponse userInfo) {
-        User user = new User();
-        user.setFromOAuth2ServerResponse(userInfo);
-        return user;
     }
 }
