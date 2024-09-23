@@ -24,7 +24,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        e.printStackTrace();
         log.error("Exception", e);
         return createErrorResponseEntity(ErrorCode.INTERNAL_SERVER_ERRER);
     }
