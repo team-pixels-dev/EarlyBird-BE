@@ -4,7 +4,7 @@ import earlybird.error.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class BusinessBaseException extends RuntimeException {
+public abstract class BusinessBaseException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public BusinessBaseException(String message, ErrorCode errorCode) {
