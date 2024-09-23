@@ -19,8 +19,14 @@ public class User {
      */
     @Column(unique = true)
     private String accountId;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String role;
 
     public User(OAuth2ServerResponse userInfo) {
