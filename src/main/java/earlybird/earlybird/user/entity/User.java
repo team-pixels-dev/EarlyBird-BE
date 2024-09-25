@@ -10,6 +10,7 @@ import lombok.Getter;
 @Table(name = "user")
 public class User {
 
+    @Column(name = "user_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
