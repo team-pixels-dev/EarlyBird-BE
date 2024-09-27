@@ -5,11 +5,14 @@ import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
+    @Column(name = "user_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,23 +20,27 @@ public class User {
     /**
      * 스프링 시큐리티에서 사용하는 값
      */
-    @Column(unique = true)
+    @Column(name = "user_account_id", nullable = false, unique = true)
     private String accountId;
 
-    @Column(nullable = false)
+    @Column(name = "user_name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "user_email", nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "user_role", nullable = false)
     private String role;
+
+    @Column(name = "user_created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     public User(OAuth2ServerResponse userInfo) {
         this.accountId = userInfo.getProviderName() + " " + userInfo.getProviderId();
         this.name = userInfo.getName();
         this.email = userInfo.getEmail();
         this.role = "USER";
+        this.createdAt = LocalDateTime.now();
     }
 
     public User() {
