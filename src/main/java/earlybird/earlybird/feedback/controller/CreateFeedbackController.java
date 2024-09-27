@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feedbacks")
 @RestController
-public class FeedbackController {
+public class CreateFeedbackController {
 
     private final CreateAuthUserFeedbackService createAuthUserFeedbackService;
     private final CreateAnonymousUserFeedbackService createAnonymousUserFeedbackService;
