@@ -1,4 +1,4 @@
-package earlybird.error;
+package earlybird.earlybird.error;
 
 import lombok.AccessLevel;
 import lombok.Getter;
