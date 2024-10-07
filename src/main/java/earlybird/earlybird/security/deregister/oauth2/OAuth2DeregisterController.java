@@ -17,21 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OAuth2DeregisterController {
 
-    private final DeleteUserService deleteUserService;
-    private final FindOAuth2TokenService findOAuth2TokenService;
-    private final RevokeOAuth2TokenService revokeOAuth2TokenService;
-    private final DeleteOAuth2TokenService deleteOAuth2TokenService;
+    private final OAuth2DeregisterService oAuth2DeregisterService;
 
     @DeleteMapping("/api/v1/users")
     public ResponseEntity<?> deregister(@AuthenticationPrincipal OAuth2UserDetails userDetails) {
-        UserAccountInfoDTO userInfo = userDetails.getUserAccountInfoDTO();
-        Long userId = userInfo.getId();
-        OAuth2TokenDTO oAuth2TokenDTO = findOAuth2TokenService.findByUserId(userId);
-
-        revokeOAuth2TokenService.revoke(oAuth2TokenDTO);
-        deleteOAuth2TokenService.deleteByUserAccountInfoDTO(userInfo);
-        deleteUserService.deleteUser(userInfo);
-
+        oAuth2DeregisterService.deregister(userDetails);
         return ResponseEntity.ok().build();
     }
 }
