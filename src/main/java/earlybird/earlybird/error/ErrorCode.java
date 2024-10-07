@@ -1,4 +1,4 @@
-package earlybird.error;
+package earlybird.earlybird.error;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
