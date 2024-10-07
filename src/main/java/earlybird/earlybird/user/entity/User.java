@@ -3,6 +3,7 @@ package earlybird.earlybird.user.entity;
 import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
 import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,16 @@ public class User {
 
     @Column(name = "user_created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @Builder
+    private User(Long id, String accountId, String name, String email, String role, LocalDateTime createdAt) {
+        this.id = id;
+        this.accountId = accountId;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.createdAt = createdAt;
+    }
 
     public User(OAuth2ServerResponse userInfo) {
         this.accountId = userInfo.getProviderName() + " " + userInfo.getProviderId();
