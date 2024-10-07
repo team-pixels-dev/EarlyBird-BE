@@ -1,5 +1,6 @@
 package earlybird.earlybird.feedback.service;
 
+import earlybird.earlybird.error.exception.UserNotFoundException;
 import earlybird.earlybird.feedback.entity.Feedback;
 import earlybird.earlybird.feedback.repository.FeedbackRepository;
 import earlybird.earlybird.feedback.dto.FeedbackDTO;
@@ -15,11 +16,11 @@ public class CreateAuthUserFeedbackService {
     private final FeedbackRepository feedbackRepository;
     private final UserRepository userRepository;
 
-    public void create(FeedbackDTO feedbackDTO) {
+    public FeedbackDTO create(FeedbackDTO feedbackDTO) {
 
         Long userId = feedbackDTO.getUserAccountInfoDTO().getId();
 
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
         Feedback feedback = Feedback.builder()
                 .content(feedbackDTO.getContent())
@@ -27,6 +28,8 @@ public class CreateAuthUserFeedbackService {
                 .createdAt(feedbackDTO.getCreatedAt())
                 .build();
 
-        feedbackRepository.save(feedback);
+        Feedback savedFeedback = feedbackRepository.save(feedback);
+
+        return FeedbackDTO.of(savedFeedback);
     }
 }

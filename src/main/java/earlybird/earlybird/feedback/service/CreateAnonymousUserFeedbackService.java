@@ -12,12 +12,14 @@ public class CreateAnonymousUserFeedbackService {
 
     private final FeedbackRepository feedbackRepository;
 
-    public void create(FeedbackDTO feedbackDTO) {
+    public FeedbackDTO create(FeedbackDTO feedbackDTO) {
         Feedback feedback = Feedback.builder()
                 .content(feedbackDTO.getContent())
                 .createdAt(feedbackDTO.getCreatedAt())
                 .build();
 
-        feedbackRepository.save(feedback);
+        Feedback savedFeedback = feedbackRepository.save(feedback);
+
+        return FeedbackDTO.of(savedFeedback);
     }
 }
