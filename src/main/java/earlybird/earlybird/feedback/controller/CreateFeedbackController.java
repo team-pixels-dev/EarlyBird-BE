@@ -41,34 +41,13 @@ public class CreateFeedbackController {
     }
 
     private void createAuthUserFeedback(OAuth2UserDetails oAuth2UserDetails, FeedbackRequestDTO requestDTO) {
-        UserAccountInfoDTO userAccountInfoDTO = oAuth2UserDetails.getUserAccountInfoDTO();
-        String content = requestDTO.getContent();
-        LocalDateTime createdAt = getCreatedTime(requestDTO);
-
-        FeedbackDTO feedbackDTO = FeedbackDTO.builder()
-                .content(content)
-                .userAccountInfoDTO(userAccountInfoDTO)
-                .createdAt(createdAt)
-                .build();
-
+        FeedbackDTO feedbackDTO = FeedbackDTO.of(oAuth2UserDetails, requestDTO);
         createAuthUserFeedbackService.create(feedbackDTO);
     }
 
     private void createAnonymousUserFeedback(FeedbackRequestDTO requestDTO) {
-        String content = requestDTO.getContent();
-        LocalDateTime createdAt = getCreatedTime(requestDTO);
-
-        FeedbackDTO feedbackDTO = FeedbackDTO.builder()
-                .content(content)
-                .createdAt(createdAt)
-                .userAccountInfoDTO(null)
-                .build();
-
+        FeedbackDTO feedbackDTO = FeedbackDTO.of(requestDTO);
         createAnonymousUserFeedbackService.create(feedbackDTO);
     }
 
-    private LocalDateTime getCreatedTime(FeedbackRequestDTO requestDTO) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-        return LocalDateTime.parse(requestDTO.getCreatedAt(), formatter);
-    }
 }
