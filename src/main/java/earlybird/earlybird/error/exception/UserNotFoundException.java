@@ -1,6 +1,6 @@
-package earlybird.error.exception;
+package earlybird.earlybird.error.exception;
 
-import earlybird.error.ErrorCode;
+import earlybird.earlybird.error.ErrorCode;
 
 public class UserNotFoundException extends NotFoundException {
     public UserNotFoundException() {
