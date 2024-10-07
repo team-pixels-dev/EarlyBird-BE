@@ -1,4 +1,4 @@
-package earlybird.earlybird.feedback;
+package earlybird.earlybird.feedback.entity;
 
 import earlybird.earlybird.user.entity.User;
 import jakarta.persistence.*;
