@@ -5,7 +5,7 @@ import earlybird.earlybird.security.token.oauth2.OAuth2TokenDTO;
 import earlybird.earlybird.security.token.oauth2.OAuth2TokenRepository;
 import earlybird.earlybird.user.entity.User;
 import earlybird.earlybird.user.repository.UserRepository;
-import earlybird.error.exception.UserNotFoundException;
+import earlybird.earlybird.error.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

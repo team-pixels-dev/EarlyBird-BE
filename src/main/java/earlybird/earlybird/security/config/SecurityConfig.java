@@ -13,13 +13,10 @@ import earlybird.earlybird.security.token.jwt.refresh.CreateJWTRefreshTokenServi
 import earlybird.earlybird.security.token.jwt.refresh.JWTRefreshTokenRepository;
 import earlybird.earlybird.security.token.jwt.refresh.JWTRefreshTokenToCookieService;
 import earlybird.earlybird.security.token.jwt.refresh.SaveJWTRefreshTokenService;
-import earlybird.earlybird.security.token.oauth2.OAuth2TokenRepository;
 import earlybird.earlybird.security.token.oauth2.service.CreateOAuth2TokenService;
 import earlybird.earlybird.security.token.oauth2.service.DeleteOAuth2TokenService;
 import earlybird.earlybird.user.dto.UserAccountInfoDTO;
-import earlybird.earlybird.user.entity.User;
 import earlybird.earlybird.user.repository.UserRepository;
-import earlybird.error.exception.UserNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
