@@ -83,12 +83,12 @@ jobs:
       - name: Determine final status - Success
         if: success()
         run: |
-          echo "status=success" >> $GITHUB_ENV
+          echo "status=success ✅" >> $GITHUB_ENV
 
       - name: Determine final status - Failure
         if: failure()
         run: |
-          echo "status=failure" >> $GITHUB_ENV
+          echo "status=failure ❌" >> $GITHUB_ENV
 
       - name: Send Slack Notification
         if: always()
@@ -97,17 +97,14 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            attachments:
-              - color: ${{ env.status == 'success' && '00ff00' || 'ff0000' }}
             blocks:
               - type: "section"
                 text:
                   type: "mrkdwn"
                   text: "
-                        *GitHub Actions 결과*
-            - Repository: ${{ github.repository }}
-            - Branch: ${{ github.ref }}
-            - Commit: ${{ github.sha }}
-            - Result: *${{ env.status }}*
-
-                      GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                          # 🚀 GitHub Actions CI Workflow 실행 결과\n
+                          - Result: *${{ env.status }}*\n
+                          - Repository: ${{ github.repository }}\n
+                          - Branch: ${{ github.ref }}\n
+                          - Commit: ${{ github.sha }}\n
+                          - URL: ${{ github.event.pull_request.html_url }}"
