@@ -1,6 +1,6 @@
 name: Code Test Pipeline
 on:
-  pull_request:
+  pull_request_target:
     branches: ["dev", "main"]
 
 permissions:
