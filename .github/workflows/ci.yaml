@@ -75,34 +75,23 @@ jobs:
         with:
           files: "**/build/test-results/test/TEST-*.xml"
 
-  determine-status-success:
-    runs-on: ubuntu-latest
-    needs: [ formatting, unit-test ]
-    if: success()
-    steps:
-      - name: Determine final status - Success
-        if: success()
-        run: |
-          echo "status=success ✅" >> $GITHUB_ENV
-
-  determine-status-failure:
-    runs-on: ubuntu-latest
-    needs: [ formatting, unit-test ]
-    if: failure()
-    steps:
-      - name: Determine final status - Failure
-        if: failure()
-        run: |
-          echo "status=failure ❌" >> $GITHUB_ENV
-
-
   slack-reporting:
     runs-on: ubuntu-latest
-    needs: [ determine-status-success, determine-status-failure ]
+    needs: [ formatting, unit-test ]
+    env:
+      formatting-result: ${{ needs.formatting.result }}
+      unit-test-result: ${{ needs.unit-test.result }}
     if: always()
     steps:
+      - name: Determine workflow status
+        run: |
+          if [[ "${{ env.formatting-result }}" == "success" && "${{ env.unit-test-result }}" == "success" ]]; then
+            echo "status=success ✅" >> $GITHUB_ENV
+          else
+            echo "status=failure ❌" >> $GITHUB_ENV
+          fi
+
       - name: Send Slack Notification
-        if: always()
         uses: slackapi/slack-github-action@v2.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
