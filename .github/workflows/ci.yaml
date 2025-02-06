@@ -80,17 +80,15 @@ jobs:
     needs: [ formatting, unit-test ]
     if: always()
     steps:
-      - name: Determine final status
-        id: check_status
+      - name: Determine final status - Success
+        if: success()
         run: |
-          results=("build" "test" "deploy")
-          for job in "${results[@]}"; do
-            if [[ "${{ needs[$job].result }}" == "failure" || "${{ needs[$job].result }}" == "cancelled" ]]; then
-              echo "status=failure" >> $GITHUB_ENV
-              exit 0
-            fi
-          done
           echo "status=success" >> $GITHUB_ENV
+
+      - name: Determine final status - Failure
+        if: failure()
+        run: |
+          echo "status=failure" >> $GITHUB_ENV
 
       - name: Send Slack Notification
         uses: rtCamp/action-slack-notify@v2
