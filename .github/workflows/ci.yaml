@@ -41,22 +41,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Gradle Caching
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Set up JDK 21
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'gradle'
+#      - name: Gradle Caching
+#        uses: actions/cache@v3
+#        with:
+#          path: |
+#            ~/.gradle/caches
+#            ~/.gradle/wrapper
+#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+#          restore-keys: |
+#            ${{ runner.os }}-gradle-
+#
+#      - name: Set up JDK 21
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '21'
+#          distribution: 'temurin'
+#          cache: 'gradle'
 
       - name: Create firebase_admin_sdk_private_key.json from Secrets
         run: |
@@ -74,3 +74,45 @@ jobs:
         if: always()
         with:
           files: "**/build/test-results/test/TEST-*.xml"
+
+  slack-reporting:
+    runs-on: ubuntu-latest
+    needs: [ formatting, unit-test ]
+    env:
+      formatting-result: ${{ needs.formatting.result }}
+      unit-test-result: ${{ needs.unit-test.result }}
+    if: always()
+    steps:
+      - name: Determine workflow status
+        run: |
+          if [[ "${{ env.formatting-result }}" == "success" && "${{ env.unit-test-result }}" == "success" ]]; then
+            echo "status=success ✅" >> $GITHUB_ENV
+          else
+            echo "status=failure ❌" >> $GITHUB_ENV
+          fi
+
+      - name: Send Slack Notification
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "
+                          *🚀 GitHub Actions CI Workflow 실행 결과*\n
+                          *Result*\n
+                          - *${{ env.status }}*\n
+                          *Repository*\n
+                          - ${{ github.repository }}\n
+                          *PR Name*\n
+                          - ${{ github.event.pull_request.title }}\n
+                          *Branch*\n
+                          - ${{ github.event.pull_request.head.ref }} ➡️ ${{ github.event.pull_request.base.ref }}\n
+                          *Head Commit SHA*\n
+                          - ${{ github.event.pull_request.head.sha }}\n
+                          *PR URL*\n
+                          - ${{ github.event.pull_request.html_url }}
+                  "
