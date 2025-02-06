@@ -92,13 +92,22 @@ jobs:
 
       - name: Send Slack Notification
         if: always()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_MESSAGE: |
-            *GitHub Actions 결과*
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            attachments:
+              - color: ${{ env.status == 'success' && '00ff00' || 'ff0000' }}
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "
+                        *GitHub Actions 결과*
             - Repository: ${{ github.repository }}
             - Branch: ${{ github.ref }}
             - Commit: ${{ github.sha }}
             - Result: *${{ env.status }}*
-          SLACK_COLOR: ${{ env.status == 'success' && 'good' || 'danger' }}
+
+                      GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
