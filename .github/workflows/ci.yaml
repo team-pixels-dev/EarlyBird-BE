@@ -74,3 +74,32 @@ jobs:
         if: always()
         with:
           files: "**/build/test-results/test/TEST-*.xml"
+
+  slack-reporting:
+    runs-on: ubuntu-latest
+    needs: [ formatting, unit-test ]
+    if: always()
+    steps:
+      - name: Determine final status
+        id: check_status
+        run: |
+          results=("build" "test" "deploy")
+          for job in "${results[@]}"; do
+            if [[ "${{ needs[$job].result }}" == "failure" || "${{ needs[$job].result }}" == "cancelled" ]]; then
+              echo "status=failure" >> $GITHUB_ENV
+              exit 0
+            fi
+          done
+          echo "status=success" >> $GITHUB_ENV
+
+      - name: Send Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: |
+            *GitHub Actions 결과*
+            - Repository: ${{ github.repository }}
+            - Branch: ${{ github.ref }}
+            - Commit: ${{ github.sha }}
+            - Result: *${{ env.status }}*
+          SLACK_COLOR: ${{ env.status == 'success' && 'good' || 'danger' }}
