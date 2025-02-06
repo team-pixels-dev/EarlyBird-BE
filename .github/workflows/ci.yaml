@@ -75,21 +75,32 @@ jobs:
         with:
           files: "**/build/test-results/test/TEST-*.xml"
 
-  slack-reporting:
+  determine-status-success:
     runs-on: ubuntu-latest
     needs: [ formatting, unit-test ]
-    if: always()
+    if: success()
     steps:
       - name: Determine final status - Success
         if: success()
         run: |
           echo "status=success ✅" >> $GITHUB_ENV
 
+  determine-status-failure:
+    runs-on: ubuntu-latest
+    needs: [ formatting, unit-test ]
+    if: failure()
+    steps:
       - name: Determine final status - Failure
         if: failure()
         run: |
           echo "status=failure ❌" >> $GITHUB_ENV
 
+
+  slack-reporting:
+    runs-on: ubuntu-latest
+    needs: [ determine-status-success, determine-status-failure ]
+    if: always()
+    steps:
       - name: Send Slack Notification
         if: always()
         uses: slackapi/slack-github-action@v2.0.0
