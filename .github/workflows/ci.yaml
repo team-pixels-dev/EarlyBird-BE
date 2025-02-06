@@ -102,9 +102,10 @@ jobs:
                 text:
                   type: "mrkdwn"
                   text: "
-                          # 🚀 GitHub Actions CI Workflow 실행 결과\n
+                          *🚀 GitHub Actions CI Workflow 실행 결과*\n
                           - Result: *${{ env.status }}*\n
                           - Repository: ${{ github.repository }}\n
-                          - Branch: ${{ github.ref }}\n
-                          - Commit: ${{ github.sha }}\n
+                          - PR Name: ${{ github.event.pull_request.title }}
+                          - Branch: ${{ github.event.pull_request.head.ref }} ➡️ ${{ github.event.pull_request.base.ref }}\n
+                          - Commit SHA: ${{ github.event.pull_request.head.sha }}\n
                           - URL: ${{ github.event.pull_request.html_url }}"
