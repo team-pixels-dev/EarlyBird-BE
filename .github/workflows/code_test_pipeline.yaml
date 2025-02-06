@@ -1,11 +1,12 @@
-name: Code Test Pipeline
+name: CI Pipeline
 on:
   pull_request:
-    branches: ["dev", "main"]
+    branches: [ "dev", "main" ]
 
 permissions:
   contents: read
   checks: write
+  pull-requests: write
 
 env:
   DB_URL: ${{ secrets.DB_URL }}
