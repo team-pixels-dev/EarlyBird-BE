@@ -15,6 +15,9 @@ env:
   ECS_TASK_DEFINITION_ARN: ${{ secrets.ECS_TASK_DEFINITION_ARN }}
   CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Deploy
