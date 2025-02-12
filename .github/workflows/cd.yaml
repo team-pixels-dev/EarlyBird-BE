@@ -14,6 +14,12 @@ env:
   ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
   ECS_TASK_DEFINITION_ARN: ${{ secrets.ECS_TASK_DEFINITION_ARN }}
   CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
+  DB_URL: ${{ secrets.DB_URL }}
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  SPRING_ACTIVE_PROFILE: ${{ vars.SPRING_ACTIVE_PROFILE }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  FCM_PROJECT_ID: ${{ secrets.FCM_PROJECT_ID }}
 
 permissions:
   contents: read
