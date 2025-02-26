@@ -18,7 +18,7 @@ public class GlobalExceptionHandlerAspect {
     @Before(
             value =
                     "execution(* earlybird.earlybird.error.GlobalExceptionHandler.*(..)) && args(e,"
-                        + " request)",
+                            + " request)",
             argNames = "joinPoint,e,request")
     public void setMDCBeforeExceptionHandler(
             JoinPoint joinPoint, Exception e, HttpServletRequest request) {
