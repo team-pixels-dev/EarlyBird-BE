@@ -20,14 +20,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(
             HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
-        log.warn("HttpRequestMethodNotSupportedException for {}", request.getRequestURI());
+        log.warn("HttpRequestMethodNotSupportedException for {}: {}", request.getRequestURI(), e.getMessage());
         return createErrorResponseEntity(ErrorCode.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(BusinessBaseException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessBaseException(
             BusinessBaseException e, HttpServletRequest request) {
-        log.warn("BusinessException: {}", e.getMessage(), e);
+        log.warn("BusinessException for {}: {}", request.getRequestURI(), e.getMessage(), e);
         return createErrorResponseEntity(e.getErrorCode());
     }
 
