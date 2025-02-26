@@ -1,9 +1,11 @@
 package earlybird.earlybird.error;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import earlybird.earlybird.EarlybirdApplication;
 import earlybird.earlybird.error.exception.BusinessBaseException;
 import earlybird.earlybird.error.exception.NotFoundException;
-import org.assertj.core.api.Assertions;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,15 +15,12 @@ import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.lang.reflect.Constructor;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(OutputCaptureExtension.class)
 class GlobalExceptionHandlerUnitTest {
@@ -38,77 +37,108 @@ class GlobalExceptionHandlerUnitTest {
 
         globalExceptionHandler.handleException(exception, request);
 
-        assertThat(output.getOut()).contains("Exception for " + requestURI + ": " + exception.getMessage());
+        assertThat(output.getOut())
+                .contains("Exception for " + requestURI + ": " + exception.getMessage());
         assertThat(output.getOut()).contains("ERROR");
     }
 
     @DisplayName("HttpRequestMethodNotSupportedException.class 핸들러 메시지 검증")
     @Test
-    void handleHttpRequestMethodNotSupportedExceptionMessage(CapturedOutput output) throws Exception {
-        HttpRequestMethodNotSupportedException exception = (HttpRequestMethodNotSupportedException) initException(HttpRequestMethodNotSupportedException.class);
+    void handleHttpRequestMethodNotSupportedExceptionMessage(CapturedOutput output)
+            throws Exception {
+        HttpRequestMethodNotSupportedException exception =
+                (HttpRequestMethodNotSupportedException)
+                        initException(HttpRequestMethodNotSupportedException.class);
         MockHttpServletRequest request = initRequest();
 
         GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
 
         globalExceptionHandler.handleHttpRequestMethodNotSupportedException(exception, request);
 
-        assertThat(output.getOut()).contains("HttpRequestMethodNotSupportedException for " + requestURI + ": " + exception.getMessage());
+        assertThat(output.getOut())
+                .contains(
+                        "HttpRequestMethodNotSupportedException for "
+                                + requestURI
+                                + ": "
+                                + exception.getMessage());
         assertThat(output.getOut()).contains("WARN");
     }
 
     @DisplayName("BusinessBaseException.class 핸들러 메시지 검증")
     @Test
     void handleBusinessBaseExceptionMessage(CapturedOutput output) throws Exception {
-        BusinessBaseException exception = (BusinessBaseException) initException(BusinessBaseException.class);
+        BusinessBaseException exception =
+                (BusinessBaseException) initException(BusinessBaseException.class);
         MockHttpServletRequest request = initRequest();
 
         GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
 
         globalExceptionHandler.handleBusinessBaseException(exception, request);
 
-        assertThat(output.getOut()).contains("BusinessException for " + requestURI + ": " + exception.getMessage());
+        assertThat(output.getOut())
+                .contains("BusinessException for " + requestURI + ": " + exception.getMessage());
         assertThat(output.getOut()).contains("WARN");
     }
 
     @DisplayName("NoResourceFoundException.class 핸들러 메시지 검증")
     @Test
     void handleNoResourceFoundExceptionMessage(CapturedOutput output) throws Exception {
-        NoResourceFoundException exception = (NoResourceFoundException) initException(NoResourceFoundException.class);
+        NoResourceFoundException exception =
+                (NoResourceFoundException) initException(NoResourceFoundException.class);
         MockHttpServletRequest request = initRequest();
 
         GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
 
         globalExceptionHandler.handleNoResourceFoundException(exception, request);
 
-        assertThat(output.getOut()).contains("NoResourceFoundException for " + requestURI + ": " + exception.getMessage());
+        assertThat(output.getOut())
+                .contains(
+                        "NoResourceFoundException for "
+                                + requestURI
+                                + ": "
+                                + exception.getMessage());
         assertThat(output.getOut()).contains("WARN");
     }
 
     @DisplayName("HttpMessageNotReadableException.class 핸들러 메시지 검증")
     @Test
     void handleHttpMessageNotReadableExceptionMessage(CapturedOutput output) throws Exception {
-        HttpMessageNotReadableException exception = (HttpMessageNotReadableException) initException(HttpMessageNotReadableException.class);
+        HttpMessageNotReadableException exception =
+                (HttpMessageNotReadableException)
+                        initException(HttpMessageNotReadableException.class);
         MockHttpServletRequest request = initRequest();
 
         GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
 
         globalExceptionHandler.handleHttpMessageNotReadableException(exception, request);
 
-        assertThat(output.getOut()).contains("HttpMessageNotReadableException for " + requestURI + ": " + exception.getMessage());
+        assertThat(output.getOut())
+                .contains(
+                        "HttpMessageNotReadableException for "
+                                + requestURI
+                                + ": "
+                                + exception.getMessage());
         assertThat(output.getOut()).contains("WARN");
     }
 
     @DisplayName("MethodArgumentNotValidException.class 핸들러 메시지 검증")
     @Test
     void handleMethodArgumentNotValidExceptionMessage(CapturedOutput output) throws Exception {
-        MethodArgumentNotValidException exception = (MethodArgumentNotValidException) initException(MethodArgumentNotValidException.class);
+        MethodArgumentNotValidException exception =
+                (MethodArgumentNotValidException)
+                        initException(MethodArgumentNotValidException.class);
         MockHttpServletRequest request = initRequest();
 
         GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
 
         globalExceptionHandler.handleMethodArgumentNotValidException(exception, request);
 
-        assertThat(output.getOut()).contains("MethodArgumentNotValidException for " + requestURI + ": " + exception.getMessage());
+        assertThat(output.getOut())
+                .contains(
+                        "MethodArgumentNotValidException for "
+                                + requestURI
+                                + ": "
+                                + exception.getMessage());
         assertThat(output.getOut()).contains("WARN");
     }
 
@@ -120,16 +150,16 @@ class GlobalExceptionHandlerUnitTest {
 
         if (exceptionClass.isAssignableFrom(BusinessBaseException.class)) {
             exception = new NotFoundException();
-        }
-        else if (exceptionClass.isAssignableFrom(NoResourceFoundException.class)) {
+        } else if (exceptionClass.isAssignableFrom(NoResourceFoundException.class)) {
             exception = new NoResourceFoundException(HttpMethod.GET, "resource-path");
-        }
-        else if (exceptionClass.isAssignableFrom(MethodArgumentNotValidException.class)) {
-            exception = new MethodArgumentNotValidException(
-                    new MethodParameter(EarlybirdApplication.class.getMethod("main", String[].class), 0),
-                    new BeanPropertyBindingResult(null, "param"));
-        }
-        else {
+        } else if (exceptionClass.isAssignableFrom(MethodArgumentNotValidException.class)) {
+            exception =
+                    new MethodArgumentNotValidException(
+                            new MethodParameter(
+                                    EarlybirdApplication.class.getMethod("main", String[].class),
+                                    0),
+                            new BeanPropertyBindingResult(null, "param"));
+        } else {
             constructor = exceptionClass.getConstructor(String.class);
             exception = constructor.newInstance(exceptionMessage);
         }

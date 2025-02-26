@@ -1,7 +1,9 @@
 package earlybird.earlybird.error;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -13,8 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class GlobalExceptionHandlerAspect {
 
-    @Before(value = "execution(* earlybird.earlybird.error.GlobalExceptionHandler.*(..)) && args(e, request)", argNames = "joinPoint,e,request")
-    public void setMDCBeforeExceptionHandler(JoinPoint joinPoint, Exception e, HttpServletRequest request) {
+    @Before(
+            value =
+                    "execution(* earlybird.earlybird.error.GlobalExceptionHandler.*(..)) && args(e,"
+                        + " request)",
+            argNames = "joinPoint,e,request")
+    public void setMDCBeforeExceptionHandler(
+            JoinPoint joinPoint, Exception e, HttpServletRequest request) {
         setCommonMDC(request, e);
     }
 

@@ -1,6 +1,8 @@
 package earlybird.earlybird.log;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,29 +13,25 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.client.response.MockRestResponseCreators;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(OutputCaptureExtension.class)
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(properties = {
-        "aws.access-key=access-key",
-        "aws.secret-access-key=secret-key",
-        "spring.jwt.secret=jwt-secret",
-        "fcm.project-id=project-id",
-        "spring.profiles.active=test"
-})
+@TestPropertySource(
+        properties = {
+            "aws.access-key=access-key",
+            "aws.secret-access-key=secret-key",
+            "spring.jwt.secret=jwt-secret",
+            "fcm.project-id=project-id",
+            "spring.profiles.active=test"
+        })
 class MdcLogTraceFilterTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
     @DisplayName("모든 요청의 각 로그에는 요청마다 고유한 trace id가 기록된다")
     @Test
@@ -54,5 +52,4 @@ class MdcLogTraceFilterTest {
 
         assertThat(output.getOut()).contains("\"request-uri\":\"/not-found-uri\"");
     }
-
 }

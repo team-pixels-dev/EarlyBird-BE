@@ -2,7 +2,9 @@ package earlybird.earlybird.log;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +18,8 @@ public class MdcLogTraceFilter implements Filter {
     private static final String REQUEST_URI_KEY = "request-uri";
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         try {
             MDC.put(TRACE_ID_KEY, UUID.randomUUID().toString());
 

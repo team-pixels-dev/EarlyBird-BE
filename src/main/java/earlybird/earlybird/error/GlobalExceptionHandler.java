@@ -3,9 +3,9 @@ package earlybird.earlybird.error;
 import earlybird.earlybird.error.exception.BusinessBaseException;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 
-import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -20,7 +20,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(
             HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
-        log.warn("HttpRequestMethodNotSupportedException for {}: {}", request.getRequestURI(), e.getMessage());
+        log.warn(
+                "HttpRequestMethodNotSupportedException for {}: {}",
+                request.getRequestURI(),
+                e.getMessage());
         return createErrorResponseEntity(ErrorCode.METHOD_NOT_ALLOWED);
     }
 
@@ -48,14 +51,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException e, HttpServletRequest request) {
-        log.warn("HttpMessageNotReadableException for {}: {}", request.getRequestURI(), e.getMessage(), e);
+        log.warn(
+                "HttpMessageNotReadableException for {}: {}",
+                request.getRequestURI(),
+                e.getMessage(),
+                e);
         return createErrorResponseEntity(ErrorCode.INCORRECT_REQUEST_BODY_FORMAT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e, HttpServletRequest request) {
-        log.warn("MethodArgumentNotValidException for {}: {}", request.getRequestURI(), e.getMessage());
+        log.warn(
+                "MethodArgumentNotValidException for {}: {}",
+                request.getRequestURI(),
+                e.getMessage());
         return createErrorResponseEntity(ErrorCode.INVALID_REQUEST_ARGUMENT);
     }
 
