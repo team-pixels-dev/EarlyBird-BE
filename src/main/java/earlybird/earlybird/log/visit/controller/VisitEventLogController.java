@@ -3,9 +3,7 @@ package earlybird.earlybird.log.visit.controller;
 import earlybird.earlybird.log.visit.controller.request.VisitEventLoggingRequest;
 import earlybird.earlybird.log.visit.service.VisitEventLogService;
 import earlybird.earlybird.log.visit.service.request.VisitEventLoggingServiceRequest;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
