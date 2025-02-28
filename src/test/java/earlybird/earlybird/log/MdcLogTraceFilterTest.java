@@ -49,8 +49,8 @@ class MdcLogTraceFilterTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/uri"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
 
-        assertThat(output.getOut()).containsAnyOf(
-                "\"request-ip\":\"0:0:0:0:0:0:0:1\"", "\"request-ip\":\"127.0.0.1\"");
+        assertThat(output.getOut())
+                .containsAnyOf(
+                        "\"request-ip\":\"0:0:0:0:0:0:0:1\"", "\"request-ip\":\"127.0.0.1\"");
     }
-
 }
