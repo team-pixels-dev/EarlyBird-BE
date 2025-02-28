@@ -2,7 +2,6 @@ package earlybird.earlybird.log.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public class LogUtil {
      */
     public static void infoLog(Map<String, String> attributes, String message, Object... messageArgs) {
         attributes.forEach(MDC::put);
-        log.info("visit log: client-id = {}", messageArgs);
+        log.info(message, messageArgs);
         attributes.forEach((key, value) -> MDC.remove(key));
     }
 }
