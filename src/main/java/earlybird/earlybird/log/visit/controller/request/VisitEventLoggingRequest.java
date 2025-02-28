@@ -1,6 +1,7 @@
 package earlybird.earlybird.log.visit.controller.request;
 
 import jakarta.validation.constraints.NotBlank;
+
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -8,6 +9,5 @@ import lombok.*;
 @Getter
 public class VisitEventLoggingRequest {
 
-    @NotBlank
-    private String clientId;
+    @NotBlank private String clientId;
 }

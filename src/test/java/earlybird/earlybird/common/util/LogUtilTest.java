@@ -1,5 +1,8 @@
 package earlybird.earlybird.common.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.logging.LogLevel.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,15 +14,11 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.boot.logging.LogLevel.*;
-
 @SpringBootTest
 @ExtendWith(OutputCaptureExtension.class)
 class LogUtilTest {
 
-    @Autowired
-    private LoggingSystem loggingSystem;
+    @Autowired private LoggingSystem loggingSystem;
 
     @DisplayName("로그 메시지가 정상적으로 출력된다")
     @Test
