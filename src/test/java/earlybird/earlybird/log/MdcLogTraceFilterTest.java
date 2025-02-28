@@ -42,4 +42,15 @@ class MdcLogTraceFilterTest {
 
         assertThat(output.getOut()).contains("\"request-uri\":\"/not-found-uri\"");
     }
+
+    @DisplayName("모든 HTTP 요청의 각 로그에는 요청 IP 가 기록된다")
+    @Test
+    void test(CapturedOutput output) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/uri"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+
+        assertThat(output.getOut())
+                .containsAnyOf(
+                        "\"request-ip\":\"0:0:0:0:0:0:0:1\"", "\"request-ip\":\"127.0.0.1\"");
+    }
 }

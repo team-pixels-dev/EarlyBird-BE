@@ -123,12 +123,4 @@ jobs:
                           - *${{ env.status }}*\n
                           *Repository*\n
                           - ${{ github.repository }}\n
-                          *PR Name*\n
-                          - ${{ github.event.pull_request.title }}\n
-                          *Branch*\n
-                          - ${{ github.event.pull_request.head.ref }} ➡️ ${{ github.event.pull_request.base.ref }}\n
-                          *Head Commit SHA*\n
-                          - ${{ github.event.pull_request.head.sha }}\n
-                          *PR URL*\n
-                          - ${{ github.event.pull_request.html_url }}
                   "
