@@ -2,7 +2,7 @@ package earlybird.earlybird.scheduler.manager.aws;
 
 import static earlybird.earlybird.scheduler.notification.domain.NotificationStatus.PENDING;
 
-import earlybird.earlybird.common.LocalDateTimeUtil;
+import earlybird.earlybird.common.util.LocalDateTimeUtil;
 import earlybird.earlybird.error.exception.FcmNotificationNotFoundException;
 import earlybird.earlybird.scheduler.manager.NotificationSchedulerManager;
 import earlybird.earlybird.scheduler.manager.request.AddNotificationToSchedulerServiceRequest;

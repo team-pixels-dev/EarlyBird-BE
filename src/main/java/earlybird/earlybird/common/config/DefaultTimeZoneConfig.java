@@ -1,4 +1,4 @@
-package earlybird.earlybird.common;
+package earlybird.earlybird.common.config;
 
 import jakarta.annotation.PostConstruct;
 

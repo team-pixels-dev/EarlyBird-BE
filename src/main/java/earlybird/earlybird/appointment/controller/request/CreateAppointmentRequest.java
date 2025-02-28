@@ -3,7 +3,7 @@ package earlybird.earlybird.appointment.controller.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import earlybird.earlybird.appointment.service.request.CreateAppointmentServiceRequest;
-import earlybird.earlybird.common.DayOfWeekUtil;
+import earlybird.earlybird.common.util.DayOfWeekUtil;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

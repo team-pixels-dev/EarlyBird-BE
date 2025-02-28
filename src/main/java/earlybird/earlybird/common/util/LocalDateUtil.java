@@ -1,4 +1,4 @@
-package earlybird.earlybird.common;
+package earlybird.earlybird.common.util;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

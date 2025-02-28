@@ -4,7 +4,7 @@ import earlybird.earlybird.appointment.domain.Appointment;
 import earlybird.earlybird.appointment.domain.AppointmentRepository;
 import earlybird.earlybird.appointment.service.request.CreateAppointmentServiceRequest;
 import earlybird.earlybird.appointment.service.response.CreateAppointmentServiceResponse;
-import earlybird.earlybird.common.LocalDateTimeUtil;
+import earlybird.earlybird.common.util.LocalDateTimeUtil;
 import earlybird.earlybird.scheduler.notification.domain.NotificationStep;
 import earlybird.earlybird.scheduler.notification.service.NotificationInfoFactory;
 import earlybird.earlybird.scheduler.notification.service.register.RegisterAllNotificationAtSchedulerService;

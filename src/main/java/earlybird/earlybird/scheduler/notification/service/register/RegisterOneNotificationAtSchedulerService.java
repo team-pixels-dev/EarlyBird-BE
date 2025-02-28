@@ -1,7 +1,7 @@
 package earlybird.earlybird.scheduler.notification.service.register;
 
 import earlybird.earlybird.appointment.domain.Appointment;
-import earlybird.earlybird.common.InstantUtil;
+import earlybird.earlybird.common.util.InstantUtil;
 import earlybird.earlybird.scheduler.manager.NotificationSchedulerManager;
 import earlybird.earlybird.scheduler.manager.request.AddNotificationToSchedulerServiceRequest;
 import earlybird.earlybird.scheduler.notification.domain.FcmNotification;

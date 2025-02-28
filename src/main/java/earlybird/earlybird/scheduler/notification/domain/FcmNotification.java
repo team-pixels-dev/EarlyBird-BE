@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import earlybird.earlybird.appointment.domain.Appointment;
 import earlybird.earlybird.common.BaseTimeEntity;
-import earlybird.earlybird.common.LocalDateTimeUtil;
+import earlybird.earlybird.common.util.LocalDateTimeUtil;
 
 import jakarta.persistence.*;
 
