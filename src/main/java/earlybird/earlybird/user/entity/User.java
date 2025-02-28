@@ -1,6 +1,6 @@
 package earlybird.earlybird.user.entity;
 
-import earlybird.earlybird.common.LocalDateTimeUtil;
+import earlybird.earlybird.common.util.LocalDateTimeUtil;
 import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
 import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 

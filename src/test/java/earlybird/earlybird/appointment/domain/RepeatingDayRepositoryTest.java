@@ -37,7 +37,6 @@ class RepeatingDayRepositoryTest {
 
         // when
         repeatingDayRepository.findAll();
-        System.out.println("dd");
 
         // then
 

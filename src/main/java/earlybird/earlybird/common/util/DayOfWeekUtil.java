@@ -1,4 +1,4 @@
-package earlybird.earlybird.common;
+package earlybird.earlybird.common.util;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
