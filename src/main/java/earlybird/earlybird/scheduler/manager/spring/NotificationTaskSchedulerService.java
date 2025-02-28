@@ -2,7 +2,7 @@ package earlybird.earlybird.scheduler.manager.spring;
 
 import static earlybird.earlybird.scheduler.notification.domain.NotificationStatus.PENDING;
 
-import earlybird.earlybird.common.LocalDateTimeUtil;
+import earlybird.earlybird.common.util.LocalDateTimeUtil;
 import earlybird.earlybird.messaging.MessagingService;
 import earlybird.earlybird.messaging.request.SendMessageByTokenServiceRequest;
 import earlybird.earlybird.scheduler.manager.NotificationSchedulerManager;

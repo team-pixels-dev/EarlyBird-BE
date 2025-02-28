@@ -12,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,14 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 @ExtendWith(OutputCaptureExtension.class)
 @ExtendWith(SpringExtension.class)
-@TestPropertySource(
-        properties = {
-            "aws.access-key=access-key",
-            "aws.secret-access-key=secret-key",
-            "spring.jwt.secret=jwt-secret",
-            "fcm.project-id=project-id",
-            "spring.profiles.active=test"
-        })
 class GlobalExceptionHandlerSpringTest {
 
     @Autowired private MockMvc mockMvc;

@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: earlybird
+  profiles:
+    active: test
+  jwt:
+    secret: jwt-secret
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+    datasource:
+      url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+    jpa:
+      hibernate:
+        ddl-auto: create
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql: true
+          show_sql: true
+          use_sql_comments: true
+
+fcm:
+  service-account-file: key/firebase_admin_sdk_private_key.json
+  project-id: project-id
+
+aws:
+  access-key: access-key
+  secret-access-key: secret-key

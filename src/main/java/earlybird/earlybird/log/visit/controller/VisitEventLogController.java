@@ -4,6 +4,8 @@ import earlybird.earlybird.log.visit.controller.request.VisitEventLoggingRequest
 import earlybird.earlybird.log.visit.service.VisitEventLogService;
 import earlybird.earlybird.log.visit.service.request.VisitEventLoggingServiceRequest;
 
+import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,8 @@ public class VisitEventLogController {
     private final VisitEventLogService visitEventLogService;
 
     @PostMapping("/visit-event")
-    public ResponseEntity<?> visitEventLogging(@RequestBody VisitEventLoggingRequest request) {
-        if (request.getClientId() == null || request.getClientId().isEmpty())
-            return ResponseEntity.badRequest().body("clientId is empty");
+    public ResponseEntity<?> visitEventLogging(
+            @Valid @RequestBody VisitEventLoggingRequest request) {
         VisitEventLoggingServiceRequest serviceRequest =
                 new VisitEventLoggingServiceRequest(request.getClientId());
         visitEventLogService.create(serviceRequest);

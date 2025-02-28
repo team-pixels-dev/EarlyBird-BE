@@ -6,7 +6,7 @@ import static earlybird.earlybird.scheduler.notification.domain.NotificationStep
 import earlybird.earlybird.appointment.domain.Appointment;
 import earlybird.earlybird.appointment.domain.RepeatingDay;
 import earlybird.earlybird.appointment.domain.RepeatingDayRepository;
-import earlybird.earlybird.common.LocalDateTimeUtil;
+import earlybird.earlybird.common.util.LocalDateTimeUtil;
 import earlybird.earlybird.scheduler.notification.domain.FcmNotification;
 import earlybird.earlybird.scheduler.notification.service.register.RegisterNotificationAtSchedulerService;
 import earlybird.earlybird.scheduler.notification.service.register.request.RegisterFcmMessageForExistingAppointmentAtSchedulerServiceRequest;

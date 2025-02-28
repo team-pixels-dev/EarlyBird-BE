@@ -5,7 +5,7 @@ import static earlybird.earlybird.appointment.domain.AppointmentUpdateType.MODIF
 import earlybird.earlybird.appointment.domain.Appointment;
 import earlybird.earlybird.appointment.domain.AppointmentUpdateType;
 import earlybird.earlybird.appointment.service.request.UpdateAppointmentServiceRequest;
-import earlybird.earlybird.common.LocalDateTimeUtil;
+import earlybird.earlybird.common.util.LocalDateTimeUtil;
 import earlybird.earlybird.scheduler.notification.domain.NotificationStep;
 import earlybird.earlybird.scheduler.notification.service.NotificationInfoFactory;
 import earlybird.earlybird.scheduler.notification.service.deregister.DeregisterNotificationService;

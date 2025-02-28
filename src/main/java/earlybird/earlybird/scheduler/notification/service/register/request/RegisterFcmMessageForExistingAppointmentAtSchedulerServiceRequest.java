@@ -2,8 +2,8 @@ package earlybird.earlybird.scheduler.notification.service.register.request;
 
 import earlybird.earlybird.appointment.domain.Appointment;
 import earlybird.earlybird.appointment.service.request.UpdateAppointmentServiceRequest;
-import earlybird.earlybird.common.LocalDateTimeUtil;
-import earlybird.earlybird.common.LocalDateUtil;
+import earlybird.earlybird.common.util.LocalDateTimeUtil;
+import earlybird.earlybird.common.util.LocalDateUtil;
 import earlybird.earlybird.scheduler.notification.service.update.request.UpdateFcmMessageServiceRequest;
 
 import lombok.Builder;

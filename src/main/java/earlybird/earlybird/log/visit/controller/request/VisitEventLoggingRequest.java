@@ -1,12 +1,13 @@
 package earlybird.earlybird.log.visit.controller.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+
+import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
 public class VisitEventLoggingRequest {
 
-    private String clientId;
+    @NotBlank private String clientId;
 }

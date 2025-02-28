@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import earlybird.earlybird.appointment.domain.AppointmentUpdateType;
 import earlybird.earlybird.appointment.service.request.UpdateAppointmentServiceRequest;
-import earlybird.earlybird.common.DayOfWeekUtil;
+import earlybird.earlybird.common.util.DayOfWeekUtil;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
