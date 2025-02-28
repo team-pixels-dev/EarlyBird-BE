@@ -9,7 +9,6 @@ env:
   ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
   ECS_SERVICE: ${{ vars.ECS_SERVICE }}
   ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
-  ECS_TASK_DEFINITION_ARN: ${{ secrets.ECS_TASK_DEFINITION_ARN }}
   CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
   DB_URL: ${{ secrets.DB_URL }}
   DB_USERNAME: ${{ secrets.DB_USERNAME }}
@@ -68,6 +67,15 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
+      - name: Get Latest ECS Task Definition ARN
+        id: get-latest-task-df
+        run: |
+          LATEST_TASK_DEF=$(aws ecs describe-task-definition \
+            --task-definition earlybird-server \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+          echo "ECS_TASK_DEFINITION_ARN=$LATEST_TASK_DEF" >> $GITHUB_ENV
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -115,12 +123,4 @@ jobs:
                           - *${{ env.status }}*\n
                           *Repository*\n
                           - ${{ github.repository }}\n
-                          *PR Name*\n
-                          - ${{ github.event.pull_request.title }}\n
-                          *Branch*\n
-                          - ${{ github.event.pull_request.head.ref }} ➡️ ${{ github.event.pull_request.base.ref }}\n
-                          *Head Commit SHA*\n
-                          - ${{ github.event.pull_request.head.sha }}\n
-                          *PR URL*\n
-                          - ${{ github.event.pull_request.html_url }}
                   "
