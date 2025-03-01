@@ -21,6 +21,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @deprecated Appointment 관련 클래스는 2024년 하반기 베타테스트에서 사용함
+ */
+@Deprecated
 @SQLDelete(sql = "UPDATE appointment SET is_deleted = true WHERE appointment_id = ?")
 @SQLRestriction("is_deleted = false")
 @Getter
