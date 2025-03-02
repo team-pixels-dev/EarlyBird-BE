@@ -1,5 +1,6 @@
 package earlybird.earlybird.task.domain;
 
+import earlybird.earlybird.common.BaseTimeEntity;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @SQLDelete(sql = "UPDATE task SET task_is_deleted = true WHERE task_id = ?")
 @NoArgsConstructor
 @Entity
-public class Task {
+public class Task extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

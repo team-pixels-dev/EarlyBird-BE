@@ -1,5 +1,6 @@
 package earlybird.earlybird.log.click.domain;
 
+import earlybird.earlybird.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +24,7 @@ import java.time.LocalDate;
                     })
         })
 @Entity
-public class UserClickLogCount {
+public class UserClickLogCount extends BaseTimeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
