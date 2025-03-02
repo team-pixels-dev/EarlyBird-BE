@@ -1,5 +1,6 @@
 package earlybird.earlybird.error;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import earlybird.earlybird.EarlybirdApplication;
 import earlybird.earlybird.error.exception.BusinessBaseException;
 import earlybird.earlybird.error.exception.NotFoundException;
@@ -205,10 +206,10 @@ class GlobalExceptionHandlerUnitTest {
 
         assertThat(output.getOut())
                 .contains(
-                        "HandlerMethodValidationException for "
+                        new ObjectMapper().writeValueAsString("HandlerMethodValidationException for "
                                 + requestURI
                                 + ": "
-                                + exception.getMessage());
+                                + exception.getMessage()));
         assertThat(output.getOut()).contains("WARN");
     }
 
