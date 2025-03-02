@@ -4,7 +4,9 @@ import earlybird.earlybird.task.domain.Task;
 import earlybird.earlybird.task.domain.TaskRepository;
 import earlybird.earlybird.task.service.request.CreateTaskServiceRequest;
 import earlybird.earlybird.task.service.response.CreateTaskServiceResponse;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +20,6 @@ public class CreateTaskService {
     public CreateTaskServiceResponse create(CreateTaskServiceRequest request) {
         Task task = request.toEntity();
         Task saved = taskRepository.save(task);
-        return CreateTaskServiceResponse.builder()
-                .taskId(saved.getId())
-                .build();
+        return CreateTaskServiceResponse.builder().taskId(saved.getId()).build();
     }
 }

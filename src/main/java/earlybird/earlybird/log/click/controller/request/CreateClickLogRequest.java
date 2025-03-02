@@ -1,9 +1,12 @@
 package earlybird.earlybird.log.click.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import earlybird.earlybird.log.click.service.request.CreateClickLogServiceRequest;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,11 +17,9 @@ import java.time.LocalDateTime;
 @Getter
 public class CreateClickLogRequest {
 
-    @NotBlank
-    private String clientId;
+    @NotBlank private String clientId;
 
-    @NotBlank
-    private String clickType;
+    @NotBlank private String clickType;
 
     @NotNull
     @JsonFormat(

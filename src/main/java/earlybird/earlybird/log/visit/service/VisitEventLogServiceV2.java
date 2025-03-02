@@ -31,9 +31,14 @@ public class VisitEventLogServiceV2 implements VisitEventLogService {
                 "visit log: client-id={}",
                 request.getClientId());
 
-        clientIdRepository.findByClientId(request.getClientId())
+        clientIdRepository
+                .findByClientId(request.getClientId())
                 .ifPresentOrElse(
                         clientId -> {},
-                        () -> clientIdRepository.save(ClientId.builder().clientId(request.getClientId()).build()));
+                        () ->
+                                clientIdRepository.save(
+                                        ClientId.builder()
+                                                .clientId(request.getClientId())
+                                                .build()));
     }
 }

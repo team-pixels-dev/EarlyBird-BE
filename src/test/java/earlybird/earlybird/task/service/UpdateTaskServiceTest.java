@@ -1,9 +1,14 @@
 package earlybird.earlybird.task.service;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import earlybird.earlybird.error.exception.NotFoundException;
 import earlybird.earlybird.task.domain.Task;
 import earlybird.earlybird.task.domain.TaskRepository;
 import earlybird.earlybird.task.service.request.UpdateTaskServiceRequest;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,17 +20,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class UpdateTaskServiceTest {
-    @Mock
-    private TaskRepository taskRepository;
+    @Mock private TaskRepository taskRepository;
 
-    @InjectMocks
-    private UpdateTaskService updateTaskService;
+    @InjectMocks private UpdateTaskService updateTaskService;
 
     @DisplayName("요청한 정보로 Task 정보를 업데이트한다")
     @Test
@@ -37,13 +36,14 @@ class UpdateTaskServiceTest {
         Boolean isVibrationOn = false;
         String clientId = "clientId";
 
-        Task task = Task.builder()
-                .clientId(clientId)
-                .title(title)
-                .startTime(startTime)
-                .isAlarmOn(isAlarmOn)
-                .isVibrationOn(isVibrationOn)
-                .build();
+        Task task =
+                Task.builder()
+                        .clientId(clientId)
+                        .title(title)
+                        .startTime(startTime)
+                        .isAlarmOn(isAlarmOn)
+                        .isVibrationOn(isVibrationOn)
+                        .build();
 
         String expectedTitle = "new title";
         LocalDateTime expectedStartTime = LocalDateTime.of(2025, 3, 2, 0, 0, 1);
@@ -51,14 +51,15 @@ class UpdateTaskServiceTest {
         Boolean expectedIsVibrationOn = true;
         String expectedClientId = "clientId";
 
-        UpdateTaskServiceRequest request = UpdateTaskServiceRequest.builder()
-                .taskId(taskId)
-                .title(expectedTitle)
-                .startTime(expectedStartTime)
-                .isAlarmOn(expectedIsAlarmOn)
-                .isVibrationOn(expectedIsVibrationOn)
-                .clientId(expectedClientId)
-                .build();
+        UpdateTaskServiceRequest request =
+                UpdateTaskServiceRequest.builder()
+                        .taskId(taskId)
+                        .title(expectedTitle)
+                        .startTime(expectedStartTime)
+                        .isAlarmOn(expectedIsAlarmOn)
+                        .isVibrationOn(expectedIsVibrationOn)
+                        .clientId(expectedClientId)
+                        .build();
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.of(task));
 
@@ -78,9 +79,8 @@ class UpdateTaskServiceTest {
         // given
         Long taskId = 1L;
 
-        UpdateTaskServiceRequest request = UpdateTaskServiceRequest.builder()
-                .taskId(taskId)
-                .build();
+        UpdateTaskServiceRequest request =
+                UpdateTaskServiceRequest.builder().taskId(taskId).build();
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
@@ -96,10 +96,8 @@ class UpdateTaskServiceTest {
         String clientId = "clientId";
         Long taskId = 1L;
 
-        UpdateTaskServiceRequest request = UpdateTaskServiceRequest.builder()
-                .taskId(taskId)
-                .clientId(clientId)
-                .build();
+        UpdateTaskServiceRequest request =
+                UpdateTaskServiceRequest.builder().taskId(taskId).clientId(clientId).build();
 
         String savedClientId = "savedClientId";
         Task task = Task.builder().clientId(savedClientId).build();

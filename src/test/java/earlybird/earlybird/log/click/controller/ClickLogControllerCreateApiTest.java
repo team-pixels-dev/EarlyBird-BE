@@ -1,8 +1,14 @@
 package earlybird.earlybird.log.click.controller;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import earlybird.earlybird.log.click.controller.request.CreateClickLogRequest;
 import earlybird.earlybird.log.click.service.CreateClickLogService;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +20,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(controllers = ClickLogController.class)
 class ClickLogControllerCreateApiTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private ObjectMapper objectMapper;
 
-    @MockBean
-    private CreateClickLogService createClickLogService;
+    @MockBean private CreateClickLogService createClickLogService;
 
     @DisplayName("정상 create 요청이 들어오면 200 OK 응답이 반환된다")
     @WithMockUser(
@@ -40,11 +39,12 @@ class ClickLogControllerCreateApiTest {
         String clientId = "clientId";
         String clickType = "timer-start-button-click";
 
-        CreateClickLogRequest requestObject = CreateClickLogRequest.builder()
-                .clickTime(clickTime)
-                .clientId(clientId)
-                .clickType(clickType)
-                .build();
+        CreateClickLogRequest requestObject =
+                CreateClickLogRequest.builder()
+                        .clickTime(clickTime)
+                        .clientId(clientId)
+                        .clickType(clickType)
+                        .build();
 
         String request = objectMapper.writeValueAsString(requestObject);
 
@@ -66,23 +66,28 @@ class ClickLogControllerCreateApiTest {
         LocalDateTime clickTime = LocalDateTime.of(2025, 3, 2, 0, 0, 0);
         String clickType = "timer-start-button-click";
 
-        String requestWithNullClientId = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clickTime(clickTime)
-                .clickType(clickType)
-                .build());
+        String requestWithNullClientId =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clickTime(clickTime)
+                                .clickType(clickType)
+                                .build());
 
-        String requestWithEmptyClientId = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clientId("")
-                .clickTime(clickTime)
-                .clickType(clickType)
-                .build());
+        String requestWithEmptyClientId =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clientId("")
+                                .clickTime(clickTime)
+                                .clickType(clickType)
+                                .build());
 
-        String requestWithWhitespaceClientId = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clientId("   ")
-                .clickTime(clickTime)
-                .clickType(clickType)
-                .build());
-
+        String requestWithWhitespaceClientId =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clientId("   ")
+                                .clickTime(clickTime)
+                                .clickType(clickType)
+                                .build());
 
         mockMvc.perform(
                         post("/api/v1/log/click")
@@ -107,8 +112,6 @@ class ClickLogControllerCreateApiTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(csrf()))
                 .andExpect(status().isBadRequest());
-
-
     }
 
     @DisplayName("요청에 clickType 값이 null/빈 문자열/공백이면 400 Bad Request 응답이 반환된다")
@@ -120,22 +123,28 @@ class ClickLogControllerCreateApiTest {
         String clientId = "clientId";
         LocalDateTime clickTime = LocalDateTime.of(2025, 3, 2, 0, 0, 0);
 
-        String requestWithNullClickType = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clientId(clientId)
-                .clickTime(clickTime)
-                .build());
+        String requestWithNullClickType =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clientId(clientId)
+                                .clickTime(clickTime)
+                                .build());
 
-        String requestWithEmptyClickType = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clientId(clientId)
-                .clickTime(clickTime)
-                .clickType("")
-                .build());
+        String requestWithEmptyClickType =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clientId(clientId)
+                                .clickTime(clickTime)
+                                .clickType("")
+                                .build());
 
-        String requestWithWhitespaceClickType = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clientId(clientId)
-                .clickTime(clickTime)
-                .clickType("   ")
-                .build());
+        String requestWithWhitespaceClickType =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clientId(clientId)
+                                .clickTime(clickTime)
+                                .clickType("   ")
+                                .build());
 
         mockMvc.perform(
                         post("/api/v1/log/click")
@@ -160,8 +169,6 @@ class ClickLogControllerCreateApiTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(csrf()))
                 .andExpect(status().isBadRequest());
-
-
     }
 
     @DisplayName("요청에 clickTime 값이 null이면 400 Bad Request 응답이 반환된다")
@@ -173,10 +180,12 @@ class ClickLogControllerCreateApiTest {
         String clickType = "timer-start-button-click";
         String clientId = "clientId";
 
-        String requestWithNullClickTime = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clientId(clientId)
-                .clickType(clickType)
-                .build());
+        String requestWithNullClickTime =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clientId(clientId)
+                                .clickType(clickType)
+                                .build());
 
         mockMvc.perform(
                         post("/api/v1/log/click")
@@ -197,11 +206,13 @@ class ClickLogControllerCreateApiTest {
         String clientId = "clientId";
         LocalDateTime clickTime = LocalDateTime.of(2025, 3, 2, 0, 0, 0);
 
-        String requestWithNullClickTime = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clickTime(clickTime)
-                .clientId(clientId)
-                .clickType(clickType)
-                .build());
+        String requestWithNullClickTime =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clickTime(clickTime)
+                                .clientId(clientId)
+                                .clickType(clickType)
+                                .build());
 
         mockMvc.perform(
                         post("/api/v1/log/click")
@@ -222,11 +233,13 @@ class ClickLogControllerCreateApiTest {
         String clientId = "clientId";
         LocalDateTime clickTime = LocalDateTime.of(2025, 3, 2, 0, 0, 0);
 
-        String requestWithNullClickTime = objectMapper.writeValueAsString(CreateClickLogRequest.builder()
-                .clickTime(clickTime)
-                .clientId(clientId)
-                .clickType(clickType)
-                .build());
+        String requestWithNullClickTime =
+                objectMapper.writeValueAsString(
+                        CreateClickLogRequest.builder()
+                                .clickTime(clickTime)
+                                .clientId(clientId)
+                                .clickType(clickType)
+                                .build());
 
         mockMvc.perform(
                         post("/api/v1/log/click")

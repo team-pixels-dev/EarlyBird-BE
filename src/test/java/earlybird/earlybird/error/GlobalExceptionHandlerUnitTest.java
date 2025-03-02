@@ -1,10 +1,15 @@
 package earlybird.earlybird.error;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import earlybird.earlybird.EarlybirdApplication;
 import earlybird.earlybird.error.exception.BusinessBaseException;
 import earlybird.earlybird.error.exception.NotFoundException;
+
 import jakarta.validation.UnexpectedTypeException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,8 +32,6 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(OutputCaptureExtension.class)
 class GlobalExceptionHandlerUnitTest {
@@ -154,8 +157,7 @@ class GlobalExceptionHandlerUnitTest {
     @Test
     void handleIllegalArgumentExceptionMessage(CapturedOutput output) throws Exception {
         IllegalArgumentException exception =
-                (IllegalArgumentException)
-                        initException(IllegalArgumentException.class);
+                (IllegalArgumentException) initException(IllegalArgumentException.class);
         MockHttpServletRequest request = initRequest();
 
         GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
@@ -175,8 +177,7 @@ class GlobalExceptionHandlerUnitTest {
     @Test
     void handleUnexpectedTypeExceptionMessage(CapturedOutput output) throws Exception {
         UnexpectedTypeException exception =
-                (UnexpectedTypeException)
-                        initException(UnexpectedTypeException.class);
+                (UnexpectedTypeException) initException(UnexpectedTypeException.class);
         MockHttpServletRequest request = initRequest();
 
         GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
@@ -206,10 +207,12 @@ class GlobalExceptionHandlerUnitTest {
 
         assertThat(output.getOut())
                 .contains(
-                        new ObjectMapper().writeValueAsString("HandlerMethodValidationException for "
-                                + requestURI
-                                + ": "
-                                + exception.getMessage()));
+                        new ObjectMapper()
+                                .writeValueAsString(
+                                        "HandlerMethodValidationException for "
+                                                + requestURI
+                                                + ": "
+                                                + exception.getMessage()));
         assertThat(output.getOut()).contains("WARN");
     }
 
@@ -238,8 +241,7 @@ class GlobalExceptionHandlerUnitTest {
     @Test
     void handleMissingRequestHeaderExceptionMessage(CapturedOutput output) throws Exception {
         MissingRequestHeaderException exception =
-                (MissingRequestHeaderException)
-                        initException(MissingRequestHeaderException.class);
+                (MissingRequestHeaderException) initException(MissingRequestHeaderException.class);
         MockHttpServletRequest request = initRequest();
 
         GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
@@ -254,7 +256,6 @@ class GlobalExceptionHandlerUnitTest {
                                 + exception.getMessage());
         assertThat(output.getOut()).contains("WARN");
     }
-
 
     private Exception initException(Class<? extends Exception> exceptionClass) throws Exception {
         String exceptionMessage = "exception-message";
@@ -296,15 +297,18 @@ class GlobalExceptionHandlerUnitTest {
                                 public List<ParameterValidationResult> getAllValidationResults() {
                                     return List.of();
                                 }
-                            }
-                    );
+                            });
         } else if (exceptionClass.isAssignableFrom(MethodArgumentTypeMismatchException.class)) {
-            exception = new MethodArgumentTypeMismatchException(new Object(), Long.class, null, null, new Exception());
+            exception =
+                    new MethodArgumentTypeMismatchException(
+                            new Object(), Long.class, null, null, new Exception());
         } else if (exceptionClass.isAssignableFrom(MissingRequestHeaderException.class)) {
-            exception = new MissingRequestHeaderException(
-                    "headerName", new MethodParameter(
-                    EarlybirdApplication.class.getMethod(
-                            "main", String[].class), 0));
+            exception =
+                    new MissingRequestHeaderException(
+                            "headerName",
+                            new MethodParameter(
+                                    EarlybirdApplication.class.getMethod("main", String[].class),
+                                    0));
         } else {
             constructor = exceptionClass.getConstructor(String.class);
             exception = constructor.newInstance(exceptionMessage);

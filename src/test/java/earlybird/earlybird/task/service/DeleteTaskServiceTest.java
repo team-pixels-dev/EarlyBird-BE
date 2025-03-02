@@ -1,9 +1,14 @@
 package earlybird.earlybird.task.service;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import earlybird.earlybird.error.exception.NotFoundException;
 import earlybird.earlybird.task.domain.Task;
 import earlybird.earlybird.task.domain.TaskRepository;
 import earlybird.earlybird.task.service.request.DeleteTaskServiceRequest;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,18 +18,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class DeleteTaskServiceTest {
 
-    @Mock
-    private TaskRepository taskRepository;
+    @Mock private TaskRepository taskRepository;
 
-    @InjectMocks
-    private DeleteTaskService deleteTaskService;
+    @InjectMocks private DeleteTaskService deleteTaskService;
 
     @DisplayName("요청된 Task 객체를 삭제한다")
     @Test
@@ -33,10 +32,8 @@ class DeleteTaskServiceTest {
         Long taskId = 100L;
         String clientId = "clientId";
 
-        DeleteTaskServiceRequest request = DeleteTaskServiceRequest.builder()
-                .taskId(taskId)
-                .clientId(clientId)
-                .build();
+        DeleteTaskServiceRequest request =
+                DeleteTaskServiceRequest.builder().taskId(taskId).clientId(clientId).build();
 
         Task task = Task.builder().clientId(clientId).build();
 
@@ -56,10 +53,8 @@ class DeleteTaskServiceTest {
         Long taskId = 100L;
         String clientId = "clientId";
 
-        DeleteTaskServiceRequest request = DeleteTaskServiceRequest.builder()
-                .taskId(taskId)
-                .clientId(clientId)
-                .build();
+        DeleteTaskServiceRequest request =
+                DeleteTaskServiceRequest.builder().taskId(taskId).clientId(clientId).build();
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
@@ -76,10 +71,11 @@ class DeleteTaskServiceTest {
         String requestedClientId = "requestedClientId";
         String savedClientId = "savedClientId";
 
-        DeleteTaskServiceRequest request = DeleteTaskServiceRequest.builder()
-                .taskId(taskId)
-                .clientId(requestedClientId)
-                .build();
+        DeleteTaskServiceRequest request =
+                DeleteTaskServiceRequest.builder()
+                        .taskId(taskId)
+                        .clientId(requestedClientId)
+                        .build();
 
         Task task = Task.builder().clientId(savedClientId).build();
 
@@ -89,5 +85,4 @@ class DeleteTaskServiceTest {
         assertThatThrownBy(() -> deleteTaskService.delete(request))
                 .isInstanceOf(NotFoundException.class);
     }
-
 }

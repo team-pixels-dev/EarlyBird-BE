@@ -1,13 +1,13 @@
 package earlybird.earlybird.task.domain;
 
 import jakarta.persistence.*;
+
 import lombok.*;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Getter
 @SQLRestriction("task_is_deleted = false")
@@ -44,7 +44,12 @@ public class Task {
     private Boolean isDeleted = false;
 
     @Builder
-    public Task(String clientId, String title, LocalDateTime startTime, Boolean isAlarmOn, Boolean isVibrationOn) {
+    public Task(
+            String clientId,
+            String title,
+            LocalDateTime startTime,
+            Boolean isAlarmOn,
+            Boolean isVibrationOn) {
         this.clientId = clientId;
         this.title = title;
         this.startTime = startTime;

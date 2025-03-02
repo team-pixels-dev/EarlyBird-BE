@@ -1,6 +1,5 @@
 package earlybird.earlybird.task.service.request;
 
-import earlybird.earlybird.task.domain.Task;
 import lombok.*;
 
 import java.time.LocalDateTime;

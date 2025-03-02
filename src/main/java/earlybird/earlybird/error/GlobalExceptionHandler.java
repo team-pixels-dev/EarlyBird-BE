@@ -1,9 +1,12 @@
 package earlybird.earlybird.error;
 
 import earlybird.earlybird.error.exception.BusinessBaseException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.UnexpectedTypeException;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -61,12 +64,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            MethodArgumentNotValidException.class,
-            IllegalArgumentException.class,
-            UnexpectedTypeException.class,
-            HandlerMethodValidationException.class,
-            MethodArgumentTypeMismatchException.class,
-            MissingRequestHeaderException.class
+        MethodArgumentNotValidException.class,
+        IllegalArgumentException.class,
+        UnexpectedTypeException.class,
+        HandlerMethodValidationException.class,
+        MethodArgumentTypeMismatchException.class,
+        MissingRequestHeaderException.class
     })
     protected ResponseEntity<ErrorResponse> handleInvalidRequestArgumentException(
             Exception e, HttpServletRequest request) {

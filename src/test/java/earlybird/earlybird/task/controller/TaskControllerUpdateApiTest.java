@@ -1,11 +1,17 @@
 package earlybird.earlybird.task.controller;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import earlybird.earlybird.task.controller.request.CreateTaskRequest;
 import earlybird.earlybird.task.controller.request.UpdateTaskRequest;
 import earlybird.earlybird.task.service.CreateTaskService;
 import earlybird.earlybird.task.service.DeleteTaskService;
 import earlybird.earlybird.task.service.UpdateTaskService;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,27 +23,15 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 @WebMvcTest(controllers = TaskController.class)
 public class TaskControllerUpdateApiTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private MockMvc mockMvc;
+    @Autowired private ObjectMapper objectMapper;
 
-    @MockBean
-    private CreateTaskService createTaskService;
-    @MockBean
-    private DeleteTaskService deleteTaskService;
-    @MockBean
-    private UpdateTaskService updateTaskService;
+    @MockBean private CreateTaskService createTaskService;
+    @MockBean private DeleteTaskService deleteTaskService;
+    @MockBean private UpdateTaskService updateTaskService;
 
     @DisplayName("정상 update 요청이 들어오면 200 OK 응답이 반환된다")
     @WithMockUser(
@@ -45,23 +39,24 @@ public class TaskControllerUpdateApiTest {
             roles = {"SUPER"})
     @Test
     void return200WithValidRequest() throws Exception {
-        UpdateTaskRequest requestObject = UpdateTaskRequest.builder()
-                .taskId(1L)
-                .title("title")
-                .clientId("clientId")
-                .isVibrationOn(true)
-                .isAlarmOn(true)
-                .startTime(LocalDateTime.of(2025, 1, 1, 1, 1, 1))
-                .build();
+        UpdateTaskRequest requestObject =
+                UpdateTaskRequest.builder()
+                        .taskId(1L)
+                        .title("title")
+                        .clientId("clientId")
+                        .isVibrationOn(true)
+                        .isAlarmOn(true)
+                        .startTime(LocalDateTime.of(2025, 1, 1, 1, 1, 1))
+                        .build();
 
         String request = objectMapper.writeValueAsString(requestObject);
 
         mockMvc.perform(
-                put("/api/v1/tasks")
-                        .content(request)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .with(csrf()))
+                        put("/api/v1/tasks")
+                                .content(request)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .with(csrf()))
                 .andExpect(status().isOk());
     }
 
@@ -76,9 +71,12 @@ public class TaskControllerUpdateApiTest {
         String emptyTitle = "";
         String whitespaceTitle = "  ";
 
-        String requestWithNullTitle = objectMapper.writeValueAsString(initUpdateTaskRequest(nullTitle, "clientId"));
-        String requestWithEmptyTitle = objectMapper.writeValueAsString(initUpdateTaskRequest(emptyTitle, "clientId"));
-        String requestWithWhitespaceTitle = objectMapper.writeValueAsString(initUpdateTaskRequest(whitespaceTitle,"clientId"));
+        String requestWithNullTitle =
+                objectMapper.writeValueAsString(initUpdateTaskRequest(nullTitle, "clientId"));
+        String requestWithEmptyTitle =
+                objectMapper.writeValueAsString(initUpdateTaskRequest(emptyTitle, "clientId"));
+        String requestWithWhitespaceTitle =
+                objectMapper.writeValueAsString(initUpdateTaskRequest(whitespaceTitle, "clientId"));
 
         mockMvc.perform(
                         put("/api/v1/tasks")
@@ -104,12 +102,9 @@ public class TaskControllerUpdateApiTest {
                                 .with(csrf()))
                 .andExpect(status().isBadRequest());
 
-
         // when
 
-
         // then
-
 
     }
 
@@ -119,14 +114,15 @@ public class TaskControllerUpdateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenStartTimeIsNull() throws Exception {
-        UpdateTaskRequest requestObject = UpdateTaskRequest.builder()
-                .title("title")
-                .startTime(null)
-                .isAlarmOn(true)
-                .isVibrationOn(true)
-                .clientId("clientId")
-                .taskId(1L)
-                .build();
+        UpdateTaskRequest requestObject =
+                UpdateTaskRequest.builder()
+                        .title("title")
+                        .startTime(null)
+                        .isAlarmOn(true)
+                        .isVibrationOn(true)
+                        .clientId("clientId")
+                        .taskId(1L)
+                        .build();
         String request = objectMapper.writeValueAsString(requestObject);
 
         mockMvc.perform(
@@ -144,7 +140,8 @@ public class TaskControllerUpdateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenStartTimeFormatIsInvalid() throws Exception {
-        String request = """
+        String request =
+                """
                 {
                     "title": "title",
                     "startTime": "2025/01/01 12-00-00",
@@ -170,13 +167,14 @@ public class TaskControllerUpdateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenIsAlarmOnIsNull() throws Exception {
-        UpdateTaskRequest requestObject = UpdateTaskRequest.builder()
-                .title("title")
-                .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
-                .isVibrationOn(true)
-                .clientId("clientId")
-                .taskId(1L)
-                .build();
+        UpdateTaskRequest requestObject =
+                UpdateTaskRequest.builder()
+                        .title("title")
+                        .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
+                        .isVibrationOn(true)
+                        .clientId("clientId")
+                        .taskId(1L)
+                        .build();
         String request = objectMapper.writeValueAsString(requestObject);
 
         mockMvc.perform(
@@ -194,13 +192,14 @@ public class TaskControllerUpdateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenIsVibrationOnIsNull() throws Exception {
-        UpdateTaskRequest requestObject = UpdateTaskRequest.builder()
-                .title("title")
-                .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
-                .isAlarmOn(true)
-                .clientId("clientId")
-                .taskId(1L)
-                .build();
+        UpdateTaskRequest requestObject =
+                UpdateTaskRequest.builder()
+                        .title("title")
+                        .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
+                        .isAlarmOn(true)
+                        .clientId("clientId")
+                        .taskId(1L)
+                        .build();
         String request = objectMapper.writeValueAsString(requestObject);
 
         mockMvc.perform(
@@ -222,9 +221,12 @@ public class TaskControllerUpdateApiTest {
         String emptyClientId = "";
         String whitespaceClientId = "  ";
 
-        String requestWithNullClientId = objectMapper.writeValueAsString(initUpdateTaskRequest("title", nullClientId));
-        String requestWithEmptyClientId = objectMapper.writeValueAsString(initUpdateTaskRequest("title", emptyClientId));
-        String requestWithWhitespaceClientId = objectMapper.writeValueAsString(initUpdateTaskRequest("title", whitespaceClientId));
+        String requestWithNullClientId =
+                objectMapper.writeValueAsString(initUpdateTaskRequest("title", nullClientId));
+        String requestWithEmptyClientId =
+                objectMapper.writeValueAsString(initUpdateTaskRequest("title", emptyClientId));
+        String requestWithWhitespaceClientId =
+                objectMapper.writeValueAsString(initUpdateTaskRequest("title", whitespaceClientId));
 
         mockMvc.perform(
                         put("/api/v1/tasks")
@@ -257,13 +259,14 @@ public class TaskControllerUpdateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenTaskIdIsNull() throws Exception {
-        UpdateTaskRequest requestObject = UpdateTaskRequest.builder()
-                .title("title")
-                .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
-                .isVibrationOn(true)
-                .isAlarmOn(true)
-                .clientId("clientId")
-                .build();
+        UpdateTaskRequest requestObject =
+                UpdateTaskRequest.builder()
+                        .title("title")
+                        .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
+                        .isVibrationOn(true)
+                        .isAlarmOn(true)
+                        .clientId("clientId")
+                        .build();
         String request = objectMapper.writeValueAsString(requestObject);
 
         mockMvc.perform(

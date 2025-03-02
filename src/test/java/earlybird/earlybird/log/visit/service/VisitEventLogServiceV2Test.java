@@ -1,6 +1,7 @@
 package earlybird.earlybird.log.visit.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 import earlybird.earlybird.log.visit.domain.ClientIdRepository;
 import earlybird.earlybird.log.visit.service.request.VisitEventLoggingServiceRequest;
@@ -14,17 +15,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(OutputCaptureExtension.class)
 class VisitEventLogServiceV2Test {
 
-    @Mock
-    private ClientIdRepository clientIdRepository;
+    @Mock private ClientIdRepository clientIdRepository;
 
-    @InjectMocks
-    private VisitEventLogServiceV2 logService;
+    @InjectMocks private VisitEventLogServiceV2 logService;
 
     @DisplayName("사용자 방문 로그를 생성한다")
     @Test
@@ -54,5 +51,4 @@ class VisitEventLogServiceV2Test {
 
         verify(clientIdRepository).save(any());
     }
-
 }

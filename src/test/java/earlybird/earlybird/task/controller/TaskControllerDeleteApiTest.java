@@ -1,9 +1,15 @@
 package earlybird.earlybird.task.controller;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import earlybird.earlybird.task.service.CreateTaskService;
 import earlybird.earlybird.task.service.DeleteTaskService;
 import earlybird.earlybird.task.service.UpdateTaskService;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +19,15 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(controllers = TaskController.class)
 public class TaskControllerDeleteApiTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private MockMvc mockMvc;
+    @Autowired private ObjectMapper objectMapper;
 
-    @MockBean
-    private CreateTaskService createTaskService;
-    @MockBean
-    private DeleteTaskService deleteTaskService;
-    @MockBean
-    private UpdateTaskService updateTaskService;
+    @MockBean private CreateTaskService createTaskService;
+    @MockBean private DeleteTaskService deleteTaskService;
+    @MockBean private UpdateTaskService updateTaskService;
 
     @DisplayName("정상 delete 요청이 들어오면 204 No Content 응답이 반환된다")
     @WithMockUser(

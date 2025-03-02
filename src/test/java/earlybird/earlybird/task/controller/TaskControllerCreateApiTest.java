@@ -1,14 +1,20 @@
 package earlybird.earlybird.task.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import earlybird.earlybird.task.controller.request.CreateTaskRequest;
-import earlybird.earlybird.task.controller.response.CreateTaskResponse;
 import earlybird.earlybird.task.service.CreateTaskService;
 import earlybird.earlybird.task.service.DeleteTaskService;
 import earlybird.earlybird.task.service.UpdateTaskService;
 import earlybird.earlybird.task.service.request.CreateTaskServiceRequest;
 import earlybird.earlybird.task.service.response.CreateTaskServiceResponse;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,27 +26,15 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.mockito.Mockito.*;
-
-
 @WebMvcTest(controllers = TaskController.class)
 class TaskControllerCreateApiTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private MockMvc mockMvc;
+    @Autowired private ObjectMapper objectMapper;
 
-    @MockBean
-    private CreateTaskService createTaskService;
-    @MockBean
-    private DeleteTaskService deleteTaskService;
-    @MockBean
-    private UpdateTaskService updateTaskService;
+    @MockBean private CreateTaskService createTaskService;
+    @MockBean private DeleteTaskService deleteTaskService;
+    @MockBean private UpdateTaskService updateTaskService;
 
     @DisplayName("정상 create 요청이 들어오면 200 OK 응답이 반환된다")
     @WithMockUser(
@@ -48,18 +42,21 @@ class TaskControllerCreateApiTest {
             roles = {"SUPER"})
     @Test
     void return200WithValidRequest() throws Exception {
-        CreateTaskRequest requestObject = CreateTaskRequest.builder()
-                .title("title")
-                .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
-                .isAlarmOn(true)
-                .isVibrationOn(true)
-                .clientId("clientId")
-                .build();
+        CreateTaskRequest requestObject =
+                CreateTaskRequest.builder()
+                        .title("title")
+                        .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
+                        .isAlarmOn(true)
+                        .isVibrationOn(true)
+                        .clientId("clientId")
+                        .build();
         String request = objectMapper.writeValueAsString(requestObject);
 
         Long expectedTaskId = 100L;
-        CreateTaskServiceResponse expectedServiceResponse = CreateTaskServiceResponse.builder().taskId(expectedTaskId).build();
-        when(createTaskService.create(any(CreateTaskServiceRequest.class))).thenReturn(expectedServiceResponse);
+        CreateTaskServiceResponse expectedServiceResponse =
+                CreateTaskServiceResponse.builder().taskId(expectedTaskId).build();
+        when(createTaskService.create(any(CreateTaskServiceRequest.class)))
+                .thenReturn(expectedServiceResponse);
 
         mockMvc.perform(
                         post("/api/v1/tasks")
@@ -81,9 +78,12 @@ class TaskControllerCreateApiTest {
         String emptyTitle = "";
         String whitespaceTitle = "  ";
 
-        String requestWithNullTitle = objectMapper.writeValueAsString(initCreateTaskRequest(nullTitle, "clientId"));
-        String requestWithEmptyTitle = objectMapper.writeValueAsString(initCreateTaskRequest(emptyTitle, "clientId"));
-        String requestWithWhitespaceTitle = objectMapper.writeValueAsString(initCreateTaskRequest(whitespaceTitle,"clientId"));
+        String requestWithNullTitle =
+                objectMapper.writeValueAsString(initCreateTaskRequest(nullTitle, "clientId"));
+        String requestWithEmptyTitle =
+                objectMapper.writeValueAsString(initCreateTaskRequest(emptyTitle, "clientId"));
+        String requestWithWhitespaceTitle =
+                objectMapper.writeValueAsString(initCreateTaskRequest(whitespaceTitle, "clientId"));
 
         mockMvc.perform(
                         post("/api/v1/tasks")
@@ -116,13 +116,14 @@ class TaskControllerCreateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenStartTimeIsNull() throws Exception {
-        CreateTaskRequest requestObject = CreateTaskRequest.builder()
-                .title("title")
-                .startTime(null)
-                .isAlarmOn(true)
-                .isVibrationOn(true)
-                .clientId("clientId")
-                .build();
+        CreateTaskRequest requestObject =
+                CreateTaskRequest.builder()
+                        .title("title")
+                        .startTime(null)
+                        .isAlarmOn(true)
+                        .isVibrationOn(true)
+                        .clientId("clientId")
+                        .build();
         String request = objectMapper.writeValueAsString(requestObject);
 
         mockMvc.perform(
@@ -140,7 +141,8 @@ class TaskControllerCreateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenStartTimeFormatIsInvalid() throws Exception {
-        String request = """
+        String request =
+                """
                 {
                     "title": "title",
                     "startTime": "2025/01/01 12-00-00",
@@ -151,11 +153,11 @@ class TaskControllerCreateApiTest {
                 """;
 
         mockMvc.perform(
-                post("/api/v1/tasks")
-                        .content(request)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .with(csrf()))
+                        post("/api/v1/tasks")
+                                .content(request)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .with(csrf()))
                 .andExpect(status().isBadRequest());
     }
 
@@ -165,12 +167,13 @@ class TaskControllerCreateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenIsAlarmOnIsNull() throws Exception {
-        CreateTaskRequest requestObject = CreateTaskRequest.builder()
-                .title("title")
-                .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
-                .isVibrationOn(true)
-                .clientId("clientId")
-                .build();
+        CreateTaskRequest requestObject =
+                CreateTaskRequest.builder()
+                        .title("title")
+                        .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
+                        .isVibrationOn(true)
+                        .clientId("clientId")
+                        .build();
         String request = objectMapper.writeValueAsString(requestObject);
 
         mockMvc.perform(
@@ -188,12 +191,13 @@ class TaskControllerCreateApiTest {
             roles = {"SUPER"})
     @Test
     void return400WhenIsVibrationOnIsNull() throws Exception {
-        CreateTaskRequest requestObject = CreateTaskRequest.builder()
-                .title("title")
-                .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
-                .isAlarmOn(true)
-                .clientId("clientId")
-                .build();
+        CreateTaskRequest requestObject =
+                CreateTaskRequest.builder()
+                        .title("title")
+                        .startTime(LocalDateTime.of(2025, 1, 1, 0, 0))
+                        .isAlarmOn(true)
+                        .clientId("clientId")
+                        .build();
         String request = objectMapper.writeValueAsString(requestObject);
 
         mockMvc.perform(
@@ -215,9 +219,12 @@ class TaskControllerCreateApiTest {
         String emptyClientId = "";
         String whitespaceClientId = "  ";
 
-        String requestWithNullClientId = objectMapper.writeValueAsString(initCreateTaskRequest("title", nullClientId));
-        String requestWithEmptyClientId = objectMapper.writeValueAsString(initCreateTaskRequest("title", emptyClientId));
-        String requestWithWhitespaceClientId = objectMapper.writeValueAsString(initCreateTaskRequest("title", whitespaceClientId));
+        String requestWithNullClientId =
+                objectMapper.writeValueAsString(initCreateTaskRequest("title", nullClientId));
+        String requestWithEmptyClientId =
+                objectMapper.writeValueAsString(initCreateTaskRequest("title", emptyClientId));
+        String requestWithWhitespaceClientId =
+                objectMapper.writeValueAsString(initCreateTaskRequest("title", whitespaceClientId));
 
         mockMvc.perform(
                         post("/api/v1/tasks")

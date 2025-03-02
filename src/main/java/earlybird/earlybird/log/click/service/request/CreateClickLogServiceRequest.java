@@ -1,6 +1,5 @@
 package earlybird.earlybird.log.click.service.request;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

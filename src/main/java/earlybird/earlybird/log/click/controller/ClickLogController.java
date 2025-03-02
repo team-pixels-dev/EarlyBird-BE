@@ -2,8 +2,11 @@ package earlybird.earlybird.log.click.controller;
 
 import earlybird.earlybird.log.click.controller.request.CreateClickLogRequest;
 import earlybird.earlybird.log.click.service.CreateClickLogService;
+
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -3,6 +3,7 @@ package earlybird.earlybird.log.click.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,16 +14,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(
         uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "UniqueClickTypeAndClientIdAndClickDate",
-                        columnNames = {
-                                "user_click_log_count_click_type",
-                                "user_click_log_count_client_id",
-                                "user_click_log_count_click_date"
-                        }
-                )
-        }
-)
+            @UniqueConstraint(
+                    name = "UniqueClickTypeAndClientIdAndClickDate",
+                    columnNames = {
+                        "user_click_log_count_click_type",
+                        "user_click_log_count_client_id",
+                        "user_click_log_count_click_date"
+                    })
+        })
 @Entity
 public class UserClickLogCount {
 
