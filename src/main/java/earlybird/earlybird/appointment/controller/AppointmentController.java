@@ -18,6 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @deprecated Appointment 관련 클래스는 2024년 하반기 베타테스트에서 사용함
+ */
+@Deprecated
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/appointments")
 @RestController

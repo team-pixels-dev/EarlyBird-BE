@@ -18,6 +18,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+/**
+ * @deprecated Appointment 관련 클래스는 2024년 하반기 베타테스트에서 사용함
+ */
+@Deprecated
 @RequiredArgsConstructor
 @Service
 public class CreateAppointmentService {

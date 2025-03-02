@@ -12,6 +12,10 @@ import org.springframework.lang.NonNull;
 
 import java.time.DayOfWeek;
 
+/**
+ * @deprecated Appointment 관련 클래스는 2024년 하반기 베타테스트에서 사용함
+ */
+@Deprecated
 @SQLDelete(sql = "UPDATE repeating_day SET is_deleted = true WHERE repeating_day_id = ?")
 @SQLRestriction("is_deleted = false")
 @Getter
