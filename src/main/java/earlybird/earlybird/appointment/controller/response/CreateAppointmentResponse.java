@@ -4,6 +4,10 @@ import earlybird.earlybird.appointment.service.response.CreateAppointmentService
 
 import lombok.*;
 
+/**
+ * @deprecated Appointment 관련 클래스는 2024년 하반기 베타테스트에서 사용함
+ */
+@Deprecated
 @Getter
 public class CreateAppointmentResponse {
     private final Long createdAppointmentId;

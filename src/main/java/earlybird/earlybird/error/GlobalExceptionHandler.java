@@ -3,6 +3,7 @@ package earlybird.earlybird.error;
 import earlybird.earlybird.error.exception.BusinessBaseException;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.UnexpectedTypeException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,8 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
@@ -59,11 +63,19 @@ public class GlobalExceptionHandler {
         return createErrorResponseEntity(ErrorCode.INCORRECT_REQUEST_BODY_FORMAT);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
-            MethodArgumentNotValidException e, HttpServletRequest request) {
+    @ExceptionHandler({
+        MethodArgumentNotValidException.class,
+        IllegalArgumentException.class,
+        UnexpectedTypeException.class,
+        HandlerMethodValidationException.class,
+        MethodArgumentTypeMismatchException.class,
+        MissingRequestHeaderException.class
+    })
+    protected ResponseEntity<ErrorResponse> handleInvalidRequestArgumentException(
+            Exception e, HttpServletRequest request) {
         log.warn(
-                "MethodArgumentNotValidException for {}: {}",
+                "{} for {}: {}",
+                e.getClass().getSimpleName(),
                 request.getRequestURI(),
                 e.getMessage());
         return createErrorResponseEntity(ErrorCode.INVALID_REQUEST_ARGUMENT);

@@ -7,6 +7,10 @@ import earlybird.earlybird.scheduler.notification.service.deregister.request.Der
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * @deprecated Appointment 관련 클래스는 2024년 하반기 베타테스트에서 사용함
+ */
+@Deprecated
 @Getter
 public class DeleteAppointmentServiceRequest {
 
