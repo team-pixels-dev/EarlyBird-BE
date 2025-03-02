@@ -1,6 +1,7 @@
 package earlybird.earlybird.log.click.domain;
 
 import earlybird.earlybird.common.BaseTimeEntity;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

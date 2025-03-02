@@ -1,6 +1,7 @@
 package earlybird.earlybird.task.domain;
 
 import earlybird.earlybird.common.BaseTimeEntity;
+
 import jakarta.persistence.*;
 
 import lombok.*;
