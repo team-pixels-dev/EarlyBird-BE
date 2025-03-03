@@ -43,5 +43,5 @@
     compression gzip
     s3_key_format /earlybird-server-log/%Y/%m/%d/%H/%Y_%m_%d_%H_%M.gz
     static_file_path On
-    upload_timeout 10m
+    upload_timeout 3m
     use_put_object On
