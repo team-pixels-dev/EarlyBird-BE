@@ -25,7 +25,7 @@
     Name loki
     Match *
     Labels job=ecs_fargate
-    label_keys $container_name,$ecs_task_definition,$source,$ecs_cluster
+    label_keys \$container_name,\$ecs_task_definition,\$source,$ecs_cluster
     remove_keys container_id,ecs_task_arn
     http_user ${LOKI_HTTP_USER}
     http_passwd ${LOKI_HTTP_PASSWD}
