@@ -83,7 +83,7 @@ jobs:
               --build-arg LOKI_HTTP_PASSWD=${{ secrets.LOKI_HTTP_PASSWD }} \
               --build-arg LOKI_HOST=${{ secrets.LOKI_HOST }} \
               --build-arg LOKI_PORT=${{ secrets.LOKI_PORT }} \
-              --build-arg LOG_S3_BUCKET=${{ secrets.LOG_S3_BUCKET }} .
+              --build-arg LOKI_S3_BUCKET=${{ secrets.LOG_S3_BUCKET }} .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY_FLUENT_BIT:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_FLUENT_BIT:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
