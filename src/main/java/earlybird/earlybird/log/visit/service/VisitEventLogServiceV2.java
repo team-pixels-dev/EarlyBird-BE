@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Primary
@@ -25,20 +26,28 @@ public class VisitEventLogServiceV2 implements VisitEventLogService {
 
     @Override
     public void create(VisitEventLoggingServiceRequest request) {
-        LogUtil.log(
-                INFO,
-                Map.of("client-id", request.getClientId(), "event-type", "client-visit"),
-                "visit log: client-id={}",
-                request.getClientId());
+        Map<String, String> logAttributes = new HashMap<>();
+        logAttributes.put("clientId", request.getClientId());
+        logAttributes.put("event-type", "client-visit");
 
         clientIdRepository
                 .findByClientId(request.getClientId())
                 .ifPresentOrElse(
-                        clientId -> {},
-                        () ->
-                                clientIdRepository.save(
-                                        ClientId.builder()
-                                                .clientId(request.getClientId())
-                                                .build()));
+                        clientId -> {
+                            logAttributes.put("first-visit", "false");
+                        },
+                        () -> {
+                            clientIdRepository.save(
+                                    ClientId.builder()
+                                            .clientId(request.getClientId())
+                                            .build());
+                            logAttributes.put("first-visit", "true");
+                        });
+
+        LogUtil.log(
+                INFO,
+                logAttributes,
+                "visit log: client-id={}",
+                request.getClientId());
     }
 }
