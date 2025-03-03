@@ -7,6 +7,6 @@ ARG LOKI_PORT
 ARG LOKI_S3_BUCKET
 
 RUN mkdir -p /fluent-bit/config /tmp/fluent-bit/s3
-COPY fluent-bit.conf /fluent-bit/config/
+COPY ./fluent-bit/fluent-bit.conf /fluent-bit/config/
 
 CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/config/fluent-bit.conf"]
