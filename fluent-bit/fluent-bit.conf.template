@@ -1,3 +1,7 @@
+[SERVICE]
+    Flush 1
+    Log_Level info
+
 [INPUT]
     Name forward
     unix_path /var/run/fluent.sock
@@ -37,7 +41,7 @@
     region ap-northeast-2
     store_dir /tmp/fluent-bit/s3
     compression gzip
-    s3_key_format /test-logs/%Y/%m/%d/%H/${HOSTNAME}_%Y_%m_%d_%H_%M.gz
+    s3_key_format /earlybird-server-log/%Y/%m/%d/%H/%Y_%m_%d_%H_%M.gz
     static_file_path On
-    upload_timeout 10m
+    upload_timeout 3m
     use_put_object On
