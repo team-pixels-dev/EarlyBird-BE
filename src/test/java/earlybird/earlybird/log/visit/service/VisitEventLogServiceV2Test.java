@@ -3,6 +3,7 @@ package earlybird.earlybird.log.visit.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+import earlybird.earlybird.log.visit.domain.ClientId;
 import earlybird.earlybird.log.visit.domain.ClientIdRepository;
 import earlybird.earlybird.log.visit.service.request.VisitEventLoggingServiceRequest;
 
@@ -14,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
+
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(OutputCaptureExtension.class)
@@ -51,4 +54,39 @@ class VisitEventLogServiceV2Test {
 
         verify(clientIdRepository).save(any());
     }
+
+    @DisplayName("처음 방문한 사용자의 방문 로그에는 first-visit 이 true 로 기록된다")
+    @Test
+    void firstVisitIsTrue(CapturedOutput output) {
+        // given
+        String clientId = "CLIENT-ID";
+        VisitEventLoggingServiceRequest serviceRequest =
+                new VisitEventLoggingServiceRequest(clientId);
+
+        when(clientIdRepository.findByClientId(clientId)).thenReturn(Optional.empty());
+
+        // when
+        logService.create(serviceRequest);
+
+        // then
+        assertThat(output.getOut()).contains("\"first-visit\":\"true\"");
+    }
+
+    @DisplayName("이전에 방문한 적 있는 사용자의 방문 로그에는 first-visit 이 false 로 기록된다")
+    @Test
+    void firstVisitIsFalse(CapturedOutput output) {
+        // given
+        String clientId = "CLIENT-ID";
+        VisitEventLoggingServiceRequest serviceRequest =
+                new VisitEventLoggingServiceRequest(clientId);
+
+        when(clientIdRepository.findByClientId(clientId)).thenReturn(Optional.of(new ClientId()));
+
+        // when
+        logService.create(serviceRequest);
+
+        // then
+        assertThat(output.getOut()).contains("\"first-visit\":\"false\"");
+    }
+
 }
