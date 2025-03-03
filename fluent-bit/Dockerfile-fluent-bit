@@ -1,4 +1,12 @@
 FROM public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
+
+ARG LOKI_HTTP_USER
+ARG LOKI_HTTP_PASSWD
+ARG LOKI_HOST
+ARG LOKI_PORT
+ARG LOKI_S3_BUCKET
+
 RUN mkdir -p /fluent-bit/config /tmp/fluent-bit/s3
 COPY fluent-bit.conf /fluent-bit/config/
+
 CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/config/fluent-bit.conf"]
