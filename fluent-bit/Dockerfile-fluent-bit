@@ -6,6 +6,12 @@ ARG LOKI_HOST
 ARG LOKI_PORT
 ARG LOKI_S3_BUCKET
 
+ENV LOKI_HTTP_USER=${LOKI_HTTP_USER}
+ENV LOKI_HTTP_PASSWD=${LOKI_HTTP_PASSWD}
+ENV LOKI_HOST=${LOKI_HOST}
+ENV LOKI_PORT=${LOKI_PORT}
+ENV LOKI_S3_BUCKET=${LOKI_S3_BUCKET}
+
 RUN mkdir -p /fluent-bit/config /tmp/fluent-bit/s3
 COPY ./fluent-bit/fluent-bit.conf /fluent-bit/config/
 
