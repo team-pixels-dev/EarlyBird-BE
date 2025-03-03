@@ -29,9 +29,8 @@
     remove_keys container_id,ecs_task_arn
     http_user ${LOKI_HTTP_USER}
     http_passwd ${LOKI_HTTP_PASSWD}
-    Host ${LOKI_HOST}
-    Port ${LOKI_PORT}
-    URI /loki/api/v1/push
+    host ${LOKI_HOST}
+    port ${LOKI_PORT}
     tls on
     line_format key_value
 
