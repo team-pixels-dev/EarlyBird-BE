@@ -47,7 +47,7 @@ jobs:
           LOKI_PORT: ${{ secrets.LOKI_PORT }}
           LOKI_S3_BUCKET: ${{ secrets.LOKI_S3_BUCKET }}
         run: |
-          envsubst < fluent-bit/fluent-bit.conf.template > > fluent-bit/fluent-bit.conf
+          envsubst < fluent-bit/fluent-bit.conf.template > fluent-bit/fluent-bit.conf
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
