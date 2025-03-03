@@ -45,7 +45,7 @@ jobs:
           LOKI_HTTP_PASSWD: ${{ secrets.LOKI_HTTP_PASSWD }}
           LOKI_HOST: ${{ secrets.LOKI_HOST }}
           LOKI_PORT: ${{ secrets.LOKI_PORT }}
-          LOKI_S3_BUCKET: ${{ secrets.LOKI_S3_BUCKET }}
+          LOKI_S3_BUCKET: ${{ secrets.LOG_S3_BUCKET }}
         run: |
           envsubst < fluent-bit/fluent-bit.conf.template > fluent-bit/fluent-bit.conf
 
