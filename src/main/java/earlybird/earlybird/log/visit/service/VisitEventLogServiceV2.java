@@ -38,16 +38,10 @@ public class VisitEventLogServiceV2 implements VisitEventLogService {
                         },
                         () -> {
                             clientIdRepository.save(
-                                    ClientId.builder()
-                                            .clientId(request.getClientId())
-                                            .build());
+                                    ClientId.builder().clientId(request.getClientId()).build());
                             logAttributes.put("first-visit", "true");
                         });
 
-        LogUtil.log(
-                INFO,
-                logAttributes,
-                "visit log: client-id={}",
-                request.getClientId());
+        LogUtil.log(INFO, logAttributes, "visit log: client-id={}", request.getClientId());
     }
 }
