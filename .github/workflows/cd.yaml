@@ -48,6 +48,7 @@ jobs:
           LOKI_S3_BUCKET: ${{ secrets.LOG_S3_BUCKET }}
         run: |
           envsubst < fluent-bit/fluent-bit.conf.template > fluent-bit/fluent-bit.conf
+          sed -i 's/\\$/\$/g' fluent-bit.conf
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
