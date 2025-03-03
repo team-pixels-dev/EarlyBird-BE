@@ -44,3 +44,4 @@ src/main/resources/key/firebase_admin_sdk_private_key.json
 logs/*.log
 
 .env
+fluent-bit/fluent-bit.conf
