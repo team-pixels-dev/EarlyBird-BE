@@ -27,7 +27,7 @@ public class VisitEventLogServiceV2 implements VisitEventLogService {
     @Override
     public void create(VisitEventLoggingServiceRequest request) {
         Map<String, String> logAttributes = new HashMap<>();
-        logAttributes.put("clientId", request.getClientId());
+        logAttributes.put("client-id", request.getClientId());
         logAttributes.put("event-type", "client-visit");
 
         clientIdRepository
@@ -38,16 +38,10 @@ public class VisitEventLogServiceV2 implements VisitEventLogService {
                         },
                         () -> {
                             clientIdRepository.save(
-                                    ClientId.builder()
-                                            .clientId(request.getClientId())
-                                            .build());
+                                    ClientId.builder().clientId(request.getClientId()).build());
                             logAttributes.put("first-visit", "true");
                         });
 
-        LogUtil.log(
-                INFO,
-                logAttributes,
-                "visit log: client-id={}",
-                request.getClientId());
+        LogUtil.log(INFO, logAttributes, "visit log: client-id={}", request.getClientId());
     }
 }
