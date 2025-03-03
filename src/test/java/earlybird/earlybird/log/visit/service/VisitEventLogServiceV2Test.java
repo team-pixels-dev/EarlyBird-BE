@@ -88,5 +88,4 @@ class VisitEventLogServiceV2Test {
         // then
         assertThat(output.getOut()).contains("\"first-visit\":\"false\"");
     }
-
 }
