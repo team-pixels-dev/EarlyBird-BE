@@ -6,10 +6,12 @@ on:
 
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
-  ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+  ECR_REPOSITORY_SPRING: ${{ vars.ECR_REPOSITORY_SPRING }}
+  CONTAINER_NAME_SPRING: ${{ vars.CONTAINER_NAME_SPRING }}
+  ECR_REPOSITORY_FLUENT_BIT: ${{ vars.ECR_REPOSITORY_FLUENT_BIT }}
+  CONTAINER_NAME_FLUENT_BIT: ${{ vars.CONTAINER_NAME_FLUENT_BIT }}
   ECS_SERVICE: ${{ vars.ECS_SERVICE }}
   ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
-  CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
   DB_URL: ${{ secrets.DB_URL }}
   DB_USERNAME: ${{ secrets.DB_USERNAME }}
   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -54,8 +56,8 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
+      - name: Build, tag, and push image to Amazon ECR [Spring]
+        id: build-image-spring
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
@@ -63,9 +65,22 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_SPRING:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_SPRING:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_SPRING:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Build, tag, and push image to Amazon ECR [Fluent Bit]
+        id: build-image-fluent-bit
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY_FLUENT_BIT:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY_FLUENT_BIT:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_FLUENT_BIT:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Get Latest ECS Task Definition ARN
         id: get-latest-task-df
@@ -76,18 +91,27 @@ jobs:
             --output text)
           echo "ECS_TASK_DEFINITION_ARN=$LATEST_TASK_DEF" >> $GITHUB_ENV
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
+      - name: Fill in the new image ID in the Amazon ECS task definition [Spring]
+        id: task-def-spring
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition-arn: ${{ env.ECS_TASK_DEFINITION_ARN }}
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
+          container-name: ${{ env.CONTAINER_NAME_SPRING }}
+          image: ${{ steps.build-image-spring.outputs.image }}
+
+      - name: Fill in the new image ID in the Amazon ECS task definition [Fluent Bit]
+        id: task-def-fluent-bit
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition-arn: ${{ env.ECS_TASK_DEFINITION_ARN }}
+          container-name: ${{ env.CONTAINER_NAME_FLUENT_BIT }}
+          image: ${{ steps.build-image-fluent-bit.outputs.image }}
+
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: ${{ steps.task-def-fluent-bit.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true

@@ -1,0 +1,4 @@
+FROM public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
+RUN mkdir -p /fluent-bit/config /tmp/fluent-bit/s3
+COPY fluent-bit.conf /fluent-bit/config/
+CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/config/fluent-bit.conf"]
