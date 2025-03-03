@@ -39,17 +39,6 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/src/main/resources/key
           echo "${{ secrets.FIREBASE_ADMIN_SDK_PRIVATE_KEY }}" | base64 --decode > $GITHUB_WORKSPACE/src/main/resources/key/firebase_admin_sdk_private_key.json
 
-      - name: Create fluent-bit.conf.template from Secrets
-        env:
-          LOKI_HTTP_USER: ${{ secrets.LOKI_HTTP_USER }}
-          LOKI_HTTP_PASSWD: ${{ secrets.LOKI_HTTP_PASSWD }}
-          LOKI_HOST: ${{ secrets.LOKI_HOST }}
-          LOKI_PORT: ${{ secrets.LOKI_PORT }}
-          LOKI_S3_BUCKET: ${{ secrets.LOG_S3_BUCKET }}
-        run: |
-          envsubst < fluent-bit/fluent-bit.conf.template > fluent-bit/fluent-bit.conf
-          sed -i 's/\\$/\$/g' fluent-bit/fluent-bit.conf
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -62,6 +51,10 @@ jobs:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download fluent-bit.conf from S3
+        run: |
+          aws s3 cp s3://earlybird-fluent-bit-conf/fluent-bit.conf fluent-bit/fluent-bit.conf
 
       - name: Login to Amazon ECR
         id: login-ecr
