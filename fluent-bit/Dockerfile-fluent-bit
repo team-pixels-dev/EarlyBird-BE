@@ -14,5 +14,6 @@ ENV LOKI_S3_BUCKET=${LOKI_S3_BUCKET}
 
 RUN mkdir -p /fluent-bit/config /tmp/fluent-bit/s3
 COPY ./fluent-bit/fluent-bit.conf /fluent-bit/config/
+COPY ./fluent-bit/parser.conf /fluent-bit/config
 
 CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/config/fluent-bit.conf"]
