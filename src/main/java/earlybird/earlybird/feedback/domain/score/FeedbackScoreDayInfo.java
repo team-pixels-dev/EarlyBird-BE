@@ -18,9 +18,10 @@ public class FeedbackScoreDayInfo extends BaseTimeEntity {
     @Id
     private Long id;
 
+    @Column(name = "feedback_score_day_info_day_info", nullable = false)
     private Integer day;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "feedback_score_id")
+    @JoinColumn(name = "feedback_score_id", nullable = false)
     private FeedbackScore feedbackScore;
 }

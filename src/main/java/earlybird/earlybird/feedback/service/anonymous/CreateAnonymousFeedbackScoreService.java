@@ -27,14 +27,13 @@ public class CreateAnonymousFeedbackScoreService {
                         .createdTimeAtClient(request.getCreatedAt())
                         .build();
 
-        FeedbackScore savedFeedbackScore = feedbackScoreRepository.save(feedbackScore);
-
         FeedbackScoreDayInfo dayInfo =
                 FeedbackScoreDayInfo.builder()
                         .day(request.getDayCount())
-                        .feedbackScore(savedFeedbackScore)
+                        .feedbackScore(feedbackScore)
                         .build();
 
         feedbackScoreDayInfoRepository.save(dayInfo);
+        feedbackScoreRepository.save(feedbackScore);
     }
 }
