@@ -20,4 +20,6 @@ public class CreateFeedbackScoreRequest {
             pattern = "yyyy-MM-dd HH:mm:ss",
             timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
+
+    @NotNull private Integer dayCount;
 }
