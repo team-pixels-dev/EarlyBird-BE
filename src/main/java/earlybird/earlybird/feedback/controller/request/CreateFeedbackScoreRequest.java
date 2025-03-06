@@ -21,6 +21,5 @@ public class CreateFeedbackScoreRequest {
             timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
-    @NotNull
-    private Integer dayCount;
+    @NotNull private Integer dayCount;
 }
