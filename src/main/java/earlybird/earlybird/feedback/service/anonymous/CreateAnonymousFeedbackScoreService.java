@@ -27,6 +27,8 @@ public class CreateAnonymousFeedbackScoreService {
                         .createdTimeAtClient(request.getCreatedAt())
                         .build();
 
+        feedbackScoreRepository.save(feedbackScore);
+
         FeedbackScoreDayInfo dayInfo =
                 FeedbackScoreDayInfo.builder()
                         .day(request.getDayCount())

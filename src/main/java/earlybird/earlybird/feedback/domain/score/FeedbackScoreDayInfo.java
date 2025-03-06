@@ -21,7 +21,7 @@ public class FeedbackScoreDayInfo extends BaseTimeEntity {
     @Column(name = "feedback_score_day_info_day_info", nullable = false)
     private Integer day;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     @JoinColumn(name = "feedback_score_id", nullable = false)
     private FeedbackScore feedbackScore;
 }
