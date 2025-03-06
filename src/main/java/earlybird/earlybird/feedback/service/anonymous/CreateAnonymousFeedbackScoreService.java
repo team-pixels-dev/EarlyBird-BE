@@ -1,6 +1,8 @@
 package earlybird.earlybird.feedback.service.anonymous;
 
 import earlybird.earlybird.feedback.domain.score.FeedbackScore;
+import earlybird.earlybird.feedback.domain.score.FeedbackScoreDayInfo;
+import earlybird.earlybird.feedback.domain.score.FeedbackScoreDayInfoRepository;
 import earlybird.earlybird.feedback.domain.score.FeedbackScoreRepository;
 import earlybird.earlybird.feedback.service.anonymous.request.CreateAnonymousFeedbackScoreServiceRequest;
 
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateAnonymousFeedbackScoreService {
 
     private final FeedbackScoreRepository feedbackScoreRepository;
+    private final FeedbackScoreDayInfoRepository feedbackScoreDayInfoRepository;
 
     @Transactional
     public void create(CreateAnonymousFeedbackScoreServiceRequest request) {
@@ -24,6 +27,13 @@ public class CreateAnonymousFeedbackScoreService {
                         .createdTimeAtClient(request.getCreatedAt())
                         .build();
 
-        feedbackScoreRepository.save(feedbackScore);
+        FeedbackScore savedFeedbackScore = feedbackScoreRepository.save(feedbackScore);
+
+        FeedbackScoreDayInfo dayInfo = FeedbackScoreDayInfo.builder()
+                .day(request.getDayCount())
+                .feedbackScore(savedFeedbackScore)
+                .build();
+
+        feedbackScoreDayInfoRepository.save(dayInfo);
     }
 }
