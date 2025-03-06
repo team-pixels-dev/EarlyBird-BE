@@ -34,6 +34,5 @@ public class CreateAnonymousFeedbackScoreService {
                         .build();
 
         feedbackScoreDayInfoRepository.save(dayInfo);
-        feedbackScoreRepository.save(feedbackScore);
     }
 }
