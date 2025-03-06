@@ -5,19 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import earlybird.earlybird.feedback.domain.score.FeedbackScore;
-import earlybird.earlybird.feedback.domain.score.FeedbackScoreDayInfo;
 import earlybird.earlybird.feedback.domain.score.FeedbackScoreDayInfoRepository;
 import earlybird.earlybird.feedback.domain.score.FeedbackScoreRepository;
 import earlybird.earlybird.feedback.service.anonymous.request.CreateAnonymousFeedbackScoreServiceRequest;
 
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,17 +24,13 @@ import java.util.List;
 @SpringBootTest
 class CreateAnonymousFeedbackScoreServiceTest {
 
-    @Autowired
-    private CreateAnonymousFeedbackScoreService service;
+    @Autowired private CreateAnonymousFeedbackScoreService service;
 
-    @Autowired
-    private FeedbackScoreRepository feedbackScoreRepository;
+    @Autowired private FeedbackScoreRepository feedbackScoreRepository;
 
-    @Autowired
-    private FeedbackScoreDayInfoRepository feedbackScoreDayInfoRepository;
+    @Autowired private FeedbackScoreDayInfoRepository feedbackScoreDayInfoRepository;
 
-    @Autowired
-    private EntityManager entityManager;
+    @Autowired private EntityManager entityManager;
 
     @DisplayName("요청에 담긴 피드백 점수를 DB에 저장한다")
     @Test
