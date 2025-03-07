@@ -112,7 +112,7 @@ jobs:
         id: task-def-fluent-bit
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition-arn: ${{ env.ECS_TASK_DEFINITION_ARN }}
+          task-definition: ${{ steps.task-def-spring.outputs.task-definition }}
           container-name: ${{ env.CONTAINER_NAME_FLUENT_BIT }}
           image: ${{ steps.build-image-fluent-bit.outputs.image }}
 
