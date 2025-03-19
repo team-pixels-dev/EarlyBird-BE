@@ -2,10 +2,13 @@ package earlybird.earlybird.feedback.controller;
 
 import earlybird.earlybird.feedback.controller.request.CreateFeedbackCommentRequest;
 import earlybird.earlybird.feedback.controller.request.CreateFeedbackScoreRequest;
+import earlybird.earlybird.feedback.controller.request.CreatePaymentFeedbackRequest;
 import earlybird.earlybird.feedback.service.anonymous.CreateAnonymousFeedbackCommentService;
 import earlybird.earlybird.feedback.service.anonymous.CreateAnonymousFeedbackScoreService;
+import earlybird.earlybird.feedback.service.anonymous.CreateAnonymousPaymentFeedbackService;
 import earlybird.earlybird.feedback.service.anonymous.request.CreateAnonymousFeedbackCommentServiceRequest;
 import earlybird.earlybird.feedback.service.anonymous.request.CreateAnonymousFeedbackScoreServiceRequest;
+import earlybird.earlybird.feedback.service.anonymous.request.CreateAnonymousPaymentFeedbackServiceRequest;
 import earlybird.earlybird.feedback.service.auth.CreateAuthFeedbackCommentService;
 import earlybird.earlybird.feedback.service.auth.request.CreateAuthFeedbackCommentServiceRequest;
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserDetails;
@@ -29,6 +32,7 @@ public class CreateFeedbackController {
     private final CreateAuthFeedbackCommentService createAuthFeedbackCommentService;
     private final CreateAnonymousFeedbackCommentService createAnonymousFeedbackCommentService;
     private final CreateAnonymousFeedbackScoreService createAnonymousFeedbackScoreService;
+    private final CreateAnonymousPaymentFeedbackService createAnonymousPaymentFeedbackService;
 
     @PostMapping("/comments")
     public ResponseEntity<?> createFeedbackComment(
@@ -56,6 +60,17 @@ public class CreateFeedbackController {
         CreateAnonymousFeedbackScoreServiceRequest serviceRequest =
                 CreateAnonymousFeedbackScoreServiceRequest.of(request);
         createAnonymousFeedbackScoreService.create(serviceRequest);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/payments")
+    public ResponseEntity<?> createPaymentFeedback(
+            @Valid @RequestBody CreatePaymentFeedbackRequest request) {
+
+        CreateAnonymousPaymentFeedbackServiceRequest serviceRequest =
+                CreateAnonymousPaymentFeedbackServiceRequest.of(request);
+        createAnonymousPaymentFeedbackService.create(serviceRequest);
 
         return ResponseEntity.ok().build();
     }
