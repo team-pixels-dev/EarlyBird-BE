@@ -2,6 +2,7 @@ package earlybird.earlybird.feedback.service.anonymous.request;
 
 import earlybird.earlybird.feedback.controller.request.CreatePaymentFeedbackRequest;
 import earlybird.earlybird.feedback.domain.pay.PaymentFeedbackLevel;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -30,5 +31,4 @@ public class CreateAnonymousPaymentFeedbackServiceRequest {
                 .createdAt(request.getCreatedAt())
                 .build();
     }
-
 }

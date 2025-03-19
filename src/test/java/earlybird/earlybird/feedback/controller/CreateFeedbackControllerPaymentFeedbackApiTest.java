@@ -1,12 +1,20 @@
 package earlybird.earlybird.feedback.controller;
 
+import static earlybird.earlybird.feedback.domain.pay.PaymentFeedbackLevel.WILL_PAY;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import earlybird.earlybird.feedback.controller.request.CreatePaymentFeedbackRequest;
 import earlybird.earlybird.feedback.domain.pay.PaymentFeedbackLevel;
 import earlybird.earlybird.feedback.service.anonymous.CreateAnonymousFeedbackCommentService;
 import earlybird.earlybird.feedback.service.anonymous.CreateAnonymousFeedbackScoreService;
 import earlybird.earlybird.feedback.service.anonymous.CreateAnonymousPaymentFeedbackService;
 import earlybird.earlybird.feedback.service.auth.CreateAuthFeedbackCommentService;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +26,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static earlybird.earlybird.feedback.domain.pay.PaymentFeedbackLevel.WILL_PAY;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 @WebMvcTest(controllers = CreateFeedbackController.class)
 class CreateFeedbackControllerPaymentFeedbackApiTest {
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private ObjectMapper objectMapper;
 
     @MockBean private CreateAuthFeedbackCommentService createAuthFeedbackCommentService;
     @MockBean private CreateAnonymousFeedbackCommentService createAnonymousFeedbackCommentService;
@@ -40,15 +40,15 @@ class CreateFeedbackControllerPaymentFeedbackApiTest {
     @DisplayName("정상 create 요청이 들어오면 200 OK 응답이 반환된다")
     @WithMockUser(
             username = "mock-user",
-            roles = {"SUPER"}
-    )
+            roles = {"SUPER"})
     @Test
     void return200WithValidRequest() throws Exception {
-        CreatePaymentFeedbackRequest requestObject = CreatePaymentFeedbackRequest.builder()
-                .level(WILL_PAY)
-                .createdAt(LocalDateTime.of(2025, 3, 19, 0, 0, 0))
-                .clientId("client_id")
-                .build();
+        CreatePaymentFeedbackRequest requestObject =
+                CreatePaymentFeedbackRequest.builder()
+                        .level(WILL_PAY)
+                        .createdAt(LocalDateTime.of(2025, 3, 19, 0, 0, 0))
+                        .clientId("client_id")
+                        .build();
 
         String request = objectMapper.writeValueAsString(requestObject);
 
@@ -64,8 +64,7 @@ class CreateFeedbackControllerPaymentFeedbackApiTest {
     @DisplayName("요청에 clientId 값이 null/빈 문자열/공백이면 400 Bad Request 응답이 반환된다")
     @WithMockUser(
             username = "mock-user",
-            roles = {"SUPER"}
-    )
+            roles = {"SUPER"})
     @Test
     void return400WithBlankClientId() throws Exception {
         LocalDateTime createdAt = LocalDateTime.of(2025, 3, 2, 0, 0, 0);
@@ -96,7 +95,6 @@ class CreateFeedbackControllerPaymentFeedbackApiTest {
                                 .level(level)
                                 .build());
 
-
         mockMvc.perform(
                         post(url)
                                 .content(requestWithNullClientId)
@@ -120,14 +118,12 @@ class CreateFeedbackControllerPaymentFeedbackApiTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .with(csrf()))
                 .andExpect(status().isBadRequest());
-
     }
 
     @DisplayName("요청에 level 값이 null 이면 400 Bad Request 응답이 반환된다")
     @WithMockUser(
             username = "mock-user",
-            roles = {"SUPER"}
-    )
+            roles = {"SUPER"})
     @Test
     void return400WithNullPaymentFeedbackLevel() throws Exception {
         LocalDateTime createdAt = LocalDateTime.of(2025, 3, 2, 0, 0, 0);
@@ -143,7 +139,6 @@ class CreateFeedbackControllerPaymentFeedbackApiTest {
                                 .level(level)
                                 .build());
 
-
         mockMvc.perform(
                         post(url)
                                 .content(requestWithWhitespaceClientId)
@@ -156,18 +151,17 @@ class CreateFeedbackControllerPaymentFeedbackApiTest {
     @DisplayName("요청에 level 값이 PaymentFeedbackLevel Enum 에 정의된 값이 아니면 400 Bad Request 응답이 반환된다")
     @WithMockUser(
             username = "mock-user",
-            roles = {"SUPER"}
-    )
+            roles = {"SUPER"})
     @Test
     void return400WithPaymentFeedbackLevelNotInEnum() throws Exception {
         String url = "/api/v1/feedbacks/payments";
 
-        String requestWithInvalidLevel = "{\n" +
-                "    \"level\": \"INVALID\",\n" +
-                "    \"clientId\": \"test-id\",\n" +
-                "    \"createdAt\": \"2025-03-19 15:55:00\"\n" +
-                "}";
-
+        String requestWithInvalidLevel =
+                "{\n"
+                        + "    \"level\": \"INVALID\",\n"
+                        + "    \"clientId\": \"test-id\",\n"
+                        + "    \"createdAt\": \"2025-03-19 15:55:00\"\n"
+                        + "}";
 
         mockMvc.perform(
                         post(url)
@@ -181,8 +175,7 @@ class CreateFeedbackControllerPaymentFeedbackApiTest {
     @DisplayName("요청에 createdAt 값이 null 이면 400 Bad Request 응답이 반환된다")
     @WithMockUser(
             username = "mock-user",
-            roles = {"SUPER"}
-    )
+            roles = {"SUPER"})
     @Test
     void return400WithNullCreatedAt() throws Exception {
         String url = "/api/v1/feedbacks/payments";
@@ -202,5 +195,4 @@ class CreateFeedbackControllerPaymentFeedbackApiTest {
                                 .with(csrf()))
                 .andExpect(status().isBadRequest());
     }
-
 }
