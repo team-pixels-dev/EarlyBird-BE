@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static earlybird.earlybird.common.util.TestClientIdCheckUtil.isTestClientId;
+
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feedbacks")
 @RestController
@@ -38,6 +40,9 @@ public class CreateFeedbackController {
     public ResponseEntity<?> createFeedbackComment(
             @AuthenticationPrincipal OAuth2UserDetails oAuth2UserDetails,
             @Valid @RequestBody CreateFeedbackCommentRequest request) {
+
+        if (isTestClientId(request.getClientId()))
+            return ResponseEntity.ok().build();
 
         if (oAuth2UserDetails != null) {
             CreateAuthFeedbackCommentServiceRequest serviceRequest =
@@ -57,6 +62,9 @@ public class CreateFeedbackController {
     public ResponseEntity<?> createFeedbackScore(
             @Valid @RequestBody CreateFeedbackScoreRequest request) {
 
+        if (isTestClientId(request.getClientId()))
+            return ResponseEntity.ok().build();
+
         CreateAnonymousFeedbackScoreServiceRequest serviceRequest =
                 CreateAnonymousFeedbackScoreServiceRequest.of(request);
         createAnonymousFeedbackScoreService.create(serviceRequest);
@@ -67,6 +75,9 @@ public class CreateFeedbackController {
     @PostMapping("/payments")
     public ResponseEntity<?> createPaymentFeedback(
             @Valid @RequestBody CreatePaymentFeedbackRequest request) {
+
+        if (isTestClientId(request.getClientId()))
+            return ResponseEntity.ok().build();
 
         CreateAnonymousPaymentFeedbackServiceRequest serviceRequest =
                 CreateAnonymousPaymentFeedbackServiceRequest.of(request);

@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static earlybird.earlybird.common.util.TestClientIdCheckUtil.isTestClientId;
+
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/log/arrive-on-time-event")
 @RestController
@@ -24,6 +26,9 @@ public class ArriveOnTimeEventLogController {
     @PostMapping
     public ResponseEntity<?> arriveOnTimeEvent(
             @Valid @RequestBody ArriveOnTimeEventLoggingRequest request) {
+
+        if (isTestClientId(request.getClientId()))
+            return ResponseEntity.ok().build();
 
         UpdateNotificationAtArriveOnTimeServiceRequest updateServiceRequest =
                 UpdateNotificationAtArriveOnTimeServiceRequest.builder()
