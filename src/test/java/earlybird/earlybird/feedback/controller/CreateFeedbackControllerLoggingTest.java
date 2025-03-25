@@ -5,6 +5,7 @@ import earlybird.earlybird.feedback.controller.request.CreateFeedbackScoreReques
 import earlybird.earlybird.feedback.controller.request.CreatePaymentFeedbackRequest;
 import earlybird.earlybird.feedback.domain.comment.FeedbackCommentRepository;
 import earlybird.earlybird.feedback.domain.pay.PaymentFeedbackRepository;
+import earlybird.earlybird.feedback.domain.score.FeedbackScoreDayInfoRepository;
 import earlybird.earlybird.feedback.domain.score.FeedbackScoreRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,8 +33,12 @@ public class CreateFeedbackControllerLoggingTest {
     @Autowired
     private PaymentFeedbackRepository paymentRepository;
 
+    @Autowired
+    private FeedbackScoreDayInfoRepository scoreDayInfoRepository;
+
     @BeforeEach
     void setUp() {
+        scoreDayInfoRepository.deleteAllInBatch();
         commentRepository.deleteAllInBatch();
         scoreRepository.deleteAllInBatch();
         paymentRepository.deleteAllInBatch();
