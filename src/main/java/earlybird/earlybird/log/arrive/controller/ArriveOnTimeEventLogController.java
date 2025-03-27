@@ -1,5 +1,7 @@
 package earlybird.earlybird.log.arrive.controller;
 
+import static earlybird.earlybird.common.util.TestClientIdCheckUtil.isTestClientId;
+
 import earlybird.earlybird.log.arrive.controller.request.ArriveOnTimeEventLoggingRequest;
 import earlybird.earlybird.log.arrive.service.ArriveOnTimeEventLogService;
 import earlybird.earlybird.log.arrive.service.request.ArriveOnTimeEventLoggingServiceRequest;
@@ -24,6 +26,8 @@ public class ArriveOnTimeEventLogController {
     @PostMapping
     public ResponseEntity<?> arriveOnTimeEvent(
             @Valid @RequestBody ArriveOnTimeEventLoggingRequest request) {
+
+        if (isTestClientId(request.getClientId())) return ResponseEntity.ok().build();
 
         UpdateNotificationAtArriveOnTimeServiceRequest updateServiceRequest =
                 UpdateNotificationAtArriveOnTimeServiceRequest.builder()

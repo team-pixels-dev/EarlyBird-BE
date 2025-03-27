@@ -1,5 +1,7 @@
 package earlybird.earlybird.log.visit.controller;
 
+import static earlybird.earlybird.common.util.TestClientIdCheckUtil.isTestClientId;
+
 import earlybird.earlybird.log.visit.controller.request.VisitEventLoggingRequest;
 import earlybird.earlybird.log.visit.service.VisitEventLogService;
 import earlybird.earlybird.log.visit.service.request.VisitEventLoggingServiceRequest;
@@ -24,6 +26,8 @@ public class VisitEventLogController {
     @PostMapping("/visit-event")
     public ResponseEntity<?> visitEventLogging(
             @Valid @RequestBody VisitEventLoggingRequest request) {
+        if (isTestClientId(request.getClientId())) return ResponseEntity.ok().build();
+
         VisitEventLoggingServiceRequest serviceRequest =
                 new VisitEventLoggingServiceRequest(request.getClientId());
         visitEventLogService.create(serviceRequest);
