@@ -5,6 +5,7 @@ import java.util.List;
 public class TestClientIdCheckUtil {
 
     private static final List<String> TEST_CLIENT_IDS = List.of(
+            "earlybird",
             "test-id"
     );
 
