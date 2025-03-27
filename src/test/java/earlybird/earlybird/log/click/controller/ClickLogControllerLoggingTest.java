@@ -1,35 +1,28 @@
 package earlybird.earlybird.log.click.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import earlybird.earlybird.log.click.controller.request.CreateClickLogRequest;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 @ExtendWith(OutputCaptureExtension.class)
 @SpringBootTest
 public class ClickLogControllerLoggingTest {
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private ObjectMapper objectMapper;
 
-    @Autowired
-    private ClickLogController clickLogController;
+    @Autowired private ClickLogController clickLogController;
 
     @DisplayName("테스트 용 ClientId가 요청으로 들어오면 로그를 남기지 않는다.")
     @Test
@@ -54,7 +47,7 @@ public class ClickLogControllerLoggingTest {
                 .doesNotContain(
                         "\"click-time\":\""
                                 + clickTime.format(
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                                 + "\"");
         assertThat(output.getOut())
                 .doesNotContain(
@@ -88,7 +81,7 @@ public class ClickLogControllerLoggingTest {
                 .contains(
                         "\"click-time\":\""
                                 + clickTime.format(
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                                 + "\"");
         assertThat(output.getOut())
                 .contains(
@@ -98,5 +91,4 @@ public class ClickLogControllerLoggingTest {
                                 + clientId
                                 + "]");
     }
-
 }

@@ -27,7 +27,8 @@ public class CreateFeedbackScoreRequest {
     @NotNull private Integer dayCount;
 
     @Builder
-    private CreateFeedbackScoreRequest(Integer score, String clientId, LocalDateTime createdAt, Integer dayCount) {
+    private CreateFeedbackScoreRequest(
+            Integer score, String clientId, LocalDateTime createdAt, Integer dayCount) {
         this.score = score;
         this.clientId = clientId;
         this.createdAt = createdAt;
