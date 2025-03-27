@@ -1,5 +1,7 @@
 package earlybird.earlybird.log.click.controller;
 
+import static earlybird.earlybird.common.util.TestClientIdCheckUtil.isTestClientId;
+
 import earlybird.earlybird.log.click.controller.request.CreateClickLogRequest;
 import earlybird.earlybird.log.click.service.CreateClickLogService;
 
@@ -24,6 +26,9 @@ public class ClickLogController {
 
     @PostMapping
     public ResponseEntity<?> createClickLog(@Valid @RequestBody CreateClickLogRequest request) {
+
+        if (isTestClientId(request.getClientId())) return ResponseEntity.ok().build();
+
         if (!checkClickTypeIsValid(request)) {
             throw new IllegalArgumentException();
         }
