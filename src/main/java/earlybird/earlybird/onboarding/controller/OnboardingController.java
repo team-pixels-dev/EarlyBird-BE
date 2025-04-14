@@ -9,8 +9,11 @@ import earlybird.earlybird.onboarding.service.OnboardingUserDescriptionService;
 import earlybird.earlybird.onboarding.service.request.CreateDelayingReasonServiceRequest;
 import earlybird.earlybird.onboarding.service.request.CreateStressAvoidReasonServiceRequest;
 import earlybird.earlybird.onboarding.service.request.CreateUserDescriptionServiceRequest;
+
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,22 +30,28 @@ public class OnboardingController {
     private final OnboardingUserDescriptionService userDescriptionService;
 
     @PostMapping("/delaying-reason")
-    public ResponseEntity<?> delayingReason(@Valid @RequestBody CreateDelayingReasonRequest request) {
-        CreateDelayingReasonServiceRequest serviceRequest = CreateDelayingReasonServiceRequest.of(request);
+    public ResponseEntity<?> delayingReason(
+            @Valid @RequestBody CreateDelayingReasonRequest request) {
+        CreateDelayingReasonServiceRequest serviceRequest =
+                CreateDelayingReasonServiceRequest.of(request);
         delayingReasonService.create(serviceRequest);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/stress-avoid-reason")
-    public ResponseEntity<?> stressAvoidReason(@Valid @RequestBody CreateStressAvoidReasonRequest request) {
-        CreateStressAvoidReasonServiceRequest serviceRequest = CreateStressAvoidReasonServiceRequest.of(request);
+    public ResponseEntity<?> stressAvoidReason(
+            @Valid @RequestBody CreateStressAvoidReasonRequest request) {
+        CreateStressAvoidReasonServiceRequest serviceRequest =
+                CreateStressAvoidReasonServiceRequest.of(request);
         stressAvoidReasonService.create(serviceRequest);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/user-description")
-    public ResponseEntity<?> userDescription(@Valid @RequestBody CreateUserDescriptionRequest request) {
-        CreateUserDescriptionServiceRequest serviceRequest = CreateUserDescriptionServiceRequest.of(request);
+    public ResponseEntity<?> userDescription(
+            @Valid @RequestBody CreateUserDescriptionRequest request) {
+        CreateUserDescriptionServiceRequest serviceRequest =
+                CreateUserDescriptionServiceRequest.of(request);
         userDescriptionService.create(serviceRequest);
         return ResponseEntity.ok().build();
     }

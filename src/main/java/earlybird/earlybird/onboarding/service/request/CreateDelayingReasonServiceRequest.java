@@ -1,7 +1,7 @@
 package earlybird.earlybird.onboarding.service.request;
 
-import earlybird.earlybird.feedback.controller.request.CreateFeedbackCommentRequest;
 import earlybird.earlybird.onboarding.controller.request.CreateDelayingReasonRequest;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,8 +22,7 @@ public class CreateDelayingReasonServiceRequest {
         this.createdAt = createdAt;
     }
 
-    public static CreateDelayingReasonServiceRequest of(
-            CreateDelayingReasonRequest request) {
+    public static CreateDelayingReasonServiceRequest of(CreateDelayingReasonRequest request) {
         return CreateDelayingReasonServiceRequest.builder()
                 .comment(request.getComment())
                 .clientId(request.getClientId())
