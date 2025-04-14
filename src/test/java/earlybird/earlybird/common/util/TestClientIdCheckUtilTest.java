@@ -1,9 +1,9 @@
 package earlybird.earlybird.common.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class TestClientIdCheckUtilTest {
 
@@ -18,5 +18,4 @@ class TestClientIdCheckUtilTest {
     void returnFalseWithNotTestId() {
         assertThat(TestClientIdCheckUtil.isTestClientId("client-id")).isFalse();
     }
-
 }

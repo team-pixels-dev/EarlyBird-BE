@@ -1,6 +1,9 @@
 package earlybird.earlybird.log.visit.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import earlybird.earlybird.log.visit.controller.request.VisitEventLoggingRequest;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,14 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @ExtendWith(OutputCaptureExtension.class)
 @SpringBootTest
 public class VisitEventLogControllerLoggingTest {
 
-    @Autowired
-    private VisitEventLogController visitEventLogController;
+    @Autowired private VisitEventLogController visitEventLogController;
 
     @DisplayName("테스트 용 ClientId가 요청으로 들어오면 로그를 남기지 않는다.")
     @Test
@@ -43,5 +43,4 @@ public class VisitEventLogControllerLoggingTest {
         assertThat(output.getOut()).contains("\"client-id\":\"" + clientId + "\"");
         assertThat(output.getOut()).contains("\"event-type\":\"client-visit\"");
     }
-
 }

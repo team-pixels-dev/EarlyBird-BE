@@ -1,5 +1,7 @@
 package earlybird.earlybird.log.click.controller;
 
+import static earlybird.earlybird.common.util.TestClientIdCheckUtil.isTestClientId;
+
 import earlybird.earlybird.log.click.controller.request.CreateClickLogRequest;
 import earlybird.earlybird.log.click.service.CreateClickLogService;
 
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static earlybird.earlybird.common.util.TestClientIdCheckUtil.isTestClientId;
-
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/log/click")
 @RestController
@@ -27,8 +27,7 @@ public class ClickLogController {
     @PostMapping
     public ResponseEntity<?> createClickLog(@Valid @RequestBody CreateClickLogRequest request) {
 
-        if (isTestClientId(request.getClientId()))
-            return ResponseEntity.ok().build();
+        if (isTestClientId(request.getClientId())) return ResponseEntity.ok().build();
 
         if (!checkClickTypeIsValid(request)) {
             throw new IllegalArgumentException();
