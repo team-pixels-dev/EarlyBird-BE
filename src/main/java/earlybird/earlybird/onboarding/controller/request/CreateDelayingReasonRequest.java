@@ -1,8 +1,10 @@
 package earlybird.earlybird.onboarding.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 public class CreateDelayingReasonRequest {
 
-    @NotBlank
-    private String comment;
+    @NotBlank private String comment;
     @NotBlank private String clientId;
 
     @NotNull
@@ -30,5 +31,4 @@ public class CreateDelayingReasonRequest {
         this.clientId = clientId;
         this.createdAt = createdAt;
     }
-
 }

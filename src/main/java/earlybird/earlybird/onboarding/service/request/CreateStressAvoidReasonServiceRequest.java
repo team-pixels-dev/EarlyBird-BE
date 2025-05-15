@@ -1,7 +1,7 @@
 package earlybird.earlybird.onboarding.service.request;
 
-import earlybird.earlybird.onboarding.controller.request.CreateDelayingReasonRequest;
 import earlybird.earlybird.onboarding.controller.request.CreateStressAvoidReasonRequest;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,8 +21,7 @@ public class CreateStressAvoidReasonServiceRequest {
         this.createdAt = createdAt;
     }
 
-    public static CreateStressAvoidReasonServiceRequest of(
-            CreateStressAvoidReasonRequest request) {
+    public static CreateStressAvoidReasonServiceRequest of(CreateStressAvoidReasonRequest request) {
         return CreateStressAvoidReasonServiceRequest.builder()
                 .comment(request.getComment())
                 .clientId(request.getClientId())

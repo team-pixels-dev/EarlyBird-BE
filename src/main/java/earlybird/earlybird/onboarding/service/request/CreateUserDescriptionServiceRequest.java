@@ -1,6 +1,7 @@
 package earlybird.earlybird.onboarding.service.request;
 
 import earlybird.earlybird.onboarding.controller.request.CreateUserDescriptionRequest;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,8 +22,7 @@ public class CreateUserDescriptionServiceRequest {
         this.createdAt = createdAt;
     }
 
-    public static CreateUserDescriptionServiceRequest of(
-            CreateUserDescriptionRequest request) {
+    public static CreateUserDescriptionServiceRequest of(CreateUserDescriptionRequest request) {
         return CreateUserDescriptionServiceRequest.builder()
                 .comment(request.getComment())
                 .clientId(request.getClientId())

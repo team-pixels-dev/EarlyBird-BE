@@ -2,7 +2,9 @@ package earlybird.earlybird.onboarding.domain;
 
 import earlybird.earlybird.common.BaseTimeEntity;
 import earlybird.earlybird.user.entity.User;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -30,5 +32,4 @@ public class OnboardingStressAvoidReason extends BaseTimeEntity {
 
     @Column(name = "onboarding_stress_avoid_reason_created_time_at_client", nullable = false)
     private LocalDateTime createdTimeAtClient;
-
 }
