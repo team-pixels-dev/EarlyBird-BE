@@ -54,7 +54,7 @@ jobs:
 
       - name: Download fluent-bit.conf from S3
         run: |
-          aws s3 cp s3://earlybird-fluent-bit-conf/fluent-bit.yaml fluent-bit/fluent-bit.yaml
+          aws s3 cp s3://earlybird-fluent-bit-conf/fluent-bit.conf fluent-bit/fluent-bit.conf
 
       - name: Login to Amazon ECR
         id: login-ecr
