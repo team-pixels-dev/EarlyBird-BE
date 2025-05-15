@@ -45,4 +45,4 @@ logs/*.log
 
 .env
 fluent-bit/fluent-bit.conf
-fluent-bit/fluent-bit.conf
+fluent-bit/fluent-bit.yaml
