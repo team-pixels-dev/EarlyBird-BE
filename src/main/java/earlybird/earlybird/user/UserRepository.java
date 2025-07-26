@@ -1,6 +1,4 @@
-package earlybird.earlybird.user.repository;
-
-import earlybird.earlybird.user.entity.User;
+package earlybird.earlybird.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

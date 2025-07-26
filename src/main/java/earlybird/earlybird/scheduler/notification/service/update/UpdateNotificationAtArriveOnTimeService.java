@@ -4,7 +4,7 @@ import static earlybird.earlybird.scheduler.notification.domain.NotificationStat
 
 import earlybird.earlybird.appointment.domain.Appointment;
 import earlybird.earlybird.appointment.domain.AppointmentRepository;
-import earlybird.earlybird.error.exception.AppointmentNotFoundException;
+import earlybird.earlybird.error.exception.appointment.AppointmentNotFoundException;
 import earlybird.earlybird.scheduler.notification.service.deregister.DeregisterNotificationService;
 import earlybird.earlybird.scheduler.notification.service.deregister.request.DeregisterFcmMessageAtSchedulerServiceRequest;
 import earlybird.earlybird.scheduler.notification.service.deregister.request.DeregisterNotificationServiceRequestFactory;

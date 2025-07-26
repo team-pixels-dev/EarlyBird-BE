@@ -1,22 +1,24 @@
 package earlybird.earlybird.security.authentication.oauth2.proxy;
 
-import earlybird.earlybird.security.authentication.oauth2.dto.GoogleServerResponse;
-import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
+import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2GoogleServerResponse;
+import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2ServerResponse;
 
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
 
 import javax.naming.AuthenticationException;
 
+@Component
 public class GoogleOAuth2UserInfoProxy implements OAuth2UserInfoProxy {
     @Override
     public OAuth2ServerResponse getOAuth2UserInfo(String accessToken) {
 
         String authorization = "Bearer " + accessToken;
 
-        Mono<GoogleServerResponse> responseMono =
+        Mono<OAuth2GoogleServerResponse> responseMono =
                 WebClient.create("https://www.googleapis.com")
                         .get()
                         .uri(
@@ -47,7 +49,7 @@ public class GoogleOAuth2UserInfoProxy implements OAuth2UserInfoProxy {
                                                                 clientResponse.statusCode(),
                                                                 clientResponse.bodyToMono(
                                                                         String.class)))))
-                        .bodyToMono(GoogleServerResponse.class);
+                        .bodyToMono(OAuth2GoogleServerResponse.class);
 
         return responseMono.block();
     }

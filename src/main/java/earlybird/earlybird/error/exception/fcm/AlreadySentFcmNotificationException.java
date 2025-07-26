@@ -1,4 +1,6 @@
-package earlybird.earlybird.error.exception;
+package earlybird.earlybird.error.exception.fcm;
+
+import earlybird.earlybird.error.exception.BusinessBaseException;
 
 import static earlybird.earlybird.error.ErrorCode.ALREADY_SENT_FCM_NOTIFICATION;
 

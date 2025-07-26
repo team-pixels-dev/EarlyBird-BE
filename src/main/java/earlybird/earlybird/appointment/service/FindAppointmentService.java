@@ -2,8 +2,8 @@ package earlybird.earlybird.appointment.service;
 
 import earlybird.earlybird.appointment.domain.Appointment;
 import earlybird.earlybird.appointment.domain.AppointmentRepository;
-import earlybird.earlybird.error.exception.AppointmentNotFoundException;
-import earlybird.earlybird.error.exception.DeletedAppointmentException;
+import earlybird.earlybird.error.exception.appointment.AppointmentNotFoundException;
+import earlybird.earlybird.error.exception.appointment.DeletedAppointmentException;
 import earlybird.earlybird.scheduler.notification.service.deregister.request.DeregisterFcmMessageAtSchedulerServiceRequest;
 
 import lombok.RequiredArgsConstructor;

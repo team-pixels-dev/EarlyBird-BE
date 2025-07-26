@@ -6,20 +6,17 @@ import earlybird.earlybird.security.authentication.jwt.reissue.JWTReissueAuthent
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationFilter;
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationProvider;
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserDetails;
-import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserJoinService;
+import earlybird.earlybird.user.service.JoinUserService;
 import earlybird.earlybird.security.token.jwt.JWTUtil;
 import earlybird.earlybird.security.token.jwt.access.CreateJWTAccessTokenService;
 import earlybird.earlybird.security.token.jwt.refresh.CreateJWTRefreshTokenService;
 import earlybird.earlybird.security.token.jwt.refresh.JWTRefreshTokenRepository;
 import earlybird.earlybird.security.token.jwt.refresh.JWTRefreshTokenToCookieService;
 import earlybird.earlybird.security.token.jwt.refresh.SaveJWTRefreshTokenService;
-import earlybird.earlybird.security.token.oauth2.service.CreateOAuth2TokenService;
-import earlybird.earlybird.security.token.oauth2.service.DeleteOAuth2TokenService;
 import earlybird.earlybird.user.dto.UserAccountInfoDTO;
-import earlybird.earlybird.user.repository.UserRepository;
+import earlybird.earlybird.user.UserRepository;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,7 +34,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collections;
 
@@ -48,68 +44,51 @@ public class SecurityConfig {
 
     private final JWTRefreshTokenRepository JWTRefreshTokenRepository;
     private final UserDetailsService userDetailsService;
-    private final OAuth2UserJoinService oAuth2UserJoinService;
+    private final JoinUserService joinUserService;
     private final CreateJWTAccessTokenService createJWTAccessTokenService;
     private final CreateJWTRefreshTokenService createJWTRefreshTokenService;
     private final JWTRefreshTokenToCookieService JWTRefreshTokenToCookieService;
     private final JWTUtil jwtUtil;
     private final UserRepository userRepository;
     private final SaveJWTRefreshTokenService saveJWTRefreshTokenService;
-    private final CreateOAuth2TokenService createOAuth2TokenService;
-    private final DeleteOAuth2TokenService deleteOAuth2TokenService;
+    private final OAuth2AuthenticationProvider oAuth2AuthenticationProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(
-                new OAuth2AuthenticationProvider(userDetailsService, oAuth2UserJoinService));
-        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
-
+        AuthenticationManager authenticationManager = authenticationManager(http);
         http.authenticationManager(authenticationManager);
 
         http.authorizeHttpRequests(
-                auth ->
-                        auth
-                                //                        .anyRequest().authenticated()
-                                .anyRequest()
-                                .permitAll()
-                // TODO : 베타 테스트 기간에만 permitAll -> 로그인 기능 추가되면 authenticated()로 변경
-                );
+                auth -> auth
+                        .requestMatchers("/api/v1/login/oauth2").permitAll()
+                        .anyRequest().authenticated()
+        );
 
-        OAuth2AuthenticationFilter oAuth2AuthenticationFilter =
-                new OAuth2AuthenticationFilter(
-                        createJWTAccessTokenService,
-                        createJWTRefreshTokenService,
-                        JWTRefreshTokenToCookieService,
-                        createOAuth2TokenService,
-                        deleteOAuth2TokenService);
+        OAuth2AuthenticationFilter oAuth2AuthenticationFilter = oAuth2AuthenticationFilter();
         oAuth2AuthenticationFilter.setAuthenticationManager(authenticationManager);
-
         http.addFilterAt(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        JWTReissueAuthenticationFilter jwtReissueAuthenticationFilter =
-                new JWTReissueAuthenticationFilter(
-                        createJWTAccessTokenService,
-                        createJWTRefreshTokenService,
-                        JWTRefreshTokenRepository,
-                        saveJWTRefreshTokenService,
-                        JWTRefreshTokenToCookieService);
-        ProviderManager jwtReissueAuthFilterProviderManager =
-                new ProviderManager(new JWTReissueAuthenticationProvider(jwtUtil, userRepository));
-        jwtReissueAuthenticationFilter.setAuthenticationManager(
-                jwtReissueAuthFilterProviderManager);
-
+        JWTReissueAuthenticationFilter jwtReissueAuthenticationFilter = jwtReissueAuthenticationFilter();
         http.addFilterBefore(jwtReissueAuthenticationFilter, OAuth2AuthenticationFilter.class);
 
-        JWTAuthenticationFilter jwtAuthenticationFilter =
-                new JWTAuthenticationFilter(jwtUtil, userRepository);
+        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(jwtUtil, userRepository);
+        http.addFilterAfter(jwtAuthenticationFilter, OAuth2AuthenticationFilter.class);
 
-        // TODO: 베타 테스트 이후 살려놓기
-        //        http
-        //                .addFilterAfter(jwtAuthenticationFilter,
-        // OAuth2AuthenticationFilter.class);
+        configLogout(http);
 
+        http.sessionManagement(
+                (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        http.formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable);
+
+        configCors(http);
+
+        return http.build();
+    }
+
+    private void configLogout(HttpSecurity http) throws Exception {
         http.logout(
                 logout ->
                         logout.logoutRequestMatcher(
@@ -120,8 +99,8 @@ public class SecurityConfig {
                                                     ((OAuth2UserDetails)
                                                                     authentication.getPrincipal())
                                                             .getUserAccountInfoDTO();
-                                            deleteOAuth2TokenService.deleteByUserAccountInfoDTO(
-                                                    userInfo);
+//                                            deleteOAuth2TokenService.deleteByUserAccountInfoDTO(
+//                                                    userInfo);
                                         }))
                                 .deleteCookies("JSESSIONID", "refresh")
                                 .invalidateHttpSession(true)
@@ -138,43 +117,65 @@ public class SecurityConfig {
                                                 }
                                             }
                                         })));
+    }
 
-        http.sessionManagement(
-                (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        http.formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable);
-
+    private void configCors(HttpSecurity http) throws Exception {
         http.cors(
                 corsCustomizer ->
                         corsCustomizer.configurationSource(
-                                new CorsConfigurationSource() {
+                                request -> {
 
-                                    @Override
-                                    public CorsConfiguration getCorsConfiguration(
-                                            HttpServletRequest request) {
+                                    CorsConfiguration configuration = new CorsConfiguration();
 
-                                        CorsConfiguration configuration = new CorsConfiguration();
+                                    configuration.setAllowedOriginPatterns(
+                                            Collections.singletonList("*"));
+                                    configuration.setAllowedMethods(
+                                            Collections.singletonList("*"));
+                                    configuration.setAllowCredentials(true);
+                                    configuration.setAllowedHeaders(
+                                            Collections.singletonList("*"));
+                                    configuration.setMaxAge(3600L);
 
-                                        configuration.setAllowedOriginPatterns(
-                                                Collections.singletonList("*"));
-                                        configuration.setAllowedMethods(
-                                                Collections.singletonList("*"));
-                                        configuration.setAllowCredentials(true);
-                                        configuration.setAllowedHeaders(
-                                                Collections.singletonList("*"));
-                                        configuration.setMaxAge(3600L);
+                                    configuration.setExposedHeaders(
+                                            Collections.singletonList("Set-Cookie"));
+                                    configuration.setExposedHeaders(
+                                            Collections.singletonList("Authorization"));
 
-                                        configuration.setExposedHeaders(
-                                                Collections.singletonList("Set-Cookie"));
-                                        configuration.setExposedHeaders(
-                                                Collections.singletonList("Authorization"));
-
-                                        return configuration;
-                                    }
+                                    return configuration;
                                 }));
-
-        return http.build();
     }
+
+    private JWTReissueAuthenticationFilter jwtReissueAuthenticationFilter() {
+        JWTReissueAuthenticationFilter jwtReissueAuthenticationFilter =
+                new JWTReissueAuthenticationFilter(
+                        createJWTAccessTokenService,
+                        createJWTRefreshTokenService,
+                        JWTRefreshTokenRepository,
+                        saveJWTRefreshTokenService,
+                        JWTRefreshTokenToCookieService);
+        ProviderManager jwtReissueAuthFilterProviderManager =
+                new ProviderManager(new JWTReissueAuthenticationProvider(jwtUtil, userRepository));
+        jwtReissueAuthenticationFilter.setAuthenticationManager(
+                jwtReissueAuthFilterProviderManager);
+        return jwtReissueAuthenticationFilter;
+    }
+
+    private OAuth2AuthenticationFilter oAuth2AuthenticationFilter() {
+        return new OAuth2AuthenticationFilter(
+                createJWTAccessTokenService,
+                createJWTRefreshTokenService,
+                JWTRefreshTokenToCookieService);
+    }
+
+    private AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = authenticationManagerBuilder(http);
+        authenticationManagerBuilder.authenticationProvider(oAuth2AuthenticationProvider);
+        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
+        return authenticationManager;
+    }
+
+    private AuthenticationManagerBuilder authenticationManagerBuilder(HttpSecurity http) {
+        return http.getSharedObject(AuthenticationManagerBuilder.class);
+    }
+
 }

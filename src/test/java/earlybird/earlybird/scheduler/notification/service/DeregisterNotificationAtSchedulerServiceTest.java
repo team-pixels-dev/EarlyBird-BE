@@ -1,7 +1,7 @@
 // package earlybird.earlybird.scheduler.notification.fcm.service;
 //
-// import earlybird.earlybird.error.exception.AlreadySentFcmNotificationException;
-// import earlybird.earlybird.error.exception.FcmDeviceTokenMismatchException;
+// import earlybird.earlybird.error.exception.fcm.AlreadySentFcmNotificationException;
+// import earlybird.earlybird.error.exception.fcm.FcmDeviceTokenMismatchException;
 // import earlybird.earlybird.scheduler.notification.fcm.domain.FcmNotification;
 // import earlybird.earlybird.scheduler.notification.fcm.domain.FcmNotificationRepository;
 // import

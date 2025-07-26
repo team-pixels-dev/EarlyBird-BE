@@ -4,8 +4,8 @@ import earlybird.earlybird.error.exception.UserNotFoundException;
 import earlybird.earlybird.feedback.domain.comment.FeedbackComment;
 import earlybird.earlybird.feedback.domain.comment.FeedbackCommentRepository;
 import earlybird.earlybird.feedback.service.auth.request.CreateAuthFeedbackCommentServiceRequest;
-import earlybird.earlybird.user.entity.User;
-import earlybird.earlybird.user.repository.UserRepository;
+import earlybird.earlybird.user.User;
+import earlybird.earlybird.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

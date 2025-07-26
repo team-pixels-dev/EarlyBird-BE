@@ -1,6 +1,6 @@
 package earlybird.earlybird.security.deregister.oauth2.revoke.proxy;
 
-import earlybird.earlybird.security.enums.OAuth2ProviderName;
+import earlybird.earlybird.security.authentication.oauth2.OAuth2ProviderName;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

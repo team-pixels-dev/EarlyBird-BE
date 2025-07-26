@@ -1,7 +1,7 @@
 package earlybird.earlybird.feedback.domain.comment;
 
 import earlybird.earlybird.common.BaseTimeEntity;
-import earlybird.earlybird.user.entity.User;
+import earlybird.earlybird.user.User;
 
 import jakarta.persistence.*;
 
