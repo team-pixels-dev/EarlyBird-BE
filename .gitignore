@@ -46,3 +46,5 @@ logs/*.log
 .env
 fluent-bit/fluent-bit.conf
 fluent-bit/fluent-bit.yaml
+
+src/main/resources/key/AuthKey_FH4V72Y38Q.p8
