@@ -1,6 +1,7 @@
 package earlybird.earlybird.promotion.service.response;
 
 import earlybird.earlybird.promotion.entity.PromotionCampaign;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

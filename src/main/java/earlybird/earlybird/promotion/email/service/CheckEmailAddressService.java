@@ -4,7 +4,9 @@ import earlybird.earlybird.promotion.email.entity.EmailPromotionAddressDomain;
 import earlybird.earlybird.promotion.email.repository.EmailPromotionAddressDomainRepository;
 import earlybird.earlybird.promotion.entity.PromotionCampaign;
 import earlybird.earlybird.promotion.repository.PromotionCampaignRepository;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +35,8 @@ public class CheckEmailAddressService {
     }
 
     private PromotionCampaign getPromotionCampaignById(Long promotionCampaignId) {
-        Optional<PromotionCampaign> optionalCampaign = promotionCampaignRepository.findById(promotionCampaignId);
+        Optional<PromotionCampaign> optionalCampaign =
+                promotionCampaignRepository.findById(promotionCampaignId);
         if (optionalCampaign.isEmpty()) {
             throw new IllegalArgumentException("Campaign not found");
         }
@@ -41,13 +44,14 @@ public class CheckEmailAddressService {
     }
 
     private Boolean checkDomainName(String email, PromotionCampaign promotionCampaign) {
-        List<EmailPromotionAddressDomain> validDomainList
-                = promotionDomainRepository.findAllByPromotionCampaign(promotionCampaign);
+        List<EmailPromotionAddressDomain> validDomainList =
+                promotionDomainRepository.findAllByPromotionCampaign(promotionCampaign);
         return validDomainList.stream()
-                .anyMatch(validDomain -> {
-                    String validDomainName = validDomain.getDomainName();
-                    String requestDomainName = email.split("@")[1];
-                    return validDomainName.equals(requestDomainName);
-                });
+                .anyMatch(
+                        validDomain -> {
+                            String validDomainName = validDomain.getDomainName();
+                            String requestDomainName = email.split("@")[1];
+                            return validDomainName.equals(requestDomainName);
+                        });
     }
 }

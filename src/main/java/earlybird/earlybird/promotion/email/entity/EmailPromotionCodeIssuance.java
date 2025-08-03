@@ -2,14 +2,12 @@ package earlybird.earlybird.promotion.email.entity;
 
 import earlybird.earlybird.common.BaseTimeEntity;
 import earlybird.earlybird.promotion.entity.PromotionCampaign;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 
-import java.time.LocalDateTime;
-
-/**
- * 프로모션 코드 발급 내역을 관리하는 엔티티
- */
+/** 프로모션 코드 발급 내역을 관리하는 엔티티 */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

@@ -1,14 +1,14 @@
 package earlybird.earlybird.promotion.entity;
 
 import earlybird.earlybird.common.BaseTimeEntity;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-/**
- * 프로모션 정책(기간, 인당 횟수 제한 등)을 관리하는 엔티티
- */
+/** 프로모션 정책(기간, 인당 횟수 제한 등)을 관리하는 엔티티 */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -37,13 +37,13 @@ public class PromotionCampaign extends BaseTimeEntity {
     @Column(name = "promotion_campaigns_ends_time", nullable = false)
     private LocalDateTime endTime;
 
-//    // 인당 발급 허용 개수
-//    @Column(name = "promotion_campaigns_per_user_limit", nullable = false)
-//    private Long perUserLimit;
-//
-//    // 캠페인 전체 발급 최대치 (없으면 NULL)
-//    @Column(name = "promotion_campaigns_total_issue_limit")
-//    private Long totalIssueLimit;
+    //    // 인당 발급 허용 개수
+    //    @Column(name = "promotion_campaigns_per_user_limit", nullable = false)
+    //    private Long perUserLimit;
+    //
+    //    // 캠페인 전체 발급 최대치 (없으면 NULL)
+    //    @Column(name = "promotion_campaigns_total_issue_limit")
+    //    private Long totalIssueLimit;
 
     // 캠페인 타입
     @Enumerated(EnumType.STRING)

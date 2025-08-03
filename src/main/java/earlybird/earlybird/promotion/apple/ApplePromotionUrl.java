@@ -2,7 +2,9 @@ package earlybird.earlybird.promotion.apple;
 
 import earlybird.earlybird.common.BaseTimeEntity;
 import earlybird.earlybird.promotion.entity.PromotionCampaign;
+
 import jakarta.persistence.*;
+
 import lombok.Getter;
 
 import java.time.LocalDateTime;

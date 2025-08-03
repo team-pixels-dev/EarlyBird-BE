@@ -1,8 +1,10 @@
 package earlybird.earlybird.promotion.email.controller.request;
 
 import earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,12 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UnivEmailPromotionVerificationRequest {
 
-    @NotBlank
-    private String email;
+    @NotBlank private String email;
 
-    @NotNull
-    private Long promotionCampaignId;
+    @NotNull private Long promotionCampaignId;
 
-    @NotNull
-    private PromotionEmailMessageType promotionEmailMessageType;
+    @NotNull private PromotionEmailMessageType promotionEmailMessageType;
 }

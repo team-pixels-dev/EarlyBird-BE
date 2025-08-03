@@ -2,10 +2,10 @@ package earlybird.earlybird.promotion.service;
 
 import earlybird.earlybird.promotion.entity.PromotionCampaign;
 import earlybird.earlybird.promotion.repository.PromotionCampaignRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service

@@ -2,6 +2,7 @@ package earlybird.earlybird.promotion.service.request;
 
 import earlybird.earlybird.promotion.controller.request.CreatePromotionCampaignRequest;
 import earlybird.earlybird.promotion.entity.PromotionCampaignType;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,8 @@ public class CreatePromotionCampaignServiceRequest {
     private final Long totalIssueLimit;
     private final PromotionCampaignType promotionCampaignType;
 
-    public static CreatePromotionCampaignServiceRequest from(CreatePromotionCampaignRequest request) {
+    public static CreatePromotionCampaignServiceRequest from(
+            CreatePromotionCampaignRequest request) {
         return CreatePromotionCampaignServiceRequest.builder()
                 .name(request.getPromotionCampaignName())
                 .description(request.getPromotionCampaignDescription())

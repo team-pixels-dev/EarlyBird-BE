@@ -8,8 +8,11 @@ import earlybird.earlybird.promotion.email.service.AddEmailPromotionAddressDomai
 import earlybird.earlybird.promotion.email.service.SendPromotionEmailService;
 import earlybird.earlybird.promotion.email.service.request.AddEmailPromotionAddressDomainServiceRequest;
 import earlybird.earlybird.promotion.email.service.request.SendVerificationEmailServiceRequest;
+
 import jakarta.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +27,11 @@ public class EmailPromotionController {
     private final GetApplePromotionUrlService getApplePromotionUrlService;
 
     @PostMapping("/api/v1/promotion/apple/univ/email")
-    public ResponseEntity<?> univPromotionVerifyEmail(@RequestBody UnivEmailPromotionVerificationRequest request) {
+    public ResponseEntity<?> univPromotionVerifyEmail(
+            @RequestBody UnivEmailPromotionVerificationRequest request) {
 
-        SendVerificationEmailServiceRequest serviceRequest = SendVerificationEmailServiceRequest.from(request);
+        SendVerificationEmailServiceRequest serviceRequest =
+                SendVerificationEmailServiceRequest.from(request);
         sendPromotionEmailService.sendVerificationEmail(serviceRequest);
 
         return null;
@@ -47,7 +52,8 @@ public class EmailPromotionController {
     @GetMapping("/promotion/apple/univ/email")
     public void redirectToPromotionPage(
             @RequestParam(name = "code") String promotionCodeUuid,
-            HttpServletResponse servletResponse) throws IOException {
+            HttpServletResponse servletResponse)
+            throws IOException {
 
         GetApplePromotionUrlServiceResponse serviceResponse =
                 getApplePromotionUrlService.getPromotionUrlByUuid(promotionCodeUuid);
