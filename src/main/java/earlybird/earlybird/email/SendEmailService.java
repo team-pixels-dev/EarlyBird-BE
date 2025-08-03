@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SendEmailService {
 
-    @Value("${spring.mail.password}")
+    @Value("${test.mail.password}")
     private String mailPassword;
 
     private final JavaMailSender javaMailSender;
