@@ -5,6 +5,17 @@ spring:
     active: ${SPRING_ACTIVE_PROFILE}
   jwt:
     secret: ${JWT_SECRET}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: earlybirdteam2024
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 fcm:
   service-account-file: key/firebase_admin_sdk_private_key.json
