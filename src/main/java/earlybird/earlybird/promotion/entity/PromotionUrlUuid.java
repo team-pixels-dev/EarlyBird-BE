@@ -24,6 +24,6 @@ public class PromotionUrlUuid extends BaseTimeEntity {
     @Id
     private Long id;
 
-    @Column(name = "promotion_url_uuids_uuid", nullable = false)
+    @Column(name = "promotion_url_uuids_uuid", nullable = false, unique = true)
     private UUID uuid;
 }

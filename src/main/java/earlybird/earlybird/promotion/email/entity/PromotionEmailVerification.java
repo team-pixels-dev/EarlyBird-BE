@@ -39,11 +39,24 @@ public class PromotionEmailVerification extends BaseTimeEntity {
     private String email;
 
     // 인증 성공 여부
+    @Setter
     @Column(name = "promotion_email_verifications_is_success", nullable = false)
     private Boolean verificationIsSuccess;
 
+    // 프로모션 코드 발급 정보
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "email_promotion_code_issuances_id", nullable = false)
+    private EmailPromotionCodeIssuance emailPromotionCodeIssuance;
+
+    // 시간대 : 한국
+    // 인증 이메일 전송 일시
+    @Setter
+    @Column(name = "promotion_email_verification_email_sent_at")
+    private LocalDateTime sentAt;
+
     // 시간대 : 한국
     // 인증 전에는 NULL
+    @Setter
     @Column(name = "promotion_email_verifications_verfied_at")
     private LocalDateTime verifiedAt;
 }

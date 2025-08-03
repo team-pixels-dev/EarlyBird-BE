@@ -12,7 +12,14 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-@Table(name = "email_promotion_address_domains")
+@Table(name = "email_promotion_address_domains",
+    uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uniqueDomainNameAndPromotionCampaignId",
+                columnNames = {"email_promotion_address_domains_domain_name", "promotion_campaigns_id"}
+        )
+    }
+)
 @Entity
 public class EmailPromotionAddressDomain extends BaseTimeEntity {
 

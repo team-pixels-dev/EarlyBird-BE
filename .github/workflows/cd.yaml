@@ -20,6 +20,7 @@ env:
   FCM_PROJECT_ID: ${{ secrets.FCM_PROJECT_ID }}
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
 
 permissions:
   contents: read

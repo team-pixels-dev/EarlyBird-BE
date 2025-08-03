@@ -21,7 +21,10 @@ public enum ErrorCode {
             HttpStatus.BAD_REQUEST, "요청한 알림 ID에 해당하는 디바이스 토큰과 요청한 디바이스 토큰이 일치하지 않습니다."),
     APPOINTMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 약속입니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
-    DELETED_APPOINTMENT_EXCEPTION(HttpStatus.NOT_FOUND, "삭제된 일정입니다.");
+    DELETED_APPOINTMENT_EXCEPTION(HttpStatus.NOT_FOUND, "삭제된 일정입니다."),
+    APPLE_PROMOTION_URL_LIST_IS_EMPTY_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "발급 가능한 애플 프로모션 URL이 없습니다."),
+    INVALID_PROMOTION_EMAIL_EXCEPTION(HttpStatus.BAD_REQUEST, "프로모션 대상 이메일이 아닙니다."),
+    PROMOTION_EMAIL_DOMAIN_NAME_IS_ALREADY_EXISTS_EXCEPTION(HttpStatus.BAD_REQUEST, "프로모션 이메일 도메인이 이미 존재합니다.");
 
     private final HttpStatus status;
     private final String message;
