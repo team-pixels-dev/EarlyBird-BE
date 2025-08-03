@@ -1,6 +1,7 @@
 package earlybird.earlybird.promotion.controller.response;
 
 import earlybird.earlybird.promotion.service.response.CreatePromotionCampaignServiceResponse;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,8 @@ import lombok.RequiredArgsConstructor;
 public class CreatePromotionCampaignResponse {
     private final Long promotionCampaignId;
 
-    public static CreatePromotionCampaignResponse from(CreatePromotionCampaignServiceResponse response) {
+    public static CreatePromotionCampaignResponse from(
+            CreatePromotionCampaignServiceResponse response) {
         return CreatePromotionCampaignResponse.builder()
                 .promotionCampaignId(response.getPromotionCampaignId())
                 .build();

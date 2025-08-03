@@ -3,14 +3,14 @@ package earlybird.earlybird.promotion.email.entity;
 import earlybird.earlybird.common.BaseTimeEntity;
 import earlybird.earlybird.promotion.entity.PromotionCampaign;
 import earlybird.earlybird.promotion.entity.PromotionUrlUuid;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-/**
- * 프로모션 이메일 인증 내역을 관리하는 엔티티
- */
+/** 프로모션 이메일 인증 내역을 관리하는 엔티티 */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

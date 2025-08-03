@@ -5,7 +5,9 @@ import earlybird.earlybird.promotion.controller.response.CreatePromotionCampaign
 import earlybird.earlybird.promotion.service.CreatePromotionCampaignService;
 import earlybird.earlybird.promotion.service.request.CreatePromotionCampaignServiceRequest;
 import earlybird.earlybird.promotion.service.response.CreatePromotionCampaignServiceResponse;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +22,14 @@ public class PromotionCampaignController {
     private final CreatePromotionCampaignService createPromotionCampaignService;
 
     @PostMapping
-    public ResponseEntity<?> createPromotionCampaign(@RequestBody CreatePromotionCampaignRequest request) {
-        CreatePromotionCampaignServiceRequest serviceRequest = CreatePromotionCampaignServiceRequest.from(request);
-        CreatePromotionCampaignServiceResponse serviceResponse = createPromotionCampaignService.create(serviceRequest);
-        CreatePromotionCampaignResponse response = CreatePromotionCampaignResponse.from(serviceResponse);
+    public ResponseEntity<?> createPromotionCampaign(
+            @RequestBody CreatePromotionCampaignRequest request) {
+        CreatePromotionCampaignServiceRequest serviceRequest =
+                CreatePromotionCampaignServiceRequest.from(request);
+        CreatePromotionCampaignServiceResponse serviceResponse =
+                createPromotionCampaignService.create(serviceRequest);
+        CreatePromotionCampaignResponse response =
+                CreatePromotionCampaignResponse.from(serviceResponse);
         return ResponseEntity.ok().body(response);
     }
 }

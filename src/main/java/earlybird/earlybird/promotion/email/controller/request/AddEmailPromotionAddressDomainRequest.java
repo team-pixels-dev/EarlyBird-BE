@@ -2,6 +2,7 @@ package earlybird.earlybird.promotion.email.controller.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddEmailPromotionAddressDomainRequest {
 
-    @NotBlank
-    private String domain;
+    @NotBlank private String domain;
 
-    @NotNull
-    private Long promotionCampaignId;
-
-
+    @NotNull private Long promotionCampaignId;
 }
