@@ -20,14 +20,16 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Service
 public class SendEmailService {
 
-    @Value("${test.mail.password}")
-    private String mailPassword;
-
     private final JavaMailSender javaMailSender;
+
+    public SendEmailService(JavaMailSender javaMailSender, @Value("${spring.mail.password}") String password) {
+        this.javaMailSender = javaMailSender;
+        log.info("mail password:{}", password);
+    }
 
     @Retryable(maxAttempts = 5, backoff = @Backoff(delay = 1000))
     @Async
@@ -35,7 +37,6 @@ public class SendEmailService {
             PromotionEmailVerification promotionEmailVerification,
             PromotionEmailMessageType promotionEmailMessageType) {
         try {
-            log.info("mailPassword = " + mailPassword);
             MimeMessage message = javaMailSender.createMimeMessage();
 
             message.addRecipients(Message.RecipientType.TO, promotionEmailVerification.getEmail());
