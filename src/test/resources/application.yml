@@ -42,7 +42,3 @@ fcm:
 aws:
   access-key: access-key
   secret-access-key: secret-key
-
-test:
-  mail:
-    password: test
