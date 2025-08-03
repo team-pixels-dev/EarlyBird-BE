@@ -1,6 +1,6 @@
 package earlybird.earlybird.email;
 
-import static earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType.*;
+import static earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType.BERKELEY_6_MONTH_FREE;
 
 import earlybird.earlybird.common.util.LocalDateTimeUtil;
 import earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType;
