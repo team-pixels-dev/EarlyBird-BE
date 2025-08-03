@@ -5,6 +5,7 @@ import earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType;
 import earlybird.earlybird.promotion.email.entity.PromotionEmailVerification;
 import jakarta.mail.Message;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.retry.annotation.Backoff;
@@ -15,15 +16,11 @@ import org.springframework.stereotype.Service;
 import static earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType.BERKELEY_6_MONTH_FREE;
 
 @Slf4j
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class SendEmailService {
 
     private final JavaMailSender javaMailSender;
-
-    public SendEmailService(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
 
     @Retryable(maxAttempts = 5, backoff = @Backoff(delay = 1000))
     @Async
