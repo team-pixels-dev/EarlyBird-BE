@@ -12,6 +12,8 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -23,6 +25,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SendEmailService {
 
+    @Value("${spring.mail.password}")
+    private String mailPassword;
+
     private final JavaMailSender javaMailSender;
 
     @Retryable(maxAttempts = 5, backoff = @Backoff(delay = 1000))
@@ -31,6 +36,7 @@ public class SendEmailService {
             PromotionEmailVerification promotionEmailVerification,
             PromotionEmailMessageType promotionEmailMessageType) {
         try {
+            log.info("mailPassword = " + mailPassword);
             MimeMessage message = javaMailSender.createMimeMessage();
 
             message.addRecipients(Message.RecipientType.TO, promotionEmailVerification.getEmail());
