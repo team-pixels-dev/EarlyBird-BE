@@ -1,23 +1,20 @@
 package earlybird.earlybird.email;
 
-import static earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType.*;
-
 import earlybird.earlybird.common.util.LocalDateTimeUtil;
 import earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType;
 import earlybird.earlybird.promotion.email.entity.PromotionEmailVerification;
-
 import jakarta.mail.Message;
 import jakarta.mail.internet.MimeMessage;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import static earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType.BERKELEY_6_MONTH_FREE;
 
 @Slf4j
 @RequiredArgsConstructor
