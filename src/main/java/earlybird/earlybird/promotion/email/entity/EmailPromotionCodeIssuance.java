@@ -14,7 +14,8 @@ import lombok.*;
 @Builder
 @Table(name = "email_promotion_code_issuances")
 @Entity
-public class EmailPromotionCodeIssuance extends BaseTimeEntity {
+public class
+EmailPromotionCodeIssuance extends BaseTimeEntity {
 
     @Column(name = "email_promotion_code_issuances_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
