@@ -30,7 +30,7 @@ public class SendPromotionEmailService {
     private final PromotionEmailVerificationRepository promotionEmailVerificationRepository;
     private final EmailPromotionCodeIssuanceRepository emailPromotionCodeIssuanceRepository;
 
-    @Transactional(propagation = Pro)
+    @Transactional
     public void sendVerificationEmail(SendVerificationEmailServiceRequest request) {
         /** TODO - 락을 걸었는데 이거 성능 문제 좀 더 고민 필요 - 스프링 트랜잭션에 대한 고민 필요 - 메일 발송 부분 로직 문제 없나 다시 체크 */
         checkEmailAddress(request);
