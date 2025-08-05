@@ -6,7 +6,6 @@ import earlybird.earlybird.promotion.entity.PromotionUrlUuid;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface PromotionEmailVerificationRepository
@@ -14,5 +13,6 @@ public interface PromotionEmailVerificationRepository
 
     Optional<PromotionEmailVerification> findByPromotionUrlUuid(PromotionUrlUuid promotionUrlUuid);
 
-    Optional<PromotionEmailVerification> findByPromotionCampaignAndEmail(PromotionCampaign promotionCampaign, String email);
+    Optional<PromotionEmailVerification> findByPromotionCampaignAndEmail(
+            PromotionCampaign promotionCampaign, String email);
 }

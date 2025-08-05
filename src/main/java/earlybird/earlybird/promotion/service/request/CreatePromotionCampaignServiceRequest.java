@@ -2,6 +2,7 @@ package earlybird.earlybird.promotion.service.request;
 
 import earlybird.earlybird.promotion.controller.request.CreatePromotionCampaignRequest;
 import earlybird.earlybird.promotion.entity.PromotionCampaignType;
+
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -12,8 +13,7 @@ public record CreatePromotionCampaignServiceRequest(
         String description,
         LocalDateTime startTime,
         LocalDateTime endTime,
-        PromotionCampaignType promotionCampaignType
-) {
+        PromotionCampaignType promotionCampaignType) {
 
     public static CreatePromotionCampaignServiceRequest from(
             CreatePromotionCampaignRequest request) {
