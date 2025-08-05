@@ -37,14 +37,6 @@ public class PromotionCampaign extends BaseTimeEntity {
     @Column(name = "promotion_campaigns_ends_time", nullable = false)
     private LocalDateTime endTime;
 
-    //    // 인당 발급 허용 개수
-    //    @Column(name = "promotion_campaigns_per_user_limit", nullable = false)
-    //    private Long perUserLimit;
-    //
-    //    // 캠페인 전체 발급 최대치 (없으면 NULL)
-    //    @Column(name = "promotion_campaigns_total_issue_limit")
-    //    private Long totalIssueLimit;
-
     // 캠페인 타입
     @Enumerated(EnumType.STRING)
     @Column(name = "promotion_campaigns_type", nullable = false)

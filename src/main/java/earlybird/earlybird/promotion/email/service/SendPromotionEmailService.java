@@ -30,7 +30,7 @@ public class SendPromotionEmailService {
     private final PromotionEmailVerificationRepository promotionEmailVerificationRepository;
     private final EmailPromotionCodeIssuanceRepository emailPromotionCodeIssuanceRepository;
 
-    @Transactional
+    @Transactional(propagation = Pro)
     public void sendVerificationEmail(SendVerificationEmailServiceRequest request) {
         /**
          * TODO
@@ -45,12 +45,13 @@ public class SendPromotionEmailService {
 
         promotionEmailVerificationRepository.findByPromotionCampaignAndEmail(promotionCampaign, request.getEmail())
                 .ifPresentOrElse(
-                        promotionEmailVerification -> sendEmailIfSendBefore(promotionEmailVerification, request),
+                        verification -> sendEmailIfSendBefore(verification, request),
                         () -> sendFirstEmail(promotionCampaign, request));
     }
 
     // 이전에 동일한 캠패인, 동일한 이메일로 인증 메일을 전송한 적이 있으면 이 함수 호출
-    private void sendEmailIfSendBefore(PromotionEmailVerification promotionEmailVerification, SendVerificationEmailServiceRequest request) {
+    private void sendEmailIfSendBefore(
+            PromotionEmailVerification promotionEmailVerification, SendVerificationEmailServiceRequest request) {
         sendEmailService.send(promotionEmailVerification, request.getPromotionEmailMessageType());
     }
 
