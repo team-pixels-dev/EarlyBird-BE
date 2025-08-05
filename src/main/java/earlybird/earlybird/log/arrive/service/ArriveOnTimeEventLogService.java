@@ -2,7 +2,7 @@ package earlybird.earlybird.log.arrive.service;
 
 import earlybird.earlybird.appointment.domain.Appointment;
 import earlybird.earlybird.appointment.domain.AppointmentRepository;
-import earlybird.earlybird.error.exception.AppointmentNotFoundException;
+import earlybird.earlybird.error.exception.appointment.AppointmentNotFoundException;
 import earlybird.earlybird.log.arrive.domain.ArriveOnTimeEventLog;
 import earlybird.earlybird.log.arrive.domain.ArriveOnTimeEventLogRepository;
 import earlybird.earlybird.log.arrive.service.request.ArriveOnTimeEventLoggingServiceRequest;

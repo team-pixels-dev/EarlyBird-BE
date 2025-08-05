@@ -2,8 +2,8 @@ package earlybird.earlybird.security.authentication.jwt.reissue;
 
 import earlybird.earlybird.security.token.jwt.JWTUtil;
 import earlybird.earlybird.user.dto.UserAccountInfoDTO;
-import earlybird.earlybird.user.entity.User;
-import earlybird.earlybird.user.repository.UserRepository;
+import earlybird.earlybird.user.User;
+import earlybird.earlybird.user.UserRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
 

@@ -20,4 +20,10 @@ public class OAuth2DeregisterController {
         oAuth2DeregisterService.deregister(userDetails);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/api/v1/users/oauth2/apple")
+    public ResponseEntity<?> deregisterApple(@AuthenticationPrincipal OAuth2UserDetails userDetails) {
+        oAuth2DeregisterService.deregister(userDetails);
+        return ResponseEntity.ok().build();
+    }
 }

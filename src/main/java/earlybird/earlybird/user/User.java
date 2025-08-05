@@ -1,7 +1,7 @@
-package earlybird.earlybird.user.entity;
+package earlybird.earlybird.user;
 
 import earlybird.earlybird.common.util.LocalDateTimeUtil;
-import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
+import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2ServerResponse;
 import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 
 import jakarta.persistence.*;

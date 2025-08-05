@@ -16,7 +16,10 @@ spring:
           auth: true
           starttls:
             enable: true
-
+  auth:
+    apple:
+      p8-file: key/AuthKey_FH4V72Y38Q.p8
+      client-id: com.earlybirdteam2024.early-bird
 fcm:
   service-account-file: key/firebase_admin_sdk_private_key.json
   project-id: ${FCM_PROJECT_ID}

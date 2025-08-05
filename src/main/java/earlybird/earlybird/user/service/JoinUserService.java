@@ -1,8 +1,8 @@
-package earlybird.earlybird.security.authentication.oauth2.user;
+package earlybird.earlybird.user.service;
 
-import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
-import earlybird.earlybird.user.entity.User;
-import earlybird.earlybird.user.repository.UserRepository;
+import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2ServerResponse;
+import earlybird.earlybird.user.User;
+import earlybird.earlybird.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class OAuth2UserJoinService {
+public class JoinUserService {
 
     private final UserRepository userRepository;
 

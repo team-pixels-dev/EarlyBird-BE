@@ -1,10 +1,10 @@
 package earlybird.earlybird.security.authentication.oauth2;
 
-import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
+import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2ServerResponse;
+import earlybird.earlybird.security.authentication.oauth2.proxy.AppleOAuth2UserInfoProxy;
 import earlybird.earlybird.security.authentication.oauth2.proxy.GoogleOAuth2UserInfoProxy;
 import earlybird.earlybird.security.authentication.oauth2.proxy.OAuth2UserInfoProxy;
-import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserJoinService;
-import earlybird.earlybird.security.enums.OAuth2ProviderName;
+import earlybird.earlybird.user.service.JoinUserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,17 +15,30 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@RequiredArgsConstructor
+@Component
 public class OAuth2AuthenticationProvider implements AuthenticationProvider {
 
-    private static final Map<OAuth2ProviderName, OAuth2UserInfoProxy> oauth2UserInfoProxyList =
-            Map.of(OAuth2ProviderName.GOOGLE, new GoogleOAuth2UserInfoProxy());
-
+    private final Map<OAuth2ProviderName, OAuth2UserInfoProxy> oauth2UserInfoProxyList;
     private final UserDetailsService userDetailsService;
-    private final OAuth2UserJoinService oAuth2UserJoinService;
+    private final JoinUserService joinUserService;
+
+    public OAuth2AuthenticationProvider(
+            UserDetailsService userDetailsService,
+            JoinUserService joinUserService,
+            GoogleOAuth2UserInfoProxy googleOAuth2UserInfoProxy,
+            AppleOAuth2UserInfoProxy appleOAuth2UserInfoProxy
+    ) {
+        this.userDetailsService = userDetailsService;
+        this.joinUserService = joinUserService;
+        this.oauth2UserInfoProxyList = Map.of(
+                OAuth2ProviderName.GOOGLE, googleOAuth2UserInfoProxy,
+                OAuth2ProviderName.APPLE, appleOAuth2UserInfoProxy
+        );
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication)
@@ -48,7 +61,7 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
                 try {
                     userDetails = userDetailsService.loadUserByUsername(username);
                 } catch (UsernameNotFoundException e) {
-                    oAuth2UserJoinService.join(oAuth2UserInfo);
+                    joinUserService.join(oAuth2UserInfo);
                     userDetails = userDetailsService.loadUserByUsername(username);
                 }
 

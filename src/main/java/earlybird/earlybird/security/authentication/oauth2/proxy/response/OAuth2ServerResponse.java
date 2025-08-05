@@ -1,4 +1,4 @@
-package earlybird.earlybird.security.authentication.oauth2.dto;
+package earlybird.earlybird.security.authentication.oauth2.proxy.response;
 
 /** OAuth2 서버(ex. Google, Apple ...)의 응답을 담은 객체 */
 public interface OAuth2ServerResponse {

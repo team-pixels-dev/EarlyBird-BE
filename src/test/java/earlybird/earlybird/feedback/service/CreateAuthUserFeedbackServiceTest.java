@@ -4,8 +4,8 @@
 // import earlybird.earlybird.feedback.dto.FeedbackDTO;
 // import earlybird.earlybird.feedback.repository.FeedbackRepository;
 // import earlybird.earlybird.user.dto.UserAccountInfoDTO;
-// import earlybird.earlybird.user.entity.User;
-// import earlybird.earlybird.user.repository.UserRepository;
+// import earlybird.earlybird.user.User;
+// import earlybird.earlybird.user.UserRepository;
 // import org.junit.jupiter.api.AfterEach;
 // import org.junit.jupiter.api.DisplayName;
 // import org.junit.jupiter.api.Test;
