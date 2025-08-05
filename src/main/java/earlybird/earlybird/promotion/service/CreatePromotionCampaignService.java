@@ -27,13 +27,11 @@ public class CreatePromotionCampaignService {
     private PromotionCampaign createPromotionCampaign(
             CreatePromotionCampaignServiceRequest request) {
         return PromotionCampaign.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .startTime(request.getStartTime())
-                .endTime(request.getEndTime())
-                //                .perUserLimit(request.getPerUserLimit())
-                //                .totalIssueLimit(request.getTotalIssueLimit())
-                .promotionCampaignType(request.getPromotionCampaignType())
+                .name(request.name())
+                .description(request.description())
+                .startTime(request.startTime())
+                .endTime(request.endTime())
+                .promotionCampaignType(request.promotionCampaignType())
                 .active(true)
                 .build();
     }

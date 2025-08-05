@@ -1,6 +1,7 @@
 package earlybird.earlybird.promotion.email.repository;
 
 import earlybird.earlybird.promotion.email.entity.PromotionEmailVerification;
+import earlybird.earlybird.promotion.entity.PromotionCampaign;
 import earlybird.earlybird.promotion.entity.PromotionUrlUuid;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,7 @@ public interface PromotionEmailVerificationRepository
         extends JpaRepository<PromotionEmailVerification, Long> {
 
     Optional<PromotionEmailVerification> findByPromotionUrlUuid(PromotionUrlUuid promotionUrlUuid);
+
+    Optional<PromotionEmailVerification> findByPromotionCampaignAndEmail(
+            PromotionCampaign promotionCampaign, String email);
 }

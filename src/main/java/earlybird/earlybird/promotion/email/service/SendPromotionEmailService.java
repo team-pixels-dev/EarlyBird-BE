@@ -32,17 +32,29 @@ public class SendPromotionEmailService {
 
     @Transactional
     public void sendVerificationEmail(SendVerificationEmailServiceRequest request) {
-        /**
-         * TODO - 이메일 유효성 검사 (완) - URL을 구성할 UUID 발급 (완) - DB에서 애플 프로모션 URL 하나 조회 - 락을 걸었는데 이거 성능 문제
-         * 좀 더 고민 필요 - 이메일로 인증 URL 전송 (여기에 UUID가 들어감) - 비동기 처리 필요 (완) - no-reply@earlybirdteam.com
-         * 이메일 적용 필요 - 인증 URL을 클릭하면 애플 프로모션 URL로 리다이렉션 (완) - 엣지 케이스 좀 더 고민 필요 - 스프링 트랜잭션에 대한 고민 필요 -
-         * Retry 로직 도입 고려 (완) - 메일 발송 부분 로직 문제 없나 다시 체크
-         */
+        /** TODO - 락을 걸었는데 이거 성능 문제 좀 더 고민 필요 - 스프링 트랜잭션에 대한 고민 필요 - 메일 발송 부분 로직 문제 없나 다시 체크 */
         checkEmailAddress(request);
 
         PromotionCampaign promotionCampaign =
                 getPromotionCampaignService.findById(request.getPromotionCampaignId());
 
+        promotionEmailVerificationRepository
+                .findByPromotionCampaignAndEmail(promotionCampaign, request.getEmail())
+                .ifPresentOrElse(
+                        verification -> sendEmailIfSendBefore(verification, request),
+                        () -> sendFirstEmail(promotionCampaign, request));
+    }
+
+    // 이전에 동일한 캠패인, 동일한 이메일로 인증 메일을 전송한 적이 있으면 이 함수 호출
+    private void sendEmailIfSendBefore(
+            PromotionEmailVerification promotionEmailVerification,
+            SendVerificationEmailServiceRequest request) {
+        sendEmailService.send(promotionEmailVerification, request.getPromotionEmailMessageType());
+    }
+
+    // 처음 인증 요청하는 건 이 함수 호출
+    private void sendFirstEmail(
+            PromotionCampaign promotionCampaign, SendVerificationEmailServiceRequest request) {
         PromotionUrlUuid promotionUrlUuid = createPromotionUrlUuidService.create();
         String promotionUrl =
                 getApplePromotionUrlService
