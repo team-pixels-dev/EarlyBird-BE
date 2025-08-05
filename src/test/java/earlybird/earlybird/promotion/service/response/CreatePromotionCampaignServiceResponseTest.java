@@ -1,13 +1,12 @@
 package earlybird.earlybird.promotion.service.response;
 
-import earlybird.earlybird.promotion.entity.PromotionCampaign;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
+import earlybird.earlybird.promotion.entity.PromotionCampaign;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class CreatePromotionCampaignServiceResponseTest {
 
@@ -15,12 +14,11 @@ class CreatePromotionCampaignServiceResponseTest {
     @Test
     void from() {
         // given
-        PromotionCampaign promotionCampaign = PromotionCampaign.builder()
-                .id(1L)
-                .build();
+        PromotionCampaign promotionCampaign = PromotionCampaign.builder().id(1L).build();
 
         // when
-        CreatePromotionCampaignServiceResponse response = CreatePromotionCampaignServiceResponse.from(promotionCampaign);
+        CreatePromotionCampaignServiceResponse response =
+                CreatePromotionCampaignServiceResponse.from(promotionCampaign);
 
         // then
         assertThat(response).isNotNull();
