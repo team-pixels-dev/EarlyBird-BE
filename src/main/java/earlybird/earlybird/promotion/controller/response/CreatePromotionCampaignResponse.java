@@ -15,7 +15,7 @@ public class CreatePromotionCampaignResponse {
     public static CreatePromotionCampaignResponse from(
             CreatePromotionCampaignServiceResponse response) {
         return CreatePromotionCampaignResponse.builder()
-                .promotionCampaignId(response.getPromotionCampaignId())
+                .promotionCampaignId(response.promotionCampaignId())
                 .build();
     }
 }
