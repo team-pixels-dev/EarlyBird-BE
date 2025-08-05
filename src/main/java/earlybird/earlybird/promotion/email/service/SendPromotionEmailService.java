@@ -32,18 +32,14 @@ public class SendPromotionEmailService {
 
     @Transactional(propagation = Pro)
     public void sendVerificationEmail(SendVerificationEmailServiceRequest request) {
-        /**
-         * TODO
-         *  - 락을 걸었는데 이거 성능 문제 좀 더 고민 필요
-         *  - 스프링 트랜잭션에 대한 고민 필요
-         *  - 메일 발송 부분 로직 문제 없나 다시 체크
-         */
+        /** TODO - 락을 걸었는데 이거 성능 문제 좀 더 고민 필요 - 스프링 트랜잭션에 대한 고민 필요 - 메일 발송 부분 로직 문제 없나 다시 체크 */
         checkEmailAddress(request);
 
         PromotionCampaign promotionCampaign =
                 getPromotionCampaignService.findById(request.getPromotionCampaignId());
 
-        promotionEmailVerificationRepository.findByPromotionCampaignAndEmail(promotionCampaign, request.getEmail())
+        promotionEmailVerificationRepository
+                .findByPromotionCampaignAndEmail(promotionCampaign, request.getEmail())
                 .ifPresentOrElse(
                         verification -> sendEmailIfSendBefore(verification, request),
                         () -> sendFirstEmail(promotionCampaign, request));
@@ -51,12 +47,14 @@ public class SendPromotionEmailService {
 
     // 이전에 동일한 캠패인, 동일한 이메일로 인증 메일을 전송한 적이 있으면 이 함수 호출
     private void sendEmailIfSendBefore(
-            PromotionEmailVerification promotionEmailVerification, SendVerificationEmailServiceRequest request) {
+            PromotionEmailVerification promotionEmailVerification,
+            SendVerificationEmailServiceRequest request) {
         sendEmailService.send(promotionEmailVerification, request.getPromotionEmailMessageType());
     }
 
     // 처음 인증 요청하는 건 이 함수 호출
-    private void sendFirstEmail(PromotionCampaign promotionCampaign, SendVerificationEmailServiceRequest request) {
+    private void sendFirstEmail(
+            PromotionCampaign promotionCampaign, SendVerificationEmailServiceRequest request) {
         PromotionUrlUuid promotionUrlUuid = createPromotionUrlUuidService.create();
         String promotionUrl =
                 getApplePromotionUrlService
