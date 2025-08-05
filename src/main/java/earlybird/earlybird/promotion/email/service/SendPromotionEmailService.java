@@ -40,6 +40,8 @@ public class SendPromotionEmailService {
 
         promotionEmailVerificationRepository
                 .findByPromotionCampaignAndEmail(promotionCampaign, request.getEmail())
+                .stream()
+                .findFirst()
                 .ifPresentOrElse(
                         verification -> sendEmailIfSendBefore(verification, request),
                         () -> sendFirstEmail(promotionCampaign, request));
