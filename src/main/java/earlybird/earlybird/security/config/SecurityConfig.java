@@ -6,15 +6,15 @@ import earlybird.earlybird.security.authentication.jwt.reissue.JWTReissueAuthent
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationFilter;
 import earlybird.earlybird.security.authentication.oauth2.OAuth2AuthenticationProvider;
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserDetails;
-import earlybird.earlybird.user.service.JoinUserService;
 import earlybird.earlybird.security.token.jwt.JWTUtil;
 import earlybird.earlybird.security.token.jwt.access.CreateJWTAccessTokenService;
 import earlybird.earlybird.security.token.jwt.refresh.CreateJWTRefreshTokenService;
 import earlybird.earlybird.security.token.jwt.refresh.JWTRefreshTokenRepository;
 import earlybird.earlybird.security.token.jwt.refresh.JWTRefreshTokenToCookieService;
 import earlybird.earlybird.security.token.jwt.refresh.SaveJWTRefreshTokenService;
-import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 import earlybird.earlybird.user.UserRepository;
+import earlybird.earlybird.user.dto.UserAccountInfoDTO;
+import earlybird.earlybird.user.service.JoinUserService;
 
 import jakarta.servlet.http.Cookie;
 
@@ -59,19 +59,22 @@ public class SecurityConfig {
         http.authenticationManager(authenticationManager);
 
         http.authorizeHttpRequests(
-                auth -> auth
-                        .requestMatchers("/api/v1/login/oauth2").permitAll()
-                        .anyRequest().authenticated()
-        );
+                auth ->
+                        auth.requestMatchers("/api/v1/login/oauth2")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated());
 
         OAuth2AuthenticationFilter oAuth2AuthenticationFilter = oAuth2AuthenticationFilter();
         oAuth2AuthenticationFilter.setAuthenticationManager(authenticationManager);
         http.addFilterAt(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        JWTReissueAuthenticationFilter jwtReissueAuthenticationFilter = jwtReissueAuthenticationFilter();
+        JWTReissueAuthenticationFilter jwtReissueAuthenticationFilter =
+                jwtReissueAuthenticationFilter();
         http.addFilterBefore(jwtReissueAuthenticationFilter, OAuth2AuthenticationFilter.class);
 
-        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(jwtUtil, userRepository);
+        JWTAuthenticationFilter jwtAuthenticationFilter =
+                new JWTAuthenticationFilter(jwtUtil, userRepository);
         http.addFilterAfter(jwtAuthenticationFilter, OAuth2AuthenticationFilter.class);
 
         configLogout(http);
@@ -99,8 +102,10 @@ public class SecurityConfig {
                                                     ((OAuth2UserDetails)
                                                                     authentication.getPrincipal())
                                                             .getUserAccountInfoDTO();
-//                                            deleteOAuth2TokenService.deleteByUserAccountInfoDTO(
-//                                                    userInfo);
+                                            //
+                                            // deleteOAuth2TokenService.deleteByUserAccountInfoDTO(
+                                            //
+                                            // userInfo);
                                         }))
                                 .deleteCookies("JSESSIONID", "refresh")
                                 .invalidateHttpSession(true)
@@ -124,16 +129,13 @@ public class SecurityConfig {
                 corsCustomizer ->
                         corsCustomizer.configurationSource(
                                 request -> {
-
                                     CorsConfiguration configuration = new CorsConfiguration();
 
                                     configuration.setAllowedOriginPatterns(
                                             Collections.singletonList("*"));
-                                    configuration.setAllowedMethods(
-                                            Collections.singletonList("*"));
+                                    configuration.setAllowedMethods(Collections.singletonList("*"));
                                     configuration.setAllowCredentials(true);
-                                    configuration.setAllowedHeaders(
-                                            Collections.singletonList("*"));
+                                    configuration.setAllowedHeaders(Collections.singletonList("*"));
                                     configuration.setMaxAge(3600L);
 
                                     configuration.setExposedHeaders(
@@ -168,7 +170,8 @@ public class SecurityConfig {
     }
 
     private AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = authenticationManagerBuilder(http);
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                authenticationManagerBuilder(http);
         authenticationManagerBuilder.authenticationProvider(oAuth2AuthenticationProvider);
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         return authenticationManager;
@@ -177,5 +180,4 @@ public class SecurityConfig {
     private AuthenticationManagerBuilder authenticationManagerBuilder(HttpSecurity http) {
         return http.getSharedObject(AuthenticationManagerBuilder.class);
     }
-
 }

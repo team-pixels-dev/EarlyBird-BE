@@ -3,12 +3,15 @@ package earlybird.earlybird.security.authentication.oauth2.proxy.util.apple;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import earlybird.earlybird.error.exception.auth.apple.VerifyAppleIdTokenException;
 import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2AppleServerResponse;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -36,7 +39,6 @@ public class AppleServerResponseValidator {
         this.clientId = clientId;
     }
 
-
     public Claims getClaims(OAuth2AppleServerResponse response) {
         try {
             // 1. Identity Token의 Header에서 alg, kid 추출
@@ -61,11 +63,12 @@ public class AppleServerResponseValidator {
             PublicKey publicKey = generatePublicKey(matchedKey);
 
             // 5. JJWT를 사용하여 토큰 검증 및 파싱
-            JwtParser parser = Jwts.parser()
-                    .verifyWith(publicKey)
-                    .requireIssuer(issuer)
-                    .requireAudience(clientId)
-                    .build();
+            JwtParser parser =
+                    Jwts.parser()
+                            .verifyWith(publicKey)
+                            .requireIssuer(issuer)
+                            .requireAudience(clientId)
+                            .build();
 
             Jws<Claims> jws = parser.parseSignedClaims(idToken);
             Claims claims = jws.getPayload();
@@ -79,7 +82,8 @@ public class AppleServerResponseValidator {
         }
     }
 
-    private Map<String, String> getAlgAndKidFromIdToken(String idToken) throws ParseException, JsonProcessingException {
+    private Map<String, String> getAlgAndKidFromIdToken(String idToken)
+            throws ParseException, JsonProcessingException {
 
         String header = idToken.split("\\.")[0];
         Base64.Decoder decoder = Base64.getUrlDecoder();
@@ -95,12 +99,13 @@ public class AppleServerResponseValidator {
     }
 
     private JsonNode getApplePublicKeys() {
-        String jsonBody = WebClient.create("https://appleid.apple.com")
-                .get()
-                .uri("/auth/keys")
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        String jsonBody =
+                WebClient.create("https://appleid.apple.com")
+                        .get()
+                        .uri("/auth/keys")
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
 
         try {
             return objectMapper.readTree(jsonBody).get("keys");
@@ -156,7 +161,7 @@ public class AppleServerResponseValidator {
         }
 
         // 대상자 검증
-        if (!clientId.equals(claims.getAudience())) {
+        if (claims.getAudience().stream().noneMatch(audience -> audience.equals(clientId))) {
             throw new IllegalArgumentException("Invalid audience: " + claims.getAudience());
         }
 

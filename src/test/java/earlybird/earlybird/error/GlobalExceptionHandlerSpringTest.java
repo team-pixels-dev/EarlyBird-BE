@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,6 +24,9 @@ class GlobalExceptionHandlerSpringTest {
 
     @Autowired private MockMvc mockMvc;
 
+    @WithMockUser(
+            username = "user",
+            roles = {"USER"})
     @DisplayName("예외가 발생하면 예외 공통 로그가 기록된다")
     @Test
     void exception(CapturedOutput output) throws Exception {
@@ -34,6 +38,9 @@ class GlobalExceptionHandlerSpringTest {
         //        assertThat(output.getOut()).contains("\"request-uri\":\"/not-found-uri\"");
     }
 
+    @WithMockUser(
+            username = "user",
+            roles = {"USER"})
     @DisplayName("예외가 발생하지 않으면 예외 공통 로그가 기록되지 않는다")
     @Test
     void notException(CapturedOutput output) throws Exception {

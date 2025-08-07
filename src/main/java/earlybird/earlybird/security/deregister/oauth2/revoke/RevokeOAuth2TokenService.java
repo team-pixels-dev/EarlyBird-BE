@@ -1,18 +1,18 @@
-//package earlybird.earlybird.security.deregister.oauth2.revoke;
+// package earlybird.earlybird.security.deregister.oauth2.revoke;
 //
-//import earlybird.earlybird.security.deregister.oauth2.revoke.proxy.OAuth2TokenRevokeProxy;
-//import earlybird.earlybird.security.authentication.oauth2.OAuth2ProviderName;
-//import earlybird.earlybird.security.token.oauth2.OAuth2TokenDTO;
+// import earlybird.earlybird.security.deregister.oauth2.revoke.proxy.OAuth2TokenRevokeProxy;
+// import earlybird.earlybird.security.authentication.oauth2.OAuth2ProviderName;
+// import earlybird.earlybird.security.token.oauth2.OAuth2TokenDTO;
 //
-//import lombok.RequiredArgsConstructor;
+// import lombok.RequiredArgsConstructor;
 //
-//import org.springframework.stereotype.Service;
+// import org.springframework.stereotype.Service;
 //
-//import java.util.Map;
+// import java.util.Map;
 //
-//@RequiredArgsConstructor
-//@Service
-//public class RevokeOAuth2TokenService {
+// @RequiredArgsConstructor
+// @Service
+// public class RevokeOAuth2TokenService {
 //
 //    private final Map<OAuth2ProviderName, OAuth2TokenRevokeProxy> oAuth2TokenRevokeProxyMap;
 //
@@ -27,4 +27,4 @@
 //        oAuth2TokenRevokeProxy.revoke(accessToken);
 //        oAuth2TokenRevokeProxy.revoke(refreshToken);
 //    }
-//}
+// }
