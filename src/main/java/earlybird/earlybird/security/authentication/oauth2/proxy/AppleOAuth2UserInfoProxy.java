@@ -75,6 +75,7 @@ public class AppleOAuth2UserInfoProxy implements OAuth2UserInfoProxy {
                 .post()
                 .uri("/auth/token")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .accept(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromFormData("grant_type", "authorization_code")
                         .with("code", accessToken)
                         .with("client_id", "com.earlybirdteam2024.early-bird")

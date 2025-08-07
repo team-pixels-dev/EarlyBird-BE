@@ -156,7 +156,7 @@ public class AppleServerResponseValidator {
         }
 
         // 대상자 검증
-        if (!clientId.equals(claims.getAudience())) {
+        if (claims.getAudience().stream().noneMatch(audience -> audience.equals(clientId))) {
             throw new IllegalArgumentException("Invalid audience: " + claims.getAudience());
         }
 
