@@ -4,9 +4,9 @@ import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserDetails
 import earlybird.earlybird.security.token.jwt.access.CreateJWTAccessTokenService;
 import earlybird.earlybird.security.token.jwt.refresh.CreateJWTRefreshTokenService;
 import earlybird.earlybird.security.token.jwt.refresh.JWTRefreshTokenToCookieService;
-//import earlybird.earlybird.security.token.oauth2.OAuth2TokenDTO;
-//import earlybird.earlybird.security.token.oauth2.service.CreateOAuth2TokenService;
-//import earlybird.earlybird.security.token.oauth2.service.DeleteOAuth2TokenService;
+// import earlybird.earlybird.security.token.oauth2.OAuth2TokenDTO;
+// import earlybird.earlybird.security.token.oauth2.service.CreateOAuth2TokenService;
+// import earlybird.earlybird.security.token.oauth2.service.DeleteOAuth2TokenService;
 import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 
 import jakarta.servlet.FilterChain;
@@ -46,7 +46,7 @@ public class OAuth2AuthenticationFilter extends AbstractAuthenticationProcessing
             throws AuthenticationException, IOException, ServletException {
         String oauth2ProviderName = request.getHeader("Provider-Name");
         String oauth2AccessToken = request.getHeader("OAuth2-Access");
-//        String oauth2RefreshToken = request.getHeader("OAuth2-Refresh");
+        //        String oauth2RefreshToken = request.getHeader("OAuth2-Refresh");
         String oauth2UserName = request.getHeader("OAuth2-User-Name");
 
         if (oauth2ProviderName == null || oauth2AccessToken == null) {

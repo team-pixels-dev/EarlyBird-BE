@@ -1,8 +1,8 @@
 package earlybird.earlybird.error;
 
 import earlybird.earlybird.error.exception.BusinessBaseException;
-
 import earlybird.earlybird.error.exception.auth.apple.LoadAppleP8KeyException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.UnexpectedTypeException;
 
@@ -85,11 +85,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(LoadAppleP8KeyException.class)
     protected ResponseEntity<ErrorResponse> handleLoadAppleP8KeyException(
             LoadAppleP8KeyException e, HttpServletRequest request) {
-        log.warn(
-                "LoadAppleP8KeyException for {}: {}",
-                request.getRequestURI(),
-                e.getMessage(),
-                e);
+        log.warn("LoadAppleP8KeyException for {}: {}", request.getRequestURI(), e.getMessage(), e);
         return createErrorResponseEntity(e.getErrorCode());
     }
 

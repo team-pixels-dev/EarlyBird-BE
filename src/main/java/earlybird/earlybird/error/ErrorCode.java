@@ -27,7 +27,8 @@ public enum ErrorCode {
     INVALID_PROMOTION_EMAIL_EXCEPTION(HttpStatus.BAD_REQUEST, "프로모션 대상 이메일이 아닙니다."),
     PROMOTION_EMAIL_DOMAIN_NAME_IS_ALREADY_EXISTS_EXCEPTION(
             HttpStatus.BAD_REQUEST, "프로모션 이메일 도메인이 이미 존재합니다."),
-    LOAD_APPLE_P8_KEY_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "애플 로그인 중 p8 파일 로딩 과정에서 문제가 발생했습니다."),
+    LOAD_APPLE_P8_KEY_EXCEPTION(
+            HttpStatus.INTERNAL_SERVER_ERROR, "애플 로그인 중 p8 파일 로딩 과정에서 문제가 발생했습니다."),
     VERIFY_APPLE_ID_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "애플 로그인 ID TOKEN 검증에 실패했습니다.");
 
     private final HttpStatus status;

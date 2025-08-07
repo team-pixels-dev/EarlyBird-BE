@@ -1,12 +1,10 @@
 package earlybird.earlybird.security.authentication.oauth2;
 
-import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2ServerResponse;
 import earlybird.earlybird.security.authentication.oauth2.proxy.AppleOAuth2UserInfoProxy;
 import earlybird.earlybird.security.authentication.oauth2.proxy.GoogleOAuth2UserInfoProxy;
 import earlybird.earlybird.security.authentication.oauth2.proxy.OAuth2UserInfoProxy;
+import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2ServerResponse;
 import earlybird.earlybird.user.service.JoinUserService;
-
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -30,14 +28,13 @@ public class OAuth2AuthenticationProvider implements AuthenticationProvider {
             UserDetailsService userDetailsService,
             JoinUserService joinUserService,
             GoogleOAuth2UserInfoProxy googleOAuth2UserInfoProxy,
-            AppleOAuth2UserInfoProxy appleOAuth2UserInfoProxy
-    ) {
+            AppleOAuth2UserInfoProxy appleOAuth2UserInfoProxy) {
         this.userDetailsService = userDetailsService;
         this.joinUserService = joinUserService;
-        this.oauth2UserInfoProxyList = Map.of(
-                OAuth2ProviderName.GOOGLE, googleOAuth2UserInfoProxy,
-                OAuth2ProviderName.APPLE, appleOAuth2UserInfoProxy
-        );
+        this.oauth2UserInfoProxyList =
+                Map.of(
+                        OAuth2ProviderName.GOOGLE, googleOAuth2UserInfoProxy,
+                        OAuth2ProviderName.APPLE, appleOAuth2UserInfoProxy);
     }
 
     @Override

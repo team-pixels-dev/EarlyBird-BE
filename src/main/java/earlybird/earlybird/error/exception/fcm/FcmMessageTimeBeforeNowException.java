@@ -1,8 +1,8 @@
 package earlybird.earlybird.error.exception.fcm;
 
-import earlybird.earlybird.error.exception.BusinessBaseException;
-
 import static earlybird.earlybird.error.ErrorCode.FCM_MESSAGE_TIME_BEFORE_NOW;
+
+import earlybird.earlybird.error.exception.BusinessBaseException;
 
 public class FcmMessageTimeBeforeNowException extends BusinessBaseException {
 
