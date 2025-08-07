@@ -1,8 +1,11 @@
 package earlybird.earlybird.security.authentication.oauth2.proxy.util.apple;
 
 import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2AppleServerResponse;
+
 import io.jsonwebtoken.Claims;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor

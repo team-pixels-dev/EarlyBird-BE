@@ -3,7 +3,9 @@ package earlybird.earlybird.security.authentication.oauth2.proxy.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.jsonwebtoken.Claims;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,20 +30,11 @@ public class OAuth2AppleServerResponse implements OAuth2ServerResponse {
     @JsonProperty("refresh_token")
     private String refreshToken;
 
-    @Getter
-    @Setter
-    @JsonIgnore
-    private Claims claims;
+    @Getter @Setter @JsonIgnore private Claims claims;
 
-    @Getter
-    @Setter
-    @JsonIgnore
-    private String providerId;
+    @Getter @Setter @JsonIgnore private String providerId;
 
-    @Getter
-    @Setter
-    @JsonIgnore
-    private String email;
+    @Getter @Setter @JsonIgnore private String email;
 
     @Override
     public String getProviderName() {

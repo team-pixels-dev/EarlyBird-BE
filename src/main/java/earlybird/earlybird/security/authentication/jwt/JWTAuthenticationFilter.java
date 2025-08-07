@@ -2,9 +2,9 @@ package earlybird.earlybird.security.authentication.jwt;
 
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserDetails;
 import earlybird.earlybird.security.token.jwt.JWTUtil;
-import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 import earlybird.earlybird.user.User;
 import earlybird.earlybird.user.UserRepository;
+import earlybird.earlybird.user.dto.UserAccountInfoDTO;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -81,7 +81,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private boolean accessTokenIsValid(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain, String accessToken) throws IOException, ServletException {
+    private boolean accessTokenIsValid(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain,
+            String accessToken)
+            throws IOException, ServletException {
         if (accessToken == null) {
             filterChain.doFilter(request, response);
             return false;

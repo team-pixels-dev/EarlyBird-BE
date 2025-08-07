@@ -8,6 +8,4 @@ public class AppleClientIdProvider {
 
     @Value("${spring.auth.apple.client-id}")
     private String clientId;
-
-
 }
