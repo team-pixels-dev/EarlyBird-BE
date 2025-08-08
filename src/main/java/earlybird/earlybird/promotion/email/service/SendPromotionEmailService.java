@@ -1,6 +1,6 @@
 package earlybird.earlybird.promotion.email.service;
 
-import earlybird.earlybird.email.SendEmailService;
+import earlybird.earlybird.email.send.SendEmailService;
 import earlybird.earlybird.error.exception.InvalidPromotionEmailException;
 import earlybird.earlybird.promotion.apple.service.GetApplePromotionUrlService;
 import earlybird.earlybird.promotion.email.entity.EmailPromotionCodeIssuance;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SendPromotionEmailService {
 
     private final GetApplePromotionUrlService getApplePromotionUrlService;
-    private final CheckEmailAddressService checkEmailAddressService;
+    private final CheckPromotionEmailAddressService checkPromotionEmailAddressService;
     private final CreatePromotionUrlUuidService createPromotionUrlUuidService;
     private final GetPromotionCampaignService getPromotionCampaignService;
     private final SendEmailService sendEmailService;
@@ -78,7 +78,7 @@ public class SendPromotionEmailService {
 
     private void checkEmailAddress(SendVerificationEmailServiceRequest request) {
         Boolean isValidDomain =
-                checkEmailAddressService.checkValidPromotionEmail(
+                checkPromotionEmailAddressService.checkValidPromotionEmail(
                         request.getEmail(), request.getPromotionCampaignId());
 
         if (!isValidDomain) {

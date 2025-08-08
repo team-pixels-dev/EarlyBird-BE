@@ -1,5 +1,6 @@
 package earlybird.earlybird.promotion.email.service;
 
+import earlybird.earlybird.email.address.check.CheckEmailAddressService;
 import earlybird.earlybird.promotion.email.entity.EmailPromotionAddressDomain;
 import earlybird.earlybird.promotion.email.repository.EmailPromotionAddressDomainRepository;
 import earlybird.earlybird.promotion.entity.PromotionCampaign;
@@ -15,23 +16,19 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class CheckEmailAddressService {
+public class CheckPromotionEmailAddressService {
 
     private final EmailPromotionAddressDomainRepository promotionDomainRepository;
     private final PromotionCampaignRepository promotionCampaignRepository;
+    private final CheckEmailAddressService checkEmailAddressService;
 
     @Transactional
     public Boolean checkValidPromotionEmail(String email, Long promotionCampaignId) {
-        checkEmailRegex(email);
-        PromotionCampaign promotionCampaign = getPromotionCampaignById(promotionCampaignId);
-        return checkDomainName(email, promotionCampaign);
-    }
-
-    private void checkEmailRegex(String email) {
-        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        if (!email.matches(emailRegex)) {
+        if (!checkEmailAddressService.checkEmailRegex(email)) {
             throw new IllegalArgumentException("Invalid email address");
         }
+        PromotionCampaign promotionCampaign = getPromotionCampaignById(promotionCampaignId);
+        return checkDomainName(email, promotionCampaign);
     }
 
     private PromotionCampaign getPromotionCampaignById(Long promotionCampaignId) {
