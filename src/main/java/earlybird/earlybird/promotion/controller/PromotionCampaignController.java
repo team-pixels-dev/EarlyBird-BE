@@ -7,6 +7,7 @@ import earlybird.earlybird.promotion.service.request.CreatePromotionCampaignServ
 import earlybird.earlybird.promotion.service.response.CreatePromotionCampaignServiceResponse;
 
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;

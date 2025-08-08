@@ -67,21 +67,21 @@ class SaveEmailAddressControllerApiTest {
                 """
                 {
                     "sourceEvent": MarketingEvent.WEB_MINI_GAME_1
-                }        
+                }
                 """;
         String requestWithEmptyEmail =
                 """
-                {   
+                {
                     "email": "",
                     "sourceEvent": MarketingEvent.WEB_MINI_GAME_1
-                }        
+                }
                 """;
         String requestWithWhitespaceEmail =
                 """
                 {
                     "email": "     ",
                     "sourceEvent": MarketingEvent.WEB_MINI_GAME_1
-                }        
+                }
                 """;
 
         mockMvc.perform(
@@ -154,8 +154,6 @@ class SaveEmailAddressControllerApiTest {
                 .andExpect(status().isBadRequest());
     }
 
-
-
     @DisplayName("잘못된 이메일 형식이면 IllegalArgumentException으로 인해 400 Bad Request 응답이 반환된다")
     @WithMockUser(
             username = "mock-user",
@@ -170,7 +168,8 @@ class SaveEmailAddressControllerApiTest {
         String request = objectMapper.writeValueAsString(requestObject);
 
         doThrow(new IllegalArgumentException("Invalid email address: invalid-email"))
-                .when(saveEmailAddressService).save(any(SaveEmailAddressServiceRequest.class));
+                .when(saveEmailAddressService)
+                .save(any(SaveEmailAddressServiceRequest.class));
 
         mockMvc.perform(
                         post("/api/v1/marketing/email/address")

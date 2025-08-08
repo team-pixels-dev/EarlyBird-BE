@@ -1,12 +1,12 @@
 package earlybird.earlybird.email.address.save.entity;
 
 import earlybird.earlybird.common.BaseTimeEntity;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 
-/**
- * 마케팅을 통해 수집한 이메일 주소를 저장하는 엔티티
- */
+/** 마케팅을 통해 수집한 이메일 주소를 저장하는 엔티티 */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
