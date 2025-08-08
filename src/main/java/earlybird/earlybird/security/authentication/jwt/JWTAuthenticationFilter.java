@@ -2,9 +2,9 @@ package earlybird.earlybird.security.authentication.jwt;
 
 import earlybird.earlybird.security.authentication.oauth2.user.OAuth2UserDetails;
 import earlybird.earlybird.security.token.jwt.JWTUtil;
+import earlybird.earlybird.user.User;
+import earlybird.earlybird.user.UserRepository;
 import earlybird.earlybird.user.dto.UserAccountInfoDTO;
-import earlybird.earlybird.user.entity.User;
-import earlybird.earlybird.user.repository.UserRepository;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -37,8 +37,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
         List<String> passUriList =
-                Arrays.asList("/api/v1/login", "/api/v1/logout", "/api/v1/reissue");
+                Arrays.asList("/api/v1/login/oauth2", "/api/v1/logout", "/api/v1/reissue");
 
         if (passUriList.contains(request.getRequestURI())) {
             filterChain.doFilter(request, response);
@@ -47,28 +48,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         String accessToken = request.getHeader("access");
 
-        if (accessToken == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        try {
-            jwtUtil.isExpired(accessToken);
-        } catch (ExpiredJwtException e) {
-            PrintWriter writer = response.getWriter();
-            writer.println("access token expired");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
-
-        String category = jwtUtil.getCategory(accessToken);
-
-        if (!category.equals("access")) {
-            PrintWriter writer = response.getWriter();
-            writer.print("invalid access token");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
+        if (!accessTokenIsValid(request, response, filterChain, accessToken)) return;
 
         String accountId = jwtUtil.getAccountId(accessToken);
         String role = jwtUtil.getRole(accessToken);
@@ -99,5 +79,36 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);
+    }
+
+    private boolean accessTokenIsValid(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain,
+            String accessToken)
+            throws IOException, ServletException {
+        if (accessToken == null) {
+            filterChain.doFilter(request, response);
+            return false;
+        }
+
+        try {
+            jwtUtil.isExpired(accessToken);
+        } catch (ExpiredJwtException e) {
+            PrintWriter writer = response.getWriter();
+            writer.println("access token expired");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        }
+
+        String category = jwtUtil.getCategory(accessToken);
+
+        if (!category.equals("access")) {
+            PrintWriter writer = response.getWriter();
+            writer.print("invalid access token");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        }
+        return true;
     }
 }

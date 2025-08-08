@@ -1,6 +1,6 @@
 package earlybird.earlybird.security.authentication.oauth2.proxy;
 
-import earlybird.earlybird.security.authentication.oauth2.dto.OAuth2ServerResponse;
+import earlybird.earlybird.security.authentication.oauth2.proxy.response.OAuth2ServerResponse;
 
 public interface OAuth2UserInfoProxy {
 

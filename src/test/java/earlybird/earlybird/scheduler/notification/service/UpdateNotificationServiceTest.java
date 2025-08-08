@@ -1,9 +1,9 @@
 // package earlybird.earlybird.scheduler.notification.fcm.service;
 //
 // import com.google.firebase.messaging.FirebaseMessagingException;
-// import earlybird.earlybird.error.exception.AlreadySentFcmNotificationException;
-// import earlybird.earlybird.error.exception.FcmDeviceTokenMismatchException;
-// import earlybird.earlybird.error.exception.FcmMessageTimeBeforeNowException;
+// import earlybird.earlybird.error.exception.fcm.AlreadySentFcmNotificationException;
+// import earlybird.earlybird.error.exception.fcm.FcmDeviceTokenMismatchException;
+// import earlybird.earlybird.error.exception.fcm.FcmMessageTimeBeforeNowException;
 // import earlybird.earlybird.scheduler.notification.fcm.domain.FcmNotification;
 // import earlybird.earlybird.scheduler.notification.fcm.domain.FcmNotificationRepository;
 // import
