@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -53,6 +54,7 @@ public class SecurityConfig {
     private final SaveJWTRefreshTokenService saveJWTRefreshTokenService;
     private final OAuth2AuthenticationProvider oAuth2AuthenticationProvider;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationManager authenticationManager = authenticationManager(http);
@@ -60,10 +62,9 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(
                 auth ->
-                        auth.requestMatchers("/api/v1/login/oauth2")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated());
+//                        auth.requestMatchers("/api/v1/login/oauth2").permitAll()
+//                                .anyRequest().authenticated());
+                        auth.anyRequest().permitAll());
 
         OAuth2AuthenticationFilter oAuth2AuthenticationFilter = oAuth2AuthenticationFilter();
         oAuth2AuthenticationFilter.setAuthenticationManager(authenticationManager);
