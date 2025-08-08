@@ -60,10 +60,10 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(
                 auth ->
-                        auth.requestMatchers("/api/v1/login/oauth2")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated());
+                        //
+                        // auth.requestMatchers("/api/v1/login/oauth2").permitAll()
+                        //                                .anyRequest().authenticated());
+                        auth.anyRequest().permitAll());
 
         OAuth2AuthenticationFilter oAuth2AuthenticationFilter = oAuth2AuthenticationFilter();
         oAuth2AuthenticationFilter.setAuthenticationManager(authenticationManager);

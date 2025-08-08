@@ -1,4 +1,4 @@
-package earlybird.earlybird.email;
+package earlybird.earlybird.email.send;
 
 import static earlybird.earlybird.promotion.email.entity.PromotionEmailMessageType.BERKELEY_6_MONTH_FREE;
 
