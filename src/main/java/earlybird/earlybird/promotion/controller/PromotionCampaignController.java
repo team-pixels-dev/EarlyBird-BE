@@ -6,6 +6,7 @@ import earlybird.earlybird.promotion.service.CreatePromotionCampaignService;
 import earlybird.earlybird.promotion.service.request.CreatePromotionCampaignServiceRequest;
 import earlybird.earlybird.promotion.service.response.CreatePromotionCampaignServiceResponse;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class PromotionCampaignController {
 
     @PostMapping
     public ResponseEntity<?> createPromotionCampaign(
-            @RequestBody CreatePromotionCampaignRequest request) {
+            @Valid @RequestBody CreatePromotionCampaignRequest request) {
         CreatePromotionCampaignServiceRequest serviceRequest =
                 CreatePromotionCampaignServiceRequest.from(request);
         CreatePromotionCampaignServiceResponse serviceResponse =
